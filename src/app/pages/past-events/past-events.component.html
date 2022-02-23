@@ -1,0 +1,96 @@
+<div class="events-container container mx-auto rubik pt-8">
+    <div class="default-text-color mb-8">
+        <div class="fs-38-px font-medium ">
+            Past Events
+        </div>
+        <div class="text-base">
+            You can still view all the details, notes and messages in this event before it is archived.
+        </div>
+    </div>
+    <div class="grid grid-cols-12 gap-5">
+        <ng-container *ngIf="events && !isEmpty && !isLoading">
+            <div class="col-span-12 lg:col-span-4" *ngFor="let item of events.datas" (click)="viewEvents(item)">
+                <div class="bg-white pt-5 rounded-lg border cursor-pointer Border hover:shadow-xl" [ngClass]="{'b-blue': item.isongoing, 'b-gray': !item.isongoing }">
+                    <div class="px-5 flex items-center space-x-3">
+                        <img [src]="item.event_icon_url ? item.event_icon_url : 'assets/images/event-img.png'" class="object-cover w-55-px h-55-px rounded-lg" alt="">
+                        <div class="bg-blue-100 text-blue-600 px-2 rounded-full flex items-center py-1" *ngIf="item.isongoing">
+                            <svg width="12" height="12" viewBox="0 0 12 12" fill="none" xmlns="http://www.w3.org/2000/svg" class="mr-3">
+                                <path fill-rule="evenodd" clip-rule="evenodd" d="M0.166992 6C0.166992 2.79166 2.79199 0.166664 6.00033 0.166664C9.20866 0.166664 11.8337 2.79166 11.8337 6C11.8337 9.20833 9.20866 11.8333 6.00033 11.8333C2.79199 11.8333 0.166992 9.20833 0.166992 6ZM5.41699 3.08333H6.29199V6.11666L8.91699 7.69166L8.45033 8.45L5.41699 6.58333V3.08333Z" fill="url(#paint0_linear)"/>
+                                <defs>
+                                <linearGradient id="paint0_linear" x1="7.92351" y1="-0.358163" x2="-2.0519" y2="4.74854" gradientUnits="userSpaceOnUse">
+                                <stop stop-color="#1D4FA5"/>
+                                <stop offset="1" stop-color="#094F8C"/>
+                                </linearGradient>
+                                </defs>
+                            </svg>
+                            <div class="text-sm">
+                                On-going event
+                            </div>
+                        </div>
+                        <div class="type-badge text-sm" [ngClass]="{'physical': item.type == 1, 'virtual': item.type == 2}">
+                            {{ item.type == 1 ? 'Physical' : 'Virtual' }}
+                        </div>
+                    </div>
+                    <div class="text-base my-3 px-5">
+                        {{ item.name }}
+                    </div>
+                    <div class="text-sm text-blue-600 px-5">
+                        {{ item.start_date | date: 'MMM dd-' }}{{ item.end_date | date: 'dd, yyyy' }}
+                    </div>
+                    <div class="text-sm text-gray-500 mt-3  px-5" *ngIf="item.type == 1">
+                        {{ item.event_address }}
+                    </div>
+                    <div class="px-5 flex items-center space-x-3 rounded-b-lg mt-1 py-1" style="background: #6E6E6E;">
+                        <svg width="20" height="20" viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg">
+                            <path d="M15.7278 10.7536C13.5091 10.7536 11.7202 12.5657 11.7202 14.796C11.7202 17.0263 13.5091 18.8384 15.7278 18.8384C17.9465 18.8384 19.747 17.0263 19.747 14.796C19.747 12.5657 17.9465 10.7536 15.7278 10.7536ZM15.995 17.7814V17.4329C15.995 17.2935 15.8788 17.1773 15.7278 17.1773C15.5884 17.1773 15.4722 17.2935 15.4722 17.4329V17.7814C14.0318 17.6652 12.8818 16.5036 12.7657 15.0516H13.1142C13.2536 15.0516 13.3697 14.9354 13.3697 14.796C13.3697 14.6566 13.2536 14.5404 13.1142 14.5404H12.7657C12.8818 13.0884 14.0318 11.9384 15.4722 11.8106V12.1591C15.4722 12.2985 15.5884 12.4147 15.7278 12.4147C15.8788 12.4147 15.995 12.2985 15.995 12.1591V11.8106C17.4238 11.9384 18.5738 13.0884 18.7015 14.5404H18.3531C18.2137 14.5404 18.0975 14.6566 18.0975 14.796C18.0975 14.9354 18.2137 15.0516 18.3531 15.0516H18.7015C18.5738 16.5036 17.4238 17.6652 15.995 17.7814ZM17.2263 14.4011H16.297C16.1692 14.2268 15.9717 14.1106 15.7278 14.1106C15.7278 14.1106 15.7278 14.1106 15.7162 14.1106L14.8682 12.9026C14.752 12.7283 14.5081 12.6935 14.3339 12.8096C14.1596 12.9374 14.1132 13.1814 14.2409 13.3556L15.0889 14.5637C15.0657 14.6334 15.0424 14.7147 15.0424 14.796C15.0424 15.1793 15.3561 15.4814 15.7278 15.4814C15.9717 15.4814 16.1692 15.3652 16.297 15.1909H17.2263C17.447 15.1909 17.6212 15.0167 17.6212 14.796C17.6212 14.5753 17.447 14.4011 17.2263 14.4011ZM5.02931 6.746C5.72628 6.746 6.29548 6.17681 6.29548 5.46822V2.69196C6.29548 1.98338 5.72628 1.41418 5.02931 1.41418C4.32073 1.41418 3.75154 1.98338 3.75154 2.69196V5.46822C3.75154 6.17681 4.32073 6.746 5.02931 6.746ZM12.8121 6.746C13.5091 6.746 14.0783 6.17681 14.0783 5.46822V2.69196C14.0783 1.98338 13.5091 1.41418 12.8121 1.41418C12.1036 1.41418 11.5344 1.98338 11.5344 2.69196V5.46822C11.5344 6.17681 12.1036 6.746 12.8121 6.746ZM6.74851 10.3005C6.74851 9.94044 6.4581 9.63843 6.08638 9.63843H4.8783C4.50659 9.63843 4.21618 9.94044 4.21618 10.3005V11.5319C4.21618 11.892 4.50659 12.194 4.8783 12.194H6.08638C6.4581 12.194 6.74851 11.892 6.74851 11.5319V10.3005ZM10.1869 10.3005C10.1869 9.94044 9.88487 9.63843 9.52477 9.63843H8.30507C7.94497 9.63843 7.65457 9.94044 7.65457 10.3005V11.5319C7.65457 11.892 7.94497 12.194 8.30507 12.194H9.52477C9.88487 12.194 10.1869 11.892 10.1869 11.5319V10.3005ZM11.7435 9.63843C11.3834 9.63843 11.093 9.94044 11.093 10.3005V11.5319C11.093 11.8571 11.3369 12.1243 11.6505 12.1707C12.1268 11.4157 12.8121 10.8 13.6253 10.4051V10.3005C13.6253 9.94044 13.3233 9.63843 12.9632 9.63843H11.7435ZM4.8783 12.9606C4.50659 12.9606 4.21618 13.2627 4.21618 13.6228V14.8541C4.21618 15.2142 4.50659 15.5162 4.8783 15.5162H6.08638C6.4581 15.5162 6.74851 15.2142 6.74851 14.8541V13.6228C6.74851 13.2627 6.4581 12.9606 6.08638 12.9606H4.8783ZM9.52477 12.9606H8.30507C7.94497 12.9606 7.65457 13.2627 7.65457 13.6228V14.8541C7.65457 15.2142 7.94497 15.5162 8.30507 15.5162H9.52477C9.88487 15.5162 10.1869 15.2142 10.1869 14.8541V13.6228C10.1869 13.2627 9.88487 12.9606 9.52477 12.9606ZM11.302 16.7824H5.12224C4.06517 16.7824 3.19396 15.9112 3.19396 14.8425V8.33742H14.6475V10.045C14.996 9.96368 15.3561 9.91721 15.7278 9.91721C16.0531 9.91721 16.3667 9.94044 16.6803 10.0101V3.90004H14.845V5.46822C14.845 6.59499 13.9273 7.51267 12.8121 7.51267C11.6854 7.51267 10.7793 6.59499 10.7793 5.46822V3.90004H7.06214V5.46822C7.06214 6.59499 6.14447 7.51267 5.02931 7.51267C3.90255 7.51267 2.99649 6.59499 2.99649 5.46822V3.90004H1.16113V14.8425C1.16113 17.0379 2.93841 18.8268 5.12224 18.8268H12.7076C12.8005 18.8268 12.8935 18.8152 12.9748 18.8152C12.2546 18.3041 11.6738 17.6071 11.302 16.7824Z" fill="white"/>
+                        </svg>
+                        <span class="text-white">This event will be archived in:&nbsp;<span class="font-semibold">{{ item.archive_in }}</span></span>
+                    </div>
+                </div>
+            </div>
+        </ng-container>
+
+        <!-- skeleton loader -->
+        <ng-container *ngIf="isLoading">
+            <div class="col-span-12 lg:col-span-4" *ngFor="let item of [1,2,3]">
+                <div class="w-full h-300-px">
+                    <app-loader [border_radius_class]="'rounded-lg'" [additional_class]=""></app-loader>
+                </div>
+            </div>
+        </ng-container>
+
+        <!-- empty states -->
+        <ng-container *ngIf="isEmpty">
+            <div class="col-span-12">
+                <div class="w-full h-300-px flex flex-col items-center justify-center space-y-3">
+                    <img src="assets/images/empty/calendar.svg" alt="">
+                    <div class="rubik font-semibold text-gray-500">
+                        No event found
+                    </div>
+                    <div class="rubik text-gray-500">
+                        You haven’t attended any events yet
+                    </div>
+                </div>
+            </div>
+        </ng-container>
+    </div>
+
+       <!-- Pages -->
+       <ng-container *ngIf="events_list_total_page >= 1">
+        <div class="flex justify-center mb-10 mt-5">
+            <div class="flex items-center justify-center pagination barlow mt-6 rounded">
+                <button class="focus:outline-none page-btn border-r border-gray-400" (click)="prevPage()" [disabled]="events_page == 1">
+                    <i class="px-2 fa fa-angle-left mr-2 angle-icon "></i>
+                </button>
+
+                <ng-container *ngFor="let page of events_list_page_array; let i= index;">
+                    <button *ngIf="page" class="text-center font-semibold cursor-pointer" (click)="setPage(page)" [disabled]="events_page == 1 && events_page == events_list_total_page" [ngClass]="{'active': events_page == page}">{{ page }}</button>
+                </ng-container> 
+                
+                <button class="focus:outline-none page-btn border-l border-gray-400" (click)="nextPage()" [disabled]="events_page == events_list_total_page" style="white-space: nowrap;">
+                    <i class="px-2 fa fa-angle-right ml-2 angle-icon"></i>
+                </button>
+            </div>
+        </div>
+    </ng-container>
+</div>

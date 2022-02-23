@@ -1,0 +1,31 @@
+<ngx-smart-modal #loaderModal identifier="loaderModal" customClass="nsm-centered loader" [closable]="false" [dismissable]="false" [escapable]="false" (onOpen)="getData()" (onAnyCloseEvent)="reset()">
+    <div class="w-screen h-screen flex flex-col items-center justify-center relative">
+        <div>
+            <div class="spinner">
+                <div class="double-bounce1"></div>
+                <div class="double-bounce2"></div>
+              </div>
+        </div>
+        <div class="text-white text-base absolute mt-20">
+            Logging out...
+        </div>
+    </div>
+</ngx-smart-modal>
+
+
+<ngx-smart-modal #loader identifier="loader" customClass="nsm-centered loader" [closable]="false" [dismissable]="false" [escapable]="false">
+    <div class="w-screen h-screen flex flex-col items-center justify-center relative">
+        <div>
+            <div class="spinner">
+                <div class="double-bounce1"></div>
+                <div class="double-bounce2"></div>
+              </div>
+        </div>
+        <div class="text-white text-base absolute mt-20" *ngIf="!modal_data">
+            Loading ...
+        </div>
+        <div class="text-white text-base absolute mt-20" *ngIf="modal_data">
+            {{ modal_data }}
+        </div>
+    </div>
+</ngx-smart-modal>

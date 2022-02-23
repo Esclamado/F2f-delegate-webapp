@@ -1,0 +1,54 @@
+.social-media-icons{
+    display: -webkit-box;
+    display: flex;
+    -webkit-box-align: center;
+    align-items: center;
+    justify-content: center;
+    width: 18px;
+    height: 18px;
+    border-radius: 50%;
+    &.box{
+      width: 100%;
+      border-radius: 4px !important;
+    }
+    &.fb{
+       background-color: #3b5998;
+    }
+    &.ln{
+        background-color: #0077b5;
+    }
+    &.tw{
+        background-color: #1da1f2;
+    }
+    &.wa{
+        background-color: #075e54;
+    }
+    &.wc{
+        background-color: #1aad19;
+    }
+    &.kt{
+        background-color: #fcd411;
+        a{
+            color: #3c1e1e !important;
+        }
+    }
+    &.sk{
+      background-color:  #00aff0;
+    }
+    &.zm{
+      background-color: #4A8CFF;
+    }
+    i{
+      font-size: 8px;
+    }
+  }
+pre {
+    white-space: pre-wrap;       /* Since CSS 2.1 */
+    white-space: -moz-pre-wrap;  /* Mozilla, since 1999 */
+    white-space: -pre-wrap;      /* Opera 4-6 */
+    white-space: -o-pre-wrap;    /* Opera 7 */
+    word-wrap: break-word;       /* Internet Explorer 5.5+ */
+}
+textarea{
+  resize: none;
+}

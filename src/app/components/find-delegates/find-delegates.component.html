@@ -1,0 +1,628 @@
+ <div class="w-screen absolute z-50" style="background: #FFFFFF;">
+    <app-header-dashboard></app-header-dashboard>
+</div>
+<div class="w-screen absolute" style="margin-top: 70px; z-index: 20;">
+    <app-archive-header></app-archive-header>
+</div>
+<div class="h-full "#scroll_top id="scroll_top">
+    <div class="relative">
+        <img src="assets/images/bg-findDelegates.png" class="absolute left-0 top-16">
+        <img src="assets/images/bg-findDelegates1.png" class="absolute right-0 top-28">
+        <div class="md:px-20  py-16">
+            <div class="px-3 py-3 mt-20">
+                <span class="text-navy rubik fs-20-px not-italic font-semibold" >Total of <span>{{delegate_list_total_count}}</span> delegate<span *ngIf="delegate_list_total_count > 1">s</span></span>
+                <p class="rubik fs-16-px not-italic font-medium text-darkblue">Browse or search to find someone you can connect to. You can also use filters to get better results.</p>
+            </div>
+
+            <div class="px-3 grid grid-cols-12">
+                <div class="hidden md:flex col-span-12">
+                    <div class="bg-white border border-gray-300 rounded-md mt-5 w-full">
+                        <div class="flex justify-between space-x-5 px-5 py-8"> 
+                            
+                            <div class="flex items-center w-full">
+                                <input 
+                                    type="text" 
+                                    [(ngModel)]="delegate_search_key" 
+                                    class="custom-input w-full h-55-px maxw-800-px" 
+                                    style="padding-left: 37px;"
+                                    placeholder="Search"
+                                    (keydown.enter)="searchDelegates(delegate_search_key)" 
+                                    (ngModelChange)="this.subscribeSearch.next($event)"
+                                >
+                                <span class="material-icons text-gray-400 fs-75-px mb-3 absolute search-p">
+                                    search
+                                </span>
+                            </div>
+                            
+                            <div class="flex items-center  space-x-5">
+                                <div class="relative">
+                                    <div class="border border-gray-400 rounded-md py-3 pl-0 pr-3 minw-180-px flex justify-between items-center h-55-px cursor-pointer" (click)="openFilterLocation()">
+                                        <span class="barlow p-5 text-navy not-italic fs-16-px font-normal rubik" >Locations</span>
+                                        <i class="absolute top-5 right-2 fas fa-caret-down"></i>
+                                        <ng-container *ngIf="selected_countries.length > 0">
+                                            <svg class="bg-dot" width="10" height="10" viewBox="0 0 10 10" fill="none" xmlns="http://www.w3.org/2000/svg"> <circle cx="5" cy="5" r="5" fill="url(#paint0_linear)"/> <defs> <linearGradient id="paint0_linear" x1="4.9836" y1="9.9867" x2="4.9836" y2="-1.65109e-07" gradientUnits="userSpaceOnUse"> <stop stop-color="#8B0517"/> <stop offset="1" stop-color="#AF1B2F"/> </linearGradient> </defs> </svg>
+                                        </ng-container>
+                                    </div>
+                                </div>
+            
+                                <div class="relative">
+                                    <div class="border border-gray-400 rounded-md py-3 pl-0 pr-3 minw-180-px flex justify-between items-center h-55-px cursor-pointer" (click)="openFilterServices()">
+                                        <span class="barlow p-5 text-navy not-italic fs-16-px font-normal rubik">Services</span>
+                                        <i class="absolute top-5 right-2 fas fa-caret-down"></i>
+                                        <ng-container *ngIf="selected_services.length > 0">
+                                            <svg class="bg-dot" width="10" height="10" viewBox="0 0 10 10" fill="none" xmlns="http://www.w3.org/2000/svg"> <circle cx="5" cy="5" r="5" fill="url(#paint0_linear)"/> <defs> <linearGradient id="paint0_linear" x1="4.9836" y1="9.9867" x2="4.9836" y2="-1.65109e-07" gradientUnits="userSpaceOnUse"> <stop stop-color="#8B0517"/> <stop offset="1" stop-color="#AF1B2F"/> </linearGradient> </defs> </svg>
+                                        </ng-container>
+                                    </div>
+                                </div>
+                
+                                <div class="relative spa">
+                                    <div class="border border-gray-400 rounded-md py-3 pl-0 pr-3 minw-180-px flex justify-between items-center h-55-px cursor-pointer" (click)="openFilterSpecializations()">
+                                        <span class="barlow p-5 text-navy not-italic fs-16-px font-normal rubik">Specializations</span>
+                                        <i class="absolute top-5 right-2 fas fa-caret-down"></i>
+                                        <ng-container *ngIf="selected_specialization.length > 0">
+                                            <svg class="bg-dot" width="10" height="10" viewBox="0 0 10 10" fill="none" xmlns="http://www.w3.org/2000/svg"> <circle cx="5" cy="5" r="5" fill="url(#paint0_linear)"/> <defs> <linearGradient id="paint0_linear" x1="4.9836" y1="9.9867" x2="4.9836" y2="-1.65109e-07" gradientUnits="userSpaceOnUse"> <stop stop-color="#8B0517"/> <stop offset="1" stop-color="#AF1B2F"/> </linearGradient> </defs> </svg>
+                                        </ng-container>
+                                    </div>
+                                </div>
+                
+                                <div class="minw-100-px">
+                                    <div 
+                                        class="text-gray rubik font-medium fs-16-px not-italic flex items-center justify-center h-full cursor-pointer" 
+                                        (click)="resetFilters()"
+                                    >
+                                        Reset filters
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Empty States -->
+                        <div class="minh-400-px" *ngIf="delegate_list && delegate_list_total_count == 0">
+                            <div class="flex justify-center py-10">
+                                <img src="assets/empty_states/no_delegate.svg" class="">
+                            </div>
+                            <div class="text-center">
+                                <p class="text-main-gray rubik font-semibold fs-20-px">{{delegate_search_key ? 'No delegates found' : 'No delegates yet'}}</p> 
+                                <div class="mt-2">
+                                    <p class="text-main-gray rubik font-medium fs-16-px">{{delegate_search_key ? 'No delegates on that specified word' : 'No delegates has been added yet'}}</p>
+                                    <p class="text-main-gray rubik font-medium fs-16-px">{{delegate_search_key ? 'Please search another delegates' : 'Please come back later once delegates are available'}}</p>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <!-- Table with Data -->
+                        <table *ngIf="delegate_list && delegate_list_total_count > 0" class='w-full whitespace-nowrap rounded-lg bg-white divide-y divide-gray-300 overflow-hidden'>
+                            <thead>
+                                <tr class="bg-table text-gray-600 text-left">
+                                    <th class="text-gray rubik text-left fs-15-px not-italic font-normal px-5">Name</th>
+                                    <th class="text-gray rubik text-left fs-15-px not-italic font-normal px-5">Company</th>
+                                    <th class="text-gray rubik text-left fs-15-px not-italic font-normal">Notes and Actions</th>
+                                </tr>
+                            </thead>
+                            
+                            <tbody class="divide-y divide-gray-200">
+                                <tr *ngFor="let delegate of delegate_list">
+                                    <td *ngIf="delegate.is_deleted != 'yes'" (click)="gotoDelegateProfile(delegate)" class="px-6 py-4 cursor-pointer">
+                                        <div class="flex justify-between">
+                                            <div class="flex items-center">
+                                                <div>
+                                                    <img *ngIf="!delegate.profile_photo_url" src="assets/empty_states/profile_avatar_{{delegate.profile_photo}}.png" class="h-12 w-12 rounded-full">
+                                                    <img *ngIf="delegate.profile_photo_url" src="{{delegate.profile_photo_url}}" class="h-12 w-12 rounded-full">
+                                                    <!-- <img src="{{delegate.profile_photo_url ? delegate.profile_photo_url : 'assets/empty_states/profile_avatar2.png'}}" class="h-12 w-12 rounded-full"> -->
+                                                </div>
+                                                <div class="px-3">
+                                                    <p class="text-gray-900 rubik not-italic fs-14-px font-medium">{{delegate.fullname}}</p>
+                                                    <span class="text-gray-500 rubik not-italic fs-14-px font-normal flex items-center">
+                                                        <img src="assets/flags/{{delegate.company_country.iso}}.png" class="h-5 w-5">
+                                                        <span class="ml-2">{{delegate.country_nicename}}</span>
+                                                    </span>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </td>
+                                    <td *ngIf="delegate.is_deleted != 'yes'" (click)="gotoDelegateProfile(delegate)" class="px-5 py-4 cursor-pointer ">
+                                        <div class="text-gray-900 rubik not-italic fs-14-px font-medium">{{delegate.company.name}}</div>
+                                        <div class="text-gray-500 rubik not-italic fs-14-px font-normal">{{delegate.job_title}}</div>
+                                    </td>
+                                    <td *ngIf="delegate.is_deleted != 'yes'" class="px-1 p-4">
+                                        <div class="flex justify-between">
+                                            <div class="space-y-2">
+                                                <!-- start of Meeting Scheduled -->
+                                                <div *ngIf="delegate.meeting_schedule && (delegate.meeting_schedule.status == '1' || delegate.meeting_schedule.status == '3' || delegate.meeting_schedule.status == '5' || delegate.meeting_schedule.status == '6' )" 
+                                                    class="text-darkgreen rubik not-italic fs-12-px font-normal bg-lightgreen rounded-full flex items-center px-2 py-1 focus:outline-none">
+                                                    <img src="assets/icon/check-green-icon.png"> <span class="ml-2">Meeting Scheduled</span>
+                                                </div>
+                                                <!-- end of Meeting Scheduled -->
+                                            
+                                                <ng-container >
+                                                    <!-- start of available meeting timeslot -->
+                                                    <div *ngIf="(!delegate.meeting_schedule || delegate.meeting_schedule.status == '2' || delegate.meeting_schedule.status == '4' || delegate.meeting_schedule.status == '7'  || delegate.meeting_schedule.status == '8' || delegate.meeting_schedule.status == '9') && (event && !event.archive_in)" 
+                                                        class="text-blue-900 rubik not-italic fs-12-px font-normal bg-lightblue rounded-full flex items-center px-2 py-1 focus:outline-none">
+                                                        <img class="mr-1" src="assets/svg/handshake.svg"> 
+                                                        <span *ngIf="delegate.count_available_timeslots > 0">{{delegate.count_available_timeslots}}</span>
+                                                        <span *ngIf="delegate.count_available_timeslots <= 0">no</span>
+                                                        <span>&nbsp;available meeting timeslot </span>
+                                                        <span *ngIf="delegate.count_available_timeslots > 1">s</span>
+                                                    </div>
+                                                    <!-- end of available meeting timeslot -->
+                                                    
+                                                    <!-- start meeting with the same company -->
+                                                    <div *ngIf="(event && !event.archive_in) && (delegate.same_company_meeting_count > 0)" 
+                                                        class="text-gray-500 rubik not-italic fs-12-px font-normal bg-green rounded-full flex items-center px-2 py-1 focus:outline-none">
+                                                        <img class="mr-1" src="assets/svg/info.svg"> 
+                                                        <span *ngIf="delegate.same_company_meeting_count">
+                                                            {{delegate.same_company_meeting_count}}&nbsp;
+                                                        </span>
+                                                        <span> meeting</span>
+                                                        <span *ngIf="delegate.same_company_meeting_count > 1">s</span>
+                                                        <span> &nbsp;with the same company</span>
+                                                    </div>
+                                                    <!-- end meeting with the same company -->
+                                                </ng-container>
+
+                                                <!-- start of no show -->
+                                                <div *ngIf="delegate.count_no_show > 0" class="text-red-500 rubik not-italic fs-12-px font-normal bg-lightred rounded-full flex items-center px-2 py-1 focus:outline-none">
+                                                    <img src="assets/icon/flag-red-icon.png"> 
+                                                    <span class="ml-2"> {{delegate.count_no_show}} no show meeting</span>
+                                                    <span *ngIf="delegate.count_no_show > 1">s</span>
+                                                </div>
+                                                <!-- end of no show -->
+                                            </div>
+                                        </div>
+                                        <div class="flex justify-between mt-2">
+                                            <div class="flex items-center">
+                                                <div class="flex flex-col lg:flex-row lg:space-x-3 lg:space-y-0 space-y-2">
+                                                    
+                                                    <!-- start of schedule a meeting -->
+                                                    <ng-container *ngIf="event_delegate && event.set_meeting && env.canSetSchedule(event_delegate) && (!delegate.meeting_schedule || delegate.meeting_schedule.status == '2' || delegate.meeting_schedule.status == '4' || delegate.meeting_schedule.status == '7'  || delegate.meeting_schedule.status == '8' || delegate.meeting_schedule.status == '9')">
+                                                        <button (click)="scheduleDelegateMeeting(delegate)" 
+                                                            class="focus:outline-none custom-btn btn-bg-green rubik fs-12-px not-italic font-medium px-2 py-1"> 
+                                                            <svg class="mr-2" width="17" height="11" viewBox="0 0 17 11" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                                                <path d="M1.89062 1.75392H0.630208C0.28215 1.75392 0 2.03461 0 2.38088V7.81452C0 8.16079 0.28215 8.44148 0.630208 8.44148H1.89062C2.23868 8.44148 2.52083 8.16079 2.52083 7.81452V2.38088C2.52083 2.03461 2.23868 1.75392 1.89062 1.75392ZM1.26042 7.71003C0.970363 7.71003 0.735243 7.47612 0.735243 7.18757C0.735243 6.89901 0.970363 6.6651 1.26042 6.6651C1.55047 6.6651 1.78559 6.89901 1.78559 7.18757C1.78559 7.47612 1.55047 7.71003 1.26042 7.71003ZM16.1753 1.75392H14.9149C14.5669 1.75392 14.2847 2.03461 14.2847 2.38088V7.81452C14.2847 8.16079 14.5669 8.44148 14.9149 8.44148H16.1753C16.5234 8.44148 16.8056 8.16079 16.8056 7.81452V2.38088C16.8056 2.03461 16.5234 1.75392 16.1753 1.75392ZM15.5451 7.71003C15.2551 7.71003 15.02 7.47612 15.02 7.18757C15.02 6.89901 15.2551 6.6651 15.5451 6.6651C15.8352 6.6651 16.0703 6.89901 16.0703 7.18757C16.0703 7.47612 15.8352 7.71003 15.5451 7.71003ZM12.7601 1.24896L13.8646 2.5047V7.18757H13.3612C13.3759 6.79676 13.2462 6.43051 12.9936 6.15021L10.8687 3.56635C10.9457 3.48276 10.9412 3.35319 10.8588 3.27482C10.7847 3.20428 10.6728 3.19854 10.5925 3.25496C10.5815 3.2628 9.00778 4.8989 9.00778 4.8989L9.00253 4.90439C8.37484 5.60724 7.26612 5.58892 6.66156 4.86729C6.25508 4.38192 6.26007 3.68156 6.67338 3.20167L8.42142 1.17268C8.77838 0.758098 9.3096 0.5 9.89165 0.5H11.1009C11.4151 0.500014 11.7257 0.566844 12.0119 0.696014C12.2981 0.825183 12.5532 1.01371 12.7601 1.24896ZM12.6717 6.41928C13.0776 6.85763 13.0022 7.56426 12.6094 7.9279C12.1444 8.35794 11.4952 8.26761 11.4034 8.16823C11.4468 8.57727 10.8417 9.40253 9.92184 9.33542C9.75576 9.88885 9.07374 10.3519 8.36785 10.1089C8.09949 10.3757 7.68985 10.5 7.3225 10.5C6.56913 10.5 5.88037 10.1868 5.41664 9.6954L2.94097 7.18757V2.36834L4.55221 1.04728C4.90438 0.696894 5.38204 0.500032 5.88011 0.5H6.86271C7.30201 0.5 7.72084 0.678683 8.0236 0.992424L6.35434 2.92973C5.80711 3.56479 5.80054 4.49216 6.33885 5.13506C7.11019 6.05583 8.5185 6.07166 9.31422 5.18521L10.5775 3.86991L12.6717 6.41928Z" fill="white"/>
+                                                            </svg> 
+                                                            <span class="ml-2">Schedule a meeting</span>
+                                                        </button>
+                                                    </ng-container>
+                                                    <!-- end of schedule a meeting -->
+
+                                                    <button class="focus:outline-none custom-btn btn-blue rubik fs-12-px not-italic font-medium px-4 py-1" (click)="openMessages(delegate)">
+                                                        <img src="assets/icon/chat-icon.png"> <span class="ml-2 ">Message</span>
+                                                    </button>
+                                                    <button *ngIf="!delegate.event_notes" (click)="addNewNote(delegate)" class="focus:outline-none border-2 border-gray-400 text-main-gray rubik not-italic fs-12-px font-semibold  rounded-md  px-4 py-1 flex items-center">
+                                                        <img src="assets/icon/addnote-icon.png"> <span class="ml-2">Add note</span>
+                                                    </button>
+                                                    <button *ngIf="delegate.event_notes" (click)="viewNewNote(delegate)" class="focus:outline-none border-2 border-gray-400 text-main-gray rubik not-italic fs-12-px font-semibold  rounded-md  px-4 py-1 flex items-center">
+                                                        <img src="assets/icon/addnote-icon.png"> <span class="ml-2">View note</span>
+                                                    </button>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
+
+                        <!-- Start of Skeleton Loader -->
+                        <table *ngIf="!delegate_list_isLoaded" class='w-full whitespace-nowrap rounded-lg bg-white divide-y divide-gray-300 overflow-hidden'>
+                            <thead>
+                                <tr class="bg-table text-gray-600 text-left">
+                                    <th class="text-gray rubik text-left fs-15-px not-italic font-normal px-5">Name</th>
+                                    <th class="text-gray rubik text-left fs-15-px not-italic font-normal px-5">Company</th>
+                                    <th class="text-gray rubik text-left fs-15-px not-italic font-normal">Notes and Actions</th>
+                                </tr>
+                            </thead>
+
+                            <tbody class="divide-y divide-gray-200">
+                                <ng-container *ngFor="let item of [1,2,3,5,6,7,8]">
+                                    <tr>
+                                        <td class="px-5 py-4">
+                                            <div class="flex items-center">
+                                                <div class="w-60-px h-60-px rounded-full">
+                                                    <app-loader [border_radius_class]="'rounded-full'" [additional_class]=""></app-loader>
+                                                </div>
+                                            
+                                                <div class="flex flex-col pl-3">
+                                                    <div class="w-250-px h-15-px">
+                                                        <app-loader [border_radius_class]="'rounded-lg'" [additional_class]=""></app-loader>
+                                                    </div>
+                                                    <div class="flex items-center">
+                                                        <div class="w-18-px h-18-px rounded-full">
+                                                            <app-loader [border_radius_class]="'rounded-full'" [additional_class]=""></app-loader>
+                                                        </div>
+                                                        <div class="w-225-px h-15-px my-1 ml-2">
+                                                            <app-loader [border_radius_class]="'rounded-lg'" [additional_class]=""></app-loader>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </td>
+
+                                        <td class="px-5 py-4">
+                                            <div class="flex flex-col">
+                                                <div class="w-250-px h-15-px">
+                                                    <app-loader [border_radius_class]="'rounded-lg'" [additional_class]=""></app-loader>
+                                                </div>
+                                        
+                                                <div class="w-250-px h-15-px my-1">
+                                                    <app-loader [border_radius_class]="'rounded-lg'" [additional_class]=""></app-loader>
+                                                </div>
+                                            </div>
+                                        </td>
+
+                                        <td class="py-4">
+                                            <div class="flex flex-col">
+                                                <div class="flex items-center space-x-3">
+                                                    <div class="w-150-px h-15-px">
+                                                        <app-loader [border_radius_class]="'rounded-lg'" [additional_class]=""></app-loader>
+                                                    </div>
+                                            
+                                                    <div class="w-150-px h-15-px my-1">
+                                                        <app-loader [border_radius_class]="'rounded-lg'" [additional_class]=""></app-loader>
+                                                    </div>
+                                                </div>
+                                                <div class="flex items-center space-x-3">
+                                                    <div class="w-120-px h-25-px">
+                                                        <app-loader [border_radius_class]="'rounded'" [additional_class]=""></app-loader>
+                                                    </div>
+                                            
+                                                    <div class="w-120-px h-25-px my-1">
+                                                        <app-loader [border_radius_class]="'rounded'" [additional_class]=""></app-loader>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </td>
+                                    </tr>
+                                </ng-container>
+                            </tbody>
+                        </table>
+                        <!-- End of Skeleton Loader -->
+                    </div>
+                </div>
+            </div>
+
+            <!-- Pages -->
+            <ng-container *ngIf="delegate_list_total_page >= 1">
+                <div class="flex justify-center">
+                    <div class="flex items-center justify-center pagination barlow mt-6 rounded">
+                        <button class="focus:outline-none page-btn border-r border-gray-400" (click)="prevPage()" [disabled]="delegate_list_page == 1">
+                            <i class="px-2 fa fa-angle-left mr-2 angle-icon "></i>
+                        </button>
+
+                        <ng-container *ngFor="let page of delegate_list_page_array; let i= index;">
+                            <button *ngIf="page" class="text-center font-semibold cursor-pointer" (click)="setPage(page)" [disabled]="delegate_list_page == 1 && delegate_list_page == delegate_list_total_page" [ngClass]="{'active': delegate_list_page == page}">{{ page }}</button>
+                        </ng-container> 
+                        
+                        <button class="focus:outline-none page-btn border-l border-gray-400" (click)="nextPage()" [disabled]="delegate_list_page == delegate_list_total_page" style="white-space: nowrap;">
+                            <i class="px-2 fa fa-angle-right ml-2 angle-icon"></i>
+                        </button>
+                    </div>
+                </div>
+            </ng-container>
+        </div>
+    </div>
+</div>
+
+<!-- filterLocationModal -->
+<ngx-smart-modal #filterLocationModal identifier="filterLocationModal" customClass="nsm-centered" [dismissable]="false" [closable]="false">
+    <div class="bg-white w-390-px rounded-lg py-3">
+        <div class="text-navy rubik font-semibold not-italic fs-14-px flex justify-between py-2 px-9">Filter locations  
+            <svg (click)="closeFilterLocation()" class="cursor-pointer" width="14" height="14" viewBox="0 0 14 14" fill="none" xmlns="http://www.w3.org/2000/svg">
+                <path d="M14 1.41L12.59 0L7 5.59L1.41 0L0 1.41L5.59 7L0 12.59L1.41 14L7 8.41L12.59 14L14 12.59L8.41 7L14 1.41Z" fill="#6E6E6E"/>
+            </svg>
+        </div>
+        <hr class="w-full mt-2">
+        <div class="px-4 py-5 custom-scroll bg-location-max">
+            <div class="grid grid-cols-13 px-5">
+                <div class="col-span-12">
+                    <div class="flex items-center">
+                        <input 
+                            type="text" 
+                            [(ngModel)]="search_key_countries" 
+                            class="custom-input pl-search h-40-px w-310-px bg-search-input" 
+                            placeholder="Search"
+                            (keydown.enter)="searchCountries(search_key_countries)" 
+                            (ngModelChange)="this.subscribeSearchLocation.next($event)"
+                        >
+                        <span class="material-icons text-gray-400 fs-75-px mb-3" style="transform: translate(-303px, 6px);">
+                            search
+                        </span>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="grid grid-cols-12 px-5 mt-5">
+                <div class="col-span-8">
+                    <div class="text-navy rubik font-semibold not-italic fs-16-px">Select locations</div>
+                    <div class="grid grid-cols-12 gap-2 mt-3">
+                        <ng-container *ngIf="countries && countries_total_count > 0">
+                            <div class="col-span-8" *ngFor="let country of countries">
+                                <mat-checkbox 
+                                    class="example-margin text-darkblue rubik font-normal not-italic fs-14-px" 
+                                    (ngModelChange)="selectCountries(country, $event)" 
+                                    [(ngModel)]="country.checked" 
+                                    [ngModelOptions]="{standalone: true}"
+                                >
+                                    {{ country.nicename }}
+                                </mat-checkbox>
+                            </div>
+                        </ng-container>
+                    </div>
+                </div>
+                <div class="col-span-4 text-right">
+                    <button 
+                        class="focus:outline-none text-gray font-normal not-italic fs-16-px cursor-pointer" 
+                        [disabled]="!selected_countries" 
+                        (click)="resetFilterLocation()"
+                    >
+                        Reset filters
+                    </button> 
+                </div>
+            </div>
+            <div *ngIf="countries && countries_total_count == 0">
+                <p class="text-main-gray rubik font-medium fs-16-px text-center mt-10">No results found.</p> 
+                </div>
+            <ng-container *ngIf="!countries_isLoaded">
+                <ng-container *ngFor="let item of [1,2,3,4,5,6,7,8]">
+                    <div class="flex items-center mt-5 px-5">
+                        <div class="w-18-px h-15-px">
+                            <app-loader [border_radius_class]="'rounded'" [additional_class]=""></app-loader>
+                        </div>
+                        <div class="w-200-px h-15-px ml-2">
+                            <app-loader [border_radius_class]="'rounded-md'" [additional_class]=""></app-loader>
+                        </div>
+                    </div>
+                </ng-container>
+            </ng-container>
+        </div>
+        <div class="px-5  mt-3">
+            <button 
+                class="custom-btn btn-blue w-full py-1 rubik font-medium fs-14-px not-italic" 
+                (click)="applyFilterLocation()"
+            >   
+                Apply Filters
+            </button>
+        </div>
+    </div>
+</ngx-smart-modal>
+
+
+<!-- filterServicesModal -->
+<ngx-smart-modal #filterServicesModal identifier="filterServicesModal" customClass="nsm-centered" [dismissable]="false" [closable]="false">
+    <div class="bg-white w-390-px rounded-lg py-3">
+        <div class="text-navy rubik font-semibold not-italic fs-14-px flex justify-between py-2 px-9">Filter services  
+            <svg (click)="closeFilterServices()" class="cursor-pointer" width="14" height="14" viewBox="0 0 14 14" fill="none" xmlns="http://www.w3.org/2000/svg">
+                <path d="M14 1.41L12.59 0L7 5.59L1.41 0L0 1.41L5.59 7L0 12.59L1.41 14L7 8.41L12.59 14L14 12.59L8.41 7L14 1.41Z" fill="#6E6E6E"/>
+            </svg>
+        </div>
+        <hr class="w-full mt-2">
+        <div class="px-4 py-5 custom-scroll bg-location-max">
+           <div class="grid grid-cols-13 px-5">
+                <div class="col-span-12">
+                    <div class="flex items-center">
+                        <input 
+                            type="text" 
+                            [(ngModel)]="search_key_services" 
+                            class="custom-input pl-search h-40-px w-310-px bg-search-input" 
+                            placeholder="Search"
+                            (keydown.enter)="searchServices(search_key_services)" 
+                            (ngModelChange)="this.subscribeSearchServices.next($event)"
+                        >
+                        <span class="material-icons text-gray-400 fs-75-px mb-3" style="transform: translate(-303px, 6px);">
+                            search
+                        </span>
+                    </div>
+                </div>
+           </div>
+           
+            <div class="grid grid-cols-12 px-5 mt-5">
+                <div class="col-span-8">
+                    <div class="text-navy rubik font-semibold not-italic fs-16-px">Select services</div>
+                    <div class="grid grid-cols-12 gap-2 mt-3">
+                        <ng-container *ngIf="services && services_total_count > 0">
+                            <div class="col-span-8" *ngFor="let service of services">
+                                <mat-checkbox 
+                                    class="example-margin text-darkblue rubik font-normal not-italic fs-14-px" 
+                                    (ngModelChange)="selectServices(service, $event)" 
+                                    [(ngModel)]="service.checked" 
+                                    [ngModelOptions]="{standalone: true}"
+                                >
+                                    {{ service.name }}
+                                </mat-checkbox>
+                            </div>
+                        </ng-container>
+                    </div>
+                </div>
+                <div class="col-span-4 text-right">
+                    <button 
+                        class="focus:outline-none text-gray font-normal not-italic fs-16-px cursor-pointer" 
+                        [disabled]="!selected_services" 
+                        (click)="resetFilterServices()"
+                    >
+                        Reset filters
+                    </button> 
+                </div>
+            </div>
+
+            <div *ngIf="services && services_total_count == 0">
+                <p class="text-main-gray rubik font-medium fs-16-px text-center mt-10">No results found.</p> 
+             </div>
+
+            <ng-container *ngIf="!services_isLoaded">
+                <ng-container *ngFor="let item of [1,2,3,4,5]">
+                    <div class="flex items-center mt-5 px-5">
+                        <div class="w-18-px h-15-px">
+                            <app-loader [border_radius_class]="'rounded'" [additional_class]=""></app-loader>
+                        </div>
+                        <div class="w-200-px h-15-px ml-2">
+                            <app-loader [border_radius_class]="'rounded-md'" [additional_class]=""></app-loader>
+                        </div>
+                    </div>
+                </ng-container>
+            </ng-container>
+        </div>
+        <div class="px-5 mt-3">
+            <button 
+                class="custom-btn btn-blue w-full py-1 rubik font-medium fs-14-px not-italic focus:outline-none" 
+                (click)="applyFilterServices()"
+            >
+                Apply Filters
+            </button>
+        </div>
+    </div>
+</ngx-smart-modal>
+
+<!-- filterSpecializationModal -->
+<ngx-smart-modal #filterSpecializationModal identifier="filterSpecializationModal" customClass="nsm-centered" [dismissable]="false" [closable]="false">
+    <div class="bg-white w-390-px rounded-lg py-3">
+        <div class="text-navy rubik font-semibold not-italic fs-14-px flex justify-between py-2 px-9">Select specializations
+            <svg (click)="closeFilterSpecializations()" class="cursor-pointer" width="14" height="14" viewBox="0 0 14 14" fill="none" xmlns="http://www.w3.org/2000/svg"> <path d="M14 1.41L12.59 0L7 5.59L1.41 0L0 1.41L5.59 7L0 12.59L1.41 14L7 8.41L12.59 14L14 12.59L8.41 7L14 1.41Z" fill="#6E6E6E"/> </svg>
+        </div>
+        <hr class="w-full mt-2">
+        <div class="px-4 py-5 custom-scroll bg-location-max">
+            <div class="grid grid-cols-13 px-5">
+                <div class="col-span-12">
+                    <div class="flex items-center">
+                        <input 
+                            type="text" 
+                            [(ngModel)]="search_key_specializations" 
+                            class="custom-input pl-search h-40-px w-310-px bg-search-input" 
+                            placeholder="Search"
+                            (keydown.enter)="searchSpecialization(search_key_specializations)" 
+                            (ngModelChange)="this.subscribeSearchSpecialization.next($event)"
+                        >
+                        <span class="material-icons text-gray-400 fs-75-px mb-3" style="transform: translate(-303px, 6px);">
+                            search
+                        </span>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="grid grid-cols-12 px-5 mt-5" >
+                <div class="col-span-8">
+                    <div class="text-navy rubik font-semibold not-italic fs-16-px">Select specializations</div>
+                    <div class="grid grid-cols-12 gap-2 mt-3">
+                        <ng-container *ngIf="specializations && specializations_total_count > 0">
+                            <div class="col-span-8" *ngFor="let specialization of specializations">
+                                <mat-checkbox 
+                                    class="example-margin text-darkblue rubik font-normal not-italic fs-14-px" 
+                                    (ngModelChange)="selectSpecialization(specialization, $event)" 
+                                    [(ngModel)]="specialization.checked" 
+                                    [ngModelOptions]="{standalone: true}"
+                                >
+                                    {{ specialization.name }}
+                                </mat-checkbox>
+                            </div>
+                        </ng-container>
+                    </div>
+                </div>
+                <div class="col-span-4 text-right">
+                    <button 
+                        class="focus:outline-none text-gray font-normal not-italic fs-16-px cursor-pointer" 
+                        [disabled]="!selected_specialization" 
+                        (click)="resetFilterSpecializations()"
+                    >
+                        Reset filters
+                    </button> 
+                </div>
+            </div>
+            <div *ngIf="specializations && specializations_total_count == 0">
+                <p class="text-main-gray rubik font-medium fs-16-px text-center mt-10">No results found.</p> 
+             </div>
+            <ng-container *ngIf="!specializations_isLoaded">
+                <ng-container *ngFor="let item of [1,2,3,4,5]">
+                    <div class="flex items-center mt-5 px-5">
+                        <div class="w-18-px h-15-px">
+                            <app-loader [border_radius_class]="'rounded'" [additional_class]=""></app-loader>
+                        </div>
+                        <div class="w-200-px h-15-px ml-2">
+                            <app-loader [border_radius_class]="'rounded-md'" [additional_class]=""></app-loader>
+                        </div>
+                    </div>
+                </ng-container>
+            </ng-container>
+        </div>
+        <div class="px-5 mt-3">
+            <button 
+                class="custom-btn btn-blue w-full py-1 rubik font-medium fs-14-px not-italic focus:outline-none" 
+                (click)="applyFilterSpecializations()"
+            >
+                Apply Filters
+            </button>
+        </div>
+    </div>
+</ngx-smart-modal>
+
+<!-- addNoteModal -->
+<ngx-smart-modal #addNoteModal identifier="addNoteModal" customClass="nsm-centered" [dismissable]="false" [closable]="false" (onOpen)="getData()" (onAnyCloseEvent)="reset()">
+    <ng-container *ngIf="note">
+        <div class="bg-white w-450-px rounded-lg py-5">
+            <div class="text-black rubik font-semibold not-italic fs-16-px flex justify-between px-5">Add new note
+                <svg (click)="closeAddNote()" class="cursor-pointer" width="14" height="14" viewBox="0 0 14 14" fill="none" xmlns="http://www.w3.org/2000/svg">
+                    <path d="M14 1.41L12.59 0L7 5.59L1.41 0L0 1.41L5.59 7L0 12.59L1.41 14L7 8.41L12.59 14L14 12.59L8.41 7L14 1.41Z" fill="#6E6E6E"/>
+                </svg>
+            </div>
+            <hr class="w-full mt-2">
+            <div class="px-5 py-3" >
+                <form [formGroup]="noteForm">
+                    <mat-form-field class="w-full">
+                        <mat-select
+                            formControlName="fullname">
+                          <mat-option  *ngFor="let delegates of delegate_list" (click)="setDelegate(delegates)" value="{{delegates.fullname}}">
+                            {{delegates.fullname}}
+                          </mat-option>
+                        </mat-select>
+                      </mat-form-field>
+                    <div class="mt-5">
+                        <textarea id="myTextarea" type="text" formControlName="note" class="w-full h-120-px focus:outline-none mt-3" placeholder="Type here ..." autocomplete="off"> </textarea>
+                    </div>
+                    <div class="bg-save mt-2">
+                        <button [disabled]="!noteForm.controls.note.value" [ngClass]="{'btn-gray' : !noteForm.controls.note.value, 'btn-blue' : noteForm.controls.note.value}" class="custom-btn rubik font-medium not-italic sfs-14-px px-5 py-2 ml-auto focus:outline-none" (click)="saveNote()">Save note</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </ng-container>
+</ngx-smart-modal>
+
+
+<!-- viewNoteModal -->
+<ngx-smart-modal #viewNoteModal identifier="viewNoteModal" customClass="nsm-centered" [dismissable]="false" [closable]="false" (onOpen)="getDataViewNote()" (onAnyCloseEvent)="resetDataViewNote()">
+    <!-- <ng-container *ngIf="note"> -->
+        <div *ngIf="notes" class="bg-white w-450-px rounded-lg py-5">
+            <div class="text-black rubik font-semibold not-italic fs-16-px flex justify-between px-5">View new note
+                <svg (click)="closeViewNoteModal()" class="cursor-pointer" width="14" height="14" viewBox="0 0 14 14" fill="none" xmlns="http://www.w3.org/2000/svg">
+                    <path d="M14 1.41L12.59 0L7 5.59L1.41 0L0 1.41L5.59 7L0 12.59L1.41 14L7 8.41L12.59 14L14 12.59L8.41 7L14 1.41Z" fill="#6E6E6E"/>
+                </svg>
+            </div>
+            <hr class="w-full mt-2">
+            <div class="px-5 py-3 custom-scroll" >
+                <ng-container *ngIf="!showEditNote">
+                    <div [innerHTML]="notes.note" class="text-darkblue rubik font-normal not-italic fs-14-px text-justify break-words">
+                    </div>
+                </ng-container>
+
+                <div *ngIf="showEditNote">
+                    <textarea 
+                        class="focus:outline-none border border-gray-400 rounded-md px-3 py-2 h-150-px w-full" 
+                        [(ngModel)]="note_content" 
+                        [ngModelOptions]="{standalone: true}">
+                    </textarea>
+                </div>
+            </div>
+           <div class="px-5 flex justify-end">
+                <button (click)="editNote('note', 'edit')" *ngIf="!showEditNote" class="focus:outline-none custom-btn btn-delete rubik font-medium not-italic fs-14-px px-5 py-2">
+                    <svg width="20" height="20" viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg">
+                        <path fill-rule="evenodd" clip-rule="evenodd" d="M12.0827 2.5H7.91602L7.08268 3.33333H4.16602V5H15.8327V3.33333H12.916L12.0827 2.5ZM13.3327 7.5V15.8333H6.66602V7.5H13.3327ZM4.99935 5.83333H14.9993V15.8333C14.9993 16.75 14.2493 17.5 13.3327 17.5H6.66602C5.74935 17.5 4.99935 16.75 4.99935 15.8333V5.83333Z" fill="#6E6E6E"/>
+                    </svg>
+                    <span class="ml-2 text-main-gray">Edit Note</span>
+                </button>
+                <button (click)="editNote('note', 'save')" *ngIf="showEditNote" class="focus:outline-none custom-btn btn-send-to-email rubik font-medium not-italic fs-14-px px-5 py-2">
+                    <svg width="20" height="20" viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg">
+                        <path fill-rule="evenodd" clip-rule="evenodd" d="M12.0827 2.5H7.91602L7.08268 3.33333H4.16602V5H15.8327V3.33333H12.916L12.0827 2.5ZM13.3327 7.5V15.8333H6.66602V7.5H13.3327ZM4.99935 5.83333H14.9993V15.8333C14.9993 16.75 14.2493 17.5 13.3327 17.5H6.66602C5.74935 17.5 4.99935 16.75 4.99935 15.8333V5.83333Z" fill="#6E6E6E"/>
+                    </svg>
+                    <span class="ml-2 text-main-gray">Save Note</span>
+                </button>
+           </div>
+        </div>
+    <!-- </ng-container> -->
+</ngx-smart-modal>

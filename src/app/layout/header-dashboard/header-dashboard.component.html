@@ -1,0 +1,670 @@
+<div class="flex flex-grow flex-col xl:flex-row items-center justify-between px-20 py-3 shadow-md  relative">
+
+    <div class="flex items-center">
+        <i class="fas fa-chevron-left cursor-pointer" (click)="back()"></i>
+        <div class="ml-2 flex items-start">
+            <img [src]="event.event_icon_url ? event.event_icon_url : 'assets/empty_states/no_event_profile.png'" class="w-47-px h-47-px rounded-lg">
+            <div class="ml-2 flex flex-col">
+                <div class="event_name">
+                    {{event.name}}
+                    <span class="type-badge rounded-xl ml-2 px-3 py-1 virtual " [ngClass]="{'physical': event.type == 1, 'virtual': event.type == 2}">
+                    {{ event.type == 1 ? 'Physical' : 'Virtual' }}
+                    </span>
+                </div>
+
+                <div class="flex items-center mt-1">
+                    <svg width="14" height="14" viewBox="0 0 14 14" fill="none" xmlns="http://www.w3.org/2000/svg">
+                        <path d="M7 0C3.13306 0 0 3.13306 0 7C0 10.8669 3.13306 14 7 14C10.8669 14 14 10.8669 14 7C14 3.13306 10.8669 0 7 0ZM8.61169 9.88186L6.12218 8.07258C6.03468 8.00766 5.98387 7.90605 5.98387 7.79879V3.04839C5.98387 2.8621 6.13629 2.70968 6.32258 2.70968H7.67742C7.86371 2.70968 8.01613 2.8621 8.01613 3.04839V6.93508L9.80847 8.23911C9.96089 8.34919 9.99194 8.56089 9.88186 8.71331L9.08589 9.80847C8.97581 9.95806 8.76411 9.99194 8.61169 9.88186Z" fill="#ADADAD"/>
+                    </svg>   
+                    <div class="event_date ml-1 text-base">{{event.event_date}} 
+                        <span *ngIf="event.type == 2"> {{ timezone_trimmed }} </span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="link-nav flex justify-between place-items-end">
+        <div class="flex items-center space-x-12 overflow-x-hidden icon-mt">
+            <!-- Ongoing/Upcomming -->
+            <div *ngIf="!event.archive_in" class="flex items-center justify-center flex-col space-y-2 cursor-pointer focus:outline-none" (click)="saveStatistics(1)" routerLink="/events/view">
+                <div class="icon event-details" routerLinkActive="active"></div>
+                <span class="w-84-px hidden md:flex" routerLinkActive="active">Event Details</span>
+            </div>
+            <!-- Past Events -->
+            <div *ngIf="event.archive_in" class="flex items-center justify-center flex-col space-y-2 cursor-pointer focus:outline-none" (click)="saveStatistics(1)" routerLink="/past-events/view">
+                <div class="icon event-details" routerLinkActive="active"></div>
+                <span class="w-84-px hidden md:flex" routerLinkActive="active">Event Details</span>
+            </div>
+            <div class="flex items-center justify-center flex-col space-y-2 cursor-pointer focus:outline-none" (click)="saveStatistics(2)" routerLink="/find-delegates" >
+                <div class="icon delegate" routerLinkActive="active"></div>
+                <span class="w-84-px hidden md:flex" routerLinkActive="active">Find Delegates</span>
+            </div>
+            <div class="flex items-center justify-center flex-col space-y-2 cursor-pointer focus:outline-none" (click)="saveStatistics(3)" [routerLink]="this.event.type ==1 ? '/my-schedule' : '/my-schedule-virtual'">
+                <div class="icon schedule" routerLinkActive="active"></div>
+                <span class="w-72-px hidden md:flex" routerLinkActive="active">My Schedule</span>
+            </div>
+            <div class="flex items-center justify-center flex-col space-y-2 cursor-pointer focus:outline-none" (click)="saveStatistics(4)" routerLink="/sponsors">
+                <div class="icon sponsor" routerLinkActive="active"></div>
+                <span class="hidden md:flex" routerLinkActive="active">Sponsors</span>
+            </div>
+            <div class="flex items-center justify-center flex-col space-y-2 cursor-pointer relative" (click)="saveStatistics(5)" [routerLink]="['/messaging']">
+                <div class="icon messages" routerLinkActive="active"></div>
+                <span class="hidden md:flex" routerLinkActive="active">Messages</span>
+                <ng-container *ngIf="messageBadge()">
+                    <svg class="bg-dot" width="10" height="10" viewBox="0 0 10 10" fill="none" xmlns="http://www.w3.org/2000/svg"> <circle cx="5" cy="5" r="5" fill="url(#paint0_linear)"/>
+                         <defs> 
+                             <linearGradient id="paint0_linear" x1="4.9836" y1="9.9867" x2="4.9836" y2="-1.65109e-07" gradientUnits="userSpaceOnUse">     <stop stop-color="#8B0517"/> <stop offset="1" stop-color="#AF1B2F"/> 
+                            </linearGradient> 
+                        </defs> 
+                    </svg>
+                </ng-container>
+            </div>
+            <!-- <div class="flex items-center justify-center flex-col space-y-2">
+                <img src="assets/icon/notifications-icon.png" class="icon">
+                <span class="hidden md:flex">Notifications</span>
+            </div> -->
+
+            <div>
+                <div style="position: relative;">
+                    <div style="position: absolute; left: 45px;">
+                        <ng-container *ngIf="notificationService.notification_active_banner">
+                            <svg class="" width="10" height="10" viewBox="0 0 10 10" fill="none" xmlns="http://www.w3.org/2000/svg"> <circle cx="5" cy="5" r="5" fill="url(#paint0_linear)"/> <defs> <linearGradient id="paint0_linear" x1="4.9836" y1="9.9867" x2="4.9836" y2="-1.65109e-07" gradientUnits="userSpaceOnUse"> <stop stop-color="#8B0517"/> <stop offset="1" stop-color="#AF1B2F"/> </linearGradient> </defs> </svg>
+                        </ng-container>
+                    </div>
+                </div>               
+
+                <div class="flex items-center justify-center flex-col space-y-2 cursor-pointer" (click) = 'resetNotif();saveStatistics(6);toggleNotif()'>
+                    <div class="icon notif" routerLinkActive="active"></div>
+                    <span class="hidden md:flex transition-opacity duration-200 rounded-full dark:opacity-75 dark:hover:opacity-100 focus:outline-none cursor-pointer" type="button" aria-haspopup="true" :aria-expanded="open ? 'true' : 'false'" routerLinkActive="active">Notifications</span>
+                </div>
+
+                <!-- User dropdown notifcation -->
+                <div *ngIf = "notifToggle" class="header-menu custom-scroll notification_menu mt-6 z-10">
+                    <div class="absolute bg-white w-10-px h-10-px block custom-menu-container"></div>
+                    <ng-container>
+                        <div class="rounded bg-white">
+
+                            <!-- push notification toggle -->
+                            <div class="grid grid-cols-12 px-5 py-3">
+                                <div class="mt-2 grid grid-cols-12 col-span-12">
+                                    <div class="col-span-2">
+                                        <mat-slide-toggle id="toggleSlide" [checked] = "this.userData.push_notif_enabled == 'yes' ? true : false" color="primary" class="cursor-pointer" (change) = 'togglePushNotif($event)'>
+                                        </mat-slide-toggle>
+                                    </div>
+                                    <div class="col-span-10">
+                                        <div class="text-navy rubik font-normal not-italic fs-14-px">Display push notification</div>
+                                    </div>
+                                </div>               
+                            </div>
+                            <hr class="w-full">
+                            
+                            <div  *ngIf = "this.notificationService.notifs.length >= 1" class="notification scroll-invisible" (scroll)="onScroll($event)">
+                                <!-- notification item -->
+                                <div *ngFor = "let notif of this.notificationService.notifs" class="grid grid-cols-12 px-5 py-3 cursor-pointer notifCard" [ngClass] = "{ 'unread' : notif.status == '2' }" (click) = "redirectPage(notif); toggleNotif()">
+                                    <div class="col-span-2">
+                
+                                        <div *ngIf="notif.owner_user_id != 'admin' && notif.owner_user_id != 'cron'" class="h-8 w-8 br-50" >
+                                            <img class="h-26 w-26" *ngIf="notif.data.data_type == 'delegate_pending_noshow'" src="assets/icon/notif-noshow-decline.svg" style="border-radius: 50%;"/>
+                                            <img class="br-50" *ngIf="notif.type != 'time_slot' && notif.meeting_schedule && notif.data.data_type != 'delegate_pending_noshow'" src="{{notif.meeting_schedule.delegate_profile_photo}}" style="border-radius: 50%;"/>
+                                            <img class="br-50" *ngIf="notif.type != 'time_slot' && (!notif.meeting_schedule && notif.owner_profile) && notif.data.data_type != 'delegate_pending_noshow'" src="{{notif.owner_profile.profile_photo}}" style="border-radius: 50%;"/>
+                                        </div>
+                                        <div *ngIf="notif.owner_user_id == 'admin'" >
+                                            <img *ngIf="notif.data.data_type == 'disable_timeslot'" class="h-8 w-8 br-50" src="assets/icon/notif-block-sched.svg" />
+                                            <img *ngIf="notif.data.data_type == 'decline_noshow'" class="h-8 w-8 br-50" src="assets/icon/notif-noshow-decline.svg" />
+                                            <img *ngIf="notif.data.data_type == 'set_meeting' || notif.data.data_type == 'admin_set_meeting'" class="h-8 w-8 br-50" src="assets/icon/notif-meeting-approve.svg" />
+                                            <img *ngIf="notif.data.data_type == 'reschedule_meeting_request'" class="h-8 w-8 br-50" src="assets/icon/notif-meeting-request-resched.svg" />
+                                            <img *ngIf="notif.data.data_type == 'reschedule_meeting'" class="h-8 w-8 br-50" src="assets/icon/notif-meeting-request-resched.svg" />
+                                            <img *ngIf="notif.data.data_type == 'approve_noshow' && notif.data.reported_delegate_id != notif.read_by_user_id" class="h-8 w-8 br-50" src="assets/icon/notif-noshow-mark.svg" />
+                                            <img *ngIf="notif.data.data_type == 'approve_noshow' && notif.data.reported_delegate_id == notif.read_by_user_id" class="h-8 w-8 br-50" src="assets/icon/notif-noshow-you-mark.svg" />     
+                                            <img *ngIf="notif.data.data_type == 'enable_timeslot'" class="h-8 w-8 br-50" src="assets/icon/notif-enable-sched.svg" />
+                                            <img *ngIf="notif.data.data_type == 'cancel_scheduled_meeting'"class="h-8 w-8 br-50" src="assets/icon/notif-meeting-cancel.svg" />
+                                            <img *ngIf="notif.data.data_type == 'approve_cancellation_request'" class="h-8 w-8 br-50" src="assets/icon/notif-meeting-cancel.svg" />
+                                            <img *ngIf="notif.data.data_type == 'disapprove_cancellation_request'" class="h-8 w-8 br-50" src="assets/icon/notif-meeting-cancel-declined.svg" />
+                                        </div>
+                                    </div>
+                                    <div class="col-span-10">
+                                        <div class="text-navy rubik font-normal fs-14-px not-italic text-justify">
+                                            <span [innerHtml]="notif.message"> </span>
+                                        </div>
+                                        <div class="text-time rubik font-normal not-italic fs-14-px py-2">{{notif.formatted_date}}</div>
+                                    </div>
+                                    <hr class="w-full col-span-12">    
+                                </div>
+
+                                <!-- loader -->
+                                <div *ngIf = "!this.notificationService.last_page_reached || this.notificationService.notifLoader" class="grid grid-cols-12 px-5 py-3" >
+                                    <div class="col-span-2">
+                                        <div  class="h-8 w-8">
+                                            <ngx-skeleton-loader appearance="circle" [theme] = "{width :'30px', height: '30px'}"></ngx-skeleton-loader>
+                                        </div>
+                                        <!-- <img src="assets/icon/circle-close-icon.png">  -->
+                                    </div>
+                                    <div class="col-span-10">
+                                        <div class="text-navy rubik font-normal fs-14-px not-italic text-justify">
+                                        <ngx-skeleton-loader count = "2" [theme] = "{height :'15px'}"></ngx-skeleton-loader>
+                                        </div>
+                                        <div class="text-time rubik font-normal not-italic fs-14-px py-2 w-60-px">
+                                            <ngx-skeleton-loader [theme] = "{height :'15px'}"></ngx-skeleton-loader>
+                                        </div>
+                                    </div>
+                                    <hr class="w-full col-span-12">    
+                                </div>
+                            </div>
+
+                            <!-- empty state -->
+                            <div *ngIf = "this.notificationService.notifs.length < 1 || this.notificationService.notifs == undefined">
+                                <div class="overflow-y-hidden scroll-invisible">
+                                    <div class="col-span-12">
+                                        <div class="w-full h-400-px flex flex-col items-center justify-center space-y-3">
+                                            <img src="assets/empty_states/no_meeting_request_sent.svg" alt="">
+                                            <div class="rubik font-semibold text-gray-500 mt-2">
+                                                No notifications
+                                            </div>
+                                            <div class="rubik text-gray-500 text-sm">
+                                                You haven’t receive any notifications yet.
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+                            
+                        </div>
+                    </ng-container>
+                </div>
+            </div>
+
+            <div class="flex items-center justify-center flex-col space-y-2 cursor-pointer" [matMenuTriggerFor]="more" #t="matMenuTrigger">
+                <svg routerLinkActive="active" width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg"> 
+                    <path fill-rule="evenodd" clip-rule="evenodd" d="M6 10C4.9 10 4 10.9 4 12C4 13.1 4.9 14 6 14C7.1 14 8 13.1 8 12C8 10.9 7.1 10 6 10ZM18 10C16.9 10 16 10.9 16 12C16 13.1 16.9 14 18 14C19.1 14 20 13.1 20 12C20 10.9 19.1 10 18 10ZM10 12C10 10.9 10.9 10 12 10C13.1 10 14 10.9 14 12C14 13.1 13.1 14 12 14C10.9 14 10 13.1 10 12Z" fill="#191919"/>
+                </svg> 
+                <span routerLinkActive="active" class="hidden md:flex" style="transform: translate(-5px, -4px)">More</span>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+<!--dropdown More -->
+<mat-menu #more="matMenu" class="overflow-x-hidden header-menu mt-5" xPosition="before">
+<div class="absolute bg-white w-10-px h-10-px block custom-menu-container"></div>
+<ng-container>
+    <div class="minw-200-px rounded bg-white shadow-xl">
+        <button routerLink="/notes" class="focus:outline-none focus:shadow-none fw-300 hover:text-teal-800 hover:bg-teal-300" mat-menu-item>
+            <span class="text-navy rubik font-semibold not-italic fs-14-px">Notes</span>
+        </button>
+        <hr>
+        <button *ngIf="event.type == 1 && !event.past_day && event.isongoing" [routerLink]="['/delegates-locator']" class="focus:outline-none focus:shadow-none fw-300 hover:text-teal-800 hover:bg-teal-300" mat-menu-item>
+            <span class="text-navy rubik font-semibold not-italic fs-14-px">Delegates Locator</span>
+        </button>
+        <hr>
+        <button *ngIf="!event.past_day && event.meeting_request == '2'" (click)="showMeetingRequest()" class="focus:outline-none focus:shadow-none fw-300 hover:text-teal-800 hover:bg-teal-300" mat-menu-item>
+            <span class="text-navy rubik font-semibold not-italic fs-14-px">Meeting Request</span>
+        </button>
+        <hr>
+        <button routerLink="/faqs" class="focus:outline-none focus:shadow-none fw-300 hover:text-teal-800 hover:bg-teal-300" mat-menu-item>
+            <span class="text-navy rubik font-semibold not-italic fs-14-px">FAQs</span>
+        </button>
+        <hr>
+        <button *ngIf="!event.past_day && event.isongoing" routerLink="/no-show-delegates" class="focus:outline-none focus:shadow-none fw-300 hover:text-teal-800 hover:bg-teal-300" mat-menu-item>
+            <span class="text-navy rubik font-semibold not-italic fs-14-px">No show delegates</span>
+        </button>
+    </div>
+</ng-container>
+</mat-menu>
+
+<!-- Meeting Request -->
+<div *ngIf="show_meeting_request" class="relative" style="z-index: 1000;">
+    <div  class=" fixed inset-0 overflow-hidden" aria-labelledby="slide-over-title" role="dialog" aria-modal="true">
+        <div class="absolute inset-0 overflow-hidden">
+            <div class="absolute inset-0 bg-gray-500 bg-opacity-75 transition-opacity" aria-hidden="true"></div>
+                <div class="fixed inset-y-0 right-0 pl-10 max-w-full flex top-8 h-500-px">
+                    <div class="relative w-screen max-w-xl">
+                        <div (click)="showMeetingRequest()" class="cursor-pointer absolute top-4 right-4 z-10 pt-10 pr-2 flex items-center">
+                            <svg class="h-6 w-6" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="white" aria-hidden="true">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12" />
+                            </svg><span class="ml-2 text-white">Close</span>
+                        </div>
+        
+                        <div class="h-full flex flex-col py-6 shadow-xl">
+                            <div class="mt-6 relative flex-1">
+                            <mat-tab-group>
+                                <mat-tab label="Received requests">
+                                    <div class="px-5 py-3 text-navy rubik font-semibold not-italic fs-14-px">
+                                        Meeting requests you received
+                                    </div>
+                                    <div class="overflow-y-auto h-430-px" *ngIf="receive_request && receive_request_total_count">
+                                        <ng-container *ngFor="let receive of receive_request">
+                                            <ng-container *ngIf="receive.timeslots.length > 0">
+                                                <ng-container *ngFor="let timeslot of receive.timeslots; let i= index;">
+                                                    <ng-container *ngIf="timeslot.meeting_schedule_count > 0">
+                                                        <hr class="w-full bg-hr">
+                                                        <div [attr.id]="receive.id" class="flex items-center px-5 py-3 text-navy rubik font-semibold not-italic fs-14-px">
+                                                            {{receive.a_date}}, {{timeslot.start_time}} - {{timeslot.end_time_orig ? timeslot.end_time_orig : timeslot.end_time}}
+                                                            <!-- Wala pang timezone for Virtual -->
+                                                            <span class="text-darkblue font-normal rounded-full px-3 py-1 ml-1 chip-skyblue">{{timeslot.meeting_schedule_count}} request<span *ngIf="timeslot.meeting_schedule_count > 1">s</span>
+                                                            </span>
+                                                            
+                                                            <!-- open -->
+                                                            <svg *ngIf="!showReceiveMeeting && openedReceiveMeetting != i" (click)="showReceiveMeetingRequest(timeslot, i)" xmlns="http://www.w3.org/2000/svg" width="14" height="14" fill="currentColor" class="ml-auto focus:outline-none cursor-pointer bi bi-chevron-right" viewBox="0 0 16 16">
+                                                                <path fill-rule="evenodd" d="M4.646 1.646a.5.5 0 0 1 .708 0l6 6a.5.5 0 0 1 0 .708l-6 6a.5.5 0 0 1-.708-.708L10.293 8 4.646 2.354a.5.5 0 0 1 0-.708z"/>
+                                                            </svg>
+
+                                                            <svg *ngIf="showReceiveMeeting && openedReceiveMeetting != i" (click)="showReceiveMeetingRequest(timeslot, i)" xmlns="http://www.w3.org/2000/svg" width="14" height="14" fill="currentColor" class="ml-auto focus:outline-none cursor-pointer bi bi-chevron-right" viewBox="0 0 16 16">
+                                                                <path fill-rule="evenodd" d="M4.646 1.646a.5.5 0 0 1 .708 0l6 6a.5.5 0 0 1 0 .708l-6 6a.5.5 0 0 1-.708-.708L10.293 8 4.646 2.354a.5.5 0 0 1 0-.708z"/>
+                                                            </svg>
+                                                           
+
+                                                            <!-- close -->
+                                                            <svg *ngIf="showReceiveMeeting && openedReceiveMeetting == i" (click)="closeReceiveMeetingRequest(i)" xmlns="http://www.w3.org/2000/svg" width="14" height="14" fill="currentColor" class="ml-auto focus:outline-none cursor-pointer bi bi-chevron-down" viewBox="0 0 16 16">
+                                                                <path fill-rule="evenodd" d="M1.646 4.646a.5.5 0 0 1 .708 0L8 10.293l5.646-5.647a.5.5 0 0 1 .708.708l-6 6a.5.5 0 0 1-.708 0l-6-6a.5.5 0 0 1 0-.708z"/>
+                                                            </svg>
+                                                     
+                                                        </div>
+                                                    </ng-container>
+
+                                                    
+                                                    <!-- Meeting Details -->
+                                                    <ng-container *ngIf="showReceiveMeeting && meeting_details_total_count > 0 && openedReceiveMeetting == i">
+                                                        <ng-container *ngIf="timeslot.id == meeting_details[0].ts_id">
+                                                            <div *ngFor="let meeting of meeting_details" class="px-5 py-3">
+                                                                <div class="px-5 py-3 border border-gray-300 rounded-md bg-card">
+                                                                    <div class="grid grid-cols-12">
+                                                                        <div class="col-span-12 flex">
+                                                                            <img *ngIf="meeting.del_profile_photo.length > 1" src="{{meeting.del_profile_photo}}" class="h-40-px w-40-px rounded-full">
+                                                                            <img *ngIf="meeting.del_profile_photo.length == 1" src="assets/empty_states/profile_avatar_{{meeting.del_profile_photo}}.png" class="h-40-px w-40-px rounded-full">
+
+                                                                            <div class="ml-5">
+                                                                                <div class="flex items-center">
+                                                                                    <span class="text-navy rubik font-semibold not-italic fs-14-px w-3/5"> {{meeting.company_name}} </span>
+                                                                                    <span class="ml-2 chip-country w-full flex items-center px-3 py-1 rounded-full">
+                                                                                        <img src="assets/flags/{{meeting.company_country_iso}}.png" class="h-4 w-4">
+                                                                                        <span class="ml-2 text-darkblue rubik font-normal fs-14-px"> 
+                                                                                            {{meeting.company_country_nicename}} 
+                                                                                        </span>
+                                                                                    </span>
+                                                                                </div>
+                                                                                <div class="text-navy rubik font-medium not-italic fs-14-px"> {{meeting.del_fullname}} </div>
+                                                                                <div class="text-main-gray rubik font-normal not-italic fs-14-px"> {{meeting.del_job_title}} </div>
+                                                                            </div>
+                                                                        </div>
+                                                                        <div *ngIf="meeting.request_message" class="col-span-12 mt-2">
+                                                                            <div class="text-darkblue rubik font-normal fs-14-px not-italic">
+                                                                                {{meeting.request_message}}
+                                                                            </div>
+                                                                        </div>
+                                                                        <div class="col-span-12 ml-auto flex items-center space-x-3 py-3">
+                                                                            <button (click)="actionRequest('accept', meeting, timeslot)" class="custom-btn btn-accept px-5 py-1 flex items-center h-30-px">
+                                                                                <svg width="16" height="16" viewBox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                                                                    <path d="M5.86339 10.5836L3.08339 7.80361L2.13672 8.74361L5.86339 12.4703L13.8634 4.47027L12.9234 3.53027L5.86339 10.5836Z" fill="white"/>
+                                                                                </svg>
+                                                                                <span class="ml-2 rubik font-medium not-italic fs-12-px">Accept</span>  
+                                                                            </button>
+                                                                            <button (click)="actionRequest('decline', meeting, timeslot)" class="border-2 border-gray-500 px-5 py-1 rounded flex items-center">
+                                                                                <svg width="16" height="16" viewBox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                                                                    <path d="M12.6673 4.27301L11.7273 3.33301L8.00065 7.05967L4.27398 3.33301L3.33398 4.27301L7.06065 7.99967L3.33398 11.7263L4.27398 12.6663L8.00065 8.93967L11.7273 12.6663L12.6673 11.7263L8.94065 7.99967L12.6673 4.27301Z" fill="#6E6E6E"/>
+                                                                                </svg>
+                                                                                <span class="ml-2 text-main-gray font-medium not-italic fs-12-px">Decline</span> 
+                                                                            </button>
+                                                                        </div>
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+                                                        </ng-container>
+                                                    </ng-container>
+
+                                                      <!-- skeleton loader for receive meeting request-->
+                                                      <ng-container *ngIf="showReceiveMeeting && !meeting_details_isloaded">
+                                                        <!-- *ngIf="timeslot.id == meeting_details[0].ts_id" -->
+                                                        <ng-container >
+                                                            <div class="px-5 py-3">
+                                                                <div class="px-5 py-3 border border-gray-300 rounded-md bg-card">
+                                                                    <div class="grid grid-cols-12 gap-3 maxh-300-px custom-scroll">
+                                                                        <div class="col-span-1">
+                                                                            <div class="w-40-px h-40-px rounded-full">
+                                                                                <app-loader [border_radius_class]="'rounded-lg'" [additional_class]=""></app-loader>
+                                                                            </div>
+                                                                        </div>
+                                                                        <div class="col-span-11">
+                                                                            <div class="flex flex-col space-y-2">
+                                                                                <div class="default-text-color font-semibold w-150-px h-15-px">
+                                                                                    <app-loader [border_radius_class]="'rounded-lg'" [additional_class]=""></app-loader>
+                                                                                </div>
+                                                                                <div class="default-text-color w-160-px h-15-px">
+                                                                                    <app-loader [border_radius_class]="'rounded-lg'" [additional_class]=""></app-loader>
+                                                                                </div>
+                                                                                <div class="text-gray-500 w-1800-px h-15-px">
+                                                                                    <app-loader [border_radius_class]="'rounded-lg'" [additional_class]=""></app-loader>
+                                                                                </div>
+                                                                            </div>
+                                                                        </div>
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+                                                        </ng-container>
+                                                    </ng-container>
+                                                </ng-container>
+                                            </ng-container>
+                                        </ng-container>
+                                    </div>
+                                    <div class="overflow-y-auto h-430-px" *ngIf="receive_request && receive_request_total_count == 0">
+                                        <div class="col-span-12">
+                                            <div class="w-full h-400-px flex flex-col items-center justify-center space-y-3">
+                                                <img src="assets/empty_states/no_meeting_request_receive.svg" alt="">
+                                                <div class="rubik font-semibold text-gray-500 mt-2">
+                                                    No receive meeting requests
+                                                </div>
+                                                <div class="rubik text-gray-500 text-sm">
+                                                    You haven’t receive any meeting requests yet.
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </mat-tab>
+
+                                <mat-tab label="Sent requests">
+                                    <div class="px-5 py-3 text-navy rubik font-semibold not-italic fs-14-px">
+                                        Meeting requests you sent
+                                    </div>
+                                    <div class="overflow-y-auto h-430-px" *ngIf="sent_request && sent_request_total_count > 0">
+                                        <ng-container *ngFor="let send of sent_request">
+                                            <ng-container *ngIf="send.timeslots.length > 0">
+                                                <ng-container *ngFor="let timeslot of send.timeslots; let i= index;">
+                                                    <ng-container *ngIf="timeslot.meeting_schedule_count > 0">
+                                                        <hr class="w-full bg-hr">
+                                                        <div class="flex items-center px-5 py-3 text-navy rubik font-semibold not-italic fs-14-px">
+                                                            {{send.a_date}}, {{timeslot.start_time}} - {{timeslot.end_time_orig ? timeslot.end_time_orig : timeslot.end_time}}
+                                                            <!-- Wala pang timezone for Virtual -->
+                                                            <span class="text-darkblue font-normal rounded-full px-3 py-1 ml-1 chip-skyblue">{{timeslot.meeting_schedule_count}} request<span *ngIf="timeslot.meeting_schedule_count > 1">s</span>
+                                                            </span>
+                                                            
+                                                            <!-- open -->
+                                                            <svg *ngIf="!showSentMeeting && openedRequestMeetingSent != i" (click)="showRequestMeetingSent(timeslot, i)" xmlns="http://www.w3.org/2000/svg" width="14" height="14" fill="currentColor" class="ml-auto focus:outline-none cursor-pointer bi bi-chevron-right" viewBox="0 0 16 16">
+                                                                <path fill-rule="evenodd" d="M4.646 1.646a.5.5 0 0 1 .708 0l6 6a.5.5 0 0 1 0 .708l-6 6a.5.5 0 0 1-.708-.708L10.293 8 4.646 2.354a.5.5 0 0 1 0-.708z"/>
+                                                            </svg>
+
+                                                            <svg *ngIf="showSentMeeting && openedRequestMeetingSent != i" (click)="showRequestMeetingSent(timeslot, i)" xmlns="http://www.w3.org/2000/svg" width="14" height="14" fill="currentColor" class="ml-auto focus:outline-none cursor-pointer bi bi-chevron-right" viewBox="0 0 16 16">
+                                                                <path fill-rule="evenodd" d="M4.646 1.646a.5.5 0 0 1 .708 0l6 6a.5.5 0 0 1 0 .708l-6 6a.5.5 0 0 1-.708-.708L10.293 8 4.646 2.354a.5.5 0 0 1 0-.708z"/>
+                                                            </svg>
+                                                        
+
+                                                            <!-- close -->
+                                                            <svg *ngIf="showSentMeeting && openedRequestMeetingSent == i" (click)="closeShowRequestMeetingSent(i)" xmlns="http://www.w3.org/2000/svg" width="14" height="14" fill="currentColor" class="ml-auto focus:outline-none cursor-pointer bi bi-chevron-down" viewBox="0 0 16 16">
+                                                                <path fill-rule="evenodd" d="M1.646 4.646a.5.5 0 0 1 .708 0L8 10.293l5.646-5.647a.5.5 0 0 1 .708.708l-6 6a.5.5 0 0 1-.708 0l-6-6a.5.5 0 0 1 0-.708z"/>
+                                                            </svg>
+                                                            
+                                                        </div>
+                                                    </ng-container>
+
+                                                    <!-- Meeting Details -->
+                                                    <ng-container *ngIf="showSentMeeting && meeting_details_total_count > 0">
+                                                        <ng-container *ngIf="timeslot.id == meeting_details[0].ts_id">
+                                                            <div *ngFor="let meeting of meeting_details" class="px-5 py-3">
+                                                                <div class="px-5 py-3 border border-gray-300 rounded-md bg-card">
+                                                                    <div class="grid grid-cols-12">
+                                                                        <div class="col-span-12 flex">
+                                                                            <img *ngIf="meeting.del_profile_photo.length > 1" src="{{meeting.del_profile_photo}}" class="h-40-px w-40-px rounded-full">
+                                                                            <img *ngIf="meeting.del_profile_photo.length == 1" src="assets/empty_states/profile_avatar_{{meeting.del_profile_photo}}.png" class="h-40-px w-40-px rounded-full">
+
+                                                                            <div class="ml-5">
+                                                                                <div class="flex items-center">
+                                                                                    <span class="text-navy rubik font-semibold not-italic fs-14-px w-3/5"> {{meeting.company_name}} </span>
+                                                                                    <span class="ml-2 chip-country w-full flex items-center px-3 py-1 rounded-full">
+                                                                                        <img src="assets/flags/{{meeting.company_country_iso}}.png" class="h-4 w-4">
+                                                                                        <span class="ml-2 text-darkblue rubik font-normal fs-14-px"> 
+                                                                                            {{meeting.company_country_nicename}} 
+                                                                                        </span>
+                                                                                    </span>
+                                                                                </div>
+                                                                                <div class="text-navy rubik font-medium not-italic fs-14-px"> {{meeting.del_fullname}} </div>
+                                                                            </div>
+                                                                        </div>
+
+                                                                        <div class="col-span-12 flex items-center" style="margin-left: 60px;">
+                                                                            <div>
+                                                                                <div class="text-main-gray rubik font-normal not-italic fs-14-px"> {{meeting.del_job_title}} </div>
+                                                                                <div *ngIf="meeting.request_message">
+                                                                                    <div class="text-darkblue rubik font-normal fs-14-px not-italic">
+                                                                                        {{meeting.request_message}}
+                                                                                    </div>
+                                                                                </div>
+                                                                            </div>
+                                                                        
+                                                                            <div class="ml-auto">
+                                                                                <button (click)="actionRequest('cancel', meeting, timeslot)"  class="border-2 border-gray-500 px-5 py-1 rounded flex items-center">
+                                                                                    <span class="text-main-gray font-medium not-italic fs-12-px">Cancel request</span> 
+                                                                                </button>
+                                                                            </div>
+                                                                        </div>
+
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+                                                        </ng-container>
+                                                    </ng-container>
+
+                                                    <!-- skeleton loader for sent request-->
+                                                    <ng-container *ngIf="showSentMeeting && !meeting_details_isloaded">
+                                                        <!-- *ngIf="timeslot.id == meeting_details[0].ts_id" -->
+                                                        <ng-container>
+                                                            <div class="px-5 py-3">
+                                                                <div class="px-5 py-3 border border-gray-300 rounded-md bg-card">
+                                                                    <div class="grid grid-cols-12 gap-3 maxh-300-px custom-scroll">
+                                                                        <div class="col-span-1">
+                                                                            <div class="w-40-px h-40-px rounded-full">
+                                                                                <app-loader [border_radius_class]="'rounded-lg'" [additional_class]=""></app-loader>
+                                                                            </div>
+                                                                        </div>
+                                                                        <div class="col-span-11">
+                                                                            <div class="flex flex-col space-y-2">
+                                                                                <div class="default-text-color font-semibold w-150-px h-15-px">
+                                                                                    <app-loader [border_radius_class]="'rounded-lg'" [additional_class]=""></app-loader>
+                                                                                </div>
+                                                                                <div class="default-text-color w-160-px h-15-px">
+                                                                                    <app-loader [border_radius_class]="'rounded-lg'" [additional_class]=""></app-loader>
+                                                                                </div>
+                                                                                <div class="text-gray-500 w-1800-px h-15-px">
+                                                                                    <app-loader [border_radius_class]="'rounded-lg'" [additional_class]=""></app-loader>
+                                                                                </div>
+                                                                            </div>
+                                                                        </div>
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+                                                        </ng-container>
+                                                    </ng-container>
+                                                </ng-container>
+                                            </ng-container>
+                                        </ng-container>
+                                    </div>
+                                    
+                                    <div class="overflow-y-auto h-430-px" *ngIf="sent_request && sent_request_total_count == 0">
+                                        <div class="col-span-12">
+                                            <div class="w-full h-400-px flex flex-col items-center justify-center space-y-3">
+                                                <img src="assets/empty_states/no_meeting_request_sent.svg" alt="">
+                                                <div class="rubik font-semibold text-gray-500 mt-2">
+                                                    No sent meeting requests
+                                                </div>
+                                                <div class="rubik text-gray-500 text-sm">
+                                                    You haven’t sent any meeting requests yet.
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </mat-tab>
+                            </mat-tab-group>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+        </div>
+    </div>
+</div>
+
+<!-- Meeting Request from notifications-->
+<div *ngIf="show_meeting_request_notification" class="relative" style="z-index: 1000;">
+    <div  class=" fixed inset-0 overflow-hidden" aria-labelledby="slide-over-title" role="dialog" aria-modal="true">
+        <div class="absolute inset-0 overflow-hidden">
+            <div class="absolute inset-0 bg-gray-500 bg-opacity-75 transition-opacity" aria-hidden="true"></div>
+                <div class="fixed inset-y-0 right-0 pl-10 max-w-full flex top-8 h-500-px">
+                    <div class="relative w-screen max-w-xl">
+                        <div (click)="show_meeting_request_notification = false" class="cursor-pointer absolute top-4 right-4 z-10 pt-10 pr-2 flex items-center">
+                            <svg class="h-6 w-6" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="white" aria-hidden="true">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12" />
+                            </svg><span class="ml-2 text-white">Close</span>
+                        </div>
+        
+                        <div class="h-full flex flex-col py-6 shadow-xl">
+                            <div class="mt-6 relative flex-1">
+                            <mat-tab-group>
+                                <mat-tab label="Received requests">
+                                    <div class="px-5 py-3 text-navy rubik font-semibold not-italic fs-14-px">
+                                        Meeting requests you received
+                                    </div>
+                                    <div class="overflow-y-auto h-430-px" *ngIf="receive_request && receive_request_total_count">
+                                        <ng-container *ngFor="let receive of receive_request">
+                                            <ng-container *ngIf="receive.timeslots.length > 0">
+                                                <ng-container *ngFor="let timeslot of receive.timeslots; let i= index;">
+                                                    <ng-container *ngIf="timeslot.meeting_schedule_count > 0">
+                                                        <ng-container *ngIf = "timeslot.id == temp_time_slot"> 
+                                                            <hr class="w-full bg-hr">
+                                                            <div [attr.id]="receive.id" class="flex items-center px-5 py-3 text-navy rubik font-semibold not-italic fs-14-px">
+                                                                {{receive.a_date}}, {{timeslot.start_time}} - {{timeslot.end_time_orig ? timeslot.end_time_orig : timeslot.end_time}}
+                                                                <!-- Wala pang timezone for Virtual -->
+                                                                <span class="text-darkblue font-normal rounded-full px-3 py-1 ml-1 chip-skyblue">{{timeslot.meeting_schedule_count}} request<span *ngIf="timeslot.meeting_schedule_count > 1">s</span>
+                                                                </span>
+                                                                
+                                                                <!-- open -->
+                                                                <!-- <svg *ngIf="!showReceiveMeeting && openedReceiveMeetting != i" (click)="showReceiveMeetingRequest(timeslot, i)" class="ml-auto focus:outline-none cursor-pointer" width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                                                    <path d="M7.41 15.7049L12 11.1249L16.59 15.7049L18 14.2949L12 8.29492L6 14.2949L7.41 15.7049Z" fill="#6E6E6E"/>
+                                                                </svg>
+                                                                <svg *ngIf="showReceiveMeeting && openedReceiveMeetting != i" (click)="showReceiveMeetingRequest(timeslot, i)" class="ml-auto focus:outline-none cursor-pointer" width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                                                    <path d="M7.41 15.7049L12 11.1249L16.59 15.7049L18 14.2949L12 8.29492L6 14.2949L7.41 15.7049Z" fill="#6E6E6E"/>
+                                                                </svg>
+
+                                                                close 
+                                                                <svg *ngIf="showReceiveMeeting && openedReceiveMeetting == i" (click)="closeReceiveMeetingRequest(i)" class="ml-auto focus:outline-none cursor-pointer" width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                                                    <path d="M7.41 8.29492L12 12.8749L16.59 8.29492L18 9.70492L12 15.7049L6 9.70492L7.41 8.29492Z" fill="url(#paint0_linear)"/><defs><linearGradient id="paint0_linear" x1="13.9781" y1="7.96158" x2="6.30351" y2="14.3241" gradientUnits="userSpaceOnUse"><stop stop-color="#1D4FA5"/><stop offset="1" stop-color="#094F8C"/></linearGradient></defs>
+                                                                </svg> -->
+                                                            </div>
+                                                        </ng-container>
+                                                    </ng-container>
+
+                                                    
+                                                    <!-- Meeting Details -->
+                                                    <ng-container *ngIf="showReceiveMeeting && meeting_details_total_count > 0">
+                                                        <!--  -->
+                                                        <ng-container *ngIf="timeslot.id == meeting_details[0].ts_id">
+                                                            <div *ngFor="let meeting of meeting_details" class="px-5 py-3">
+                                                                <div class="px-5 py-3 border border-gray-300 rounded-md bg-card">
+                                                                    <div class="grid grid-cols-12">
+                                                                        <div class="col-span-12 flex">
+                                                                            <img *ngIf="meeting.del_profile_photo.length > 1" src="{{meeting.del_profile_photo}}" class="h-40-px w-40-px rounded-full">
+                                                                            <img *ngIf="meeting.del_profile_photo.length == 1" src="assets/empty_states/profile_avatar_{{meeting.del_profile_photo}}.png" class="h-40-px w-40-px rounded-full">
+
+                                                                            <div class="ml-5">
+                                                                                <div class="flex items-center">
+                                                                                    <span class="text-navy rubik font-semibold not-italic fs-14-px w-3/5"> {{meeting.company_name}} </span>
+                                                                                    <span class="ml-2 chip-country w-full flex items-center px-3 py-1 rounded-full">
+                                                                                        <img src="assets/flags/{{meeting.company_country_iso}}.png" class="h-4 w-4">
+                                                                                        <span class="ml-2 text-darkblue rubik font-normal fs-14-px"> 
+                                                                                            {{meeting.company_country_nicename}} 
+                                                                                        </span>
+                                                                                    </span>
+                                                                                </div>
+                                                                                <div class="text-navy rubik font-medium not-italic fs-14-px"> {{meeting.del_fullname}} </div>
+                                                                                <div class="text-main-gray rubik font-normal not-italic fs-14-px"> {{meeting.del_job_title}} </div>
+                                                                            </div>
+                                                                        </div>
+                                                                        <div *ngIf="meeting.request_message" class="col-span-12 mt-2">
+                                                                            <div class="text-darkblue rubik font-normal fs-14-px not-italic">
+                                                                                {{meeting.request_message}}
+                                                                            </div>
+                                                                        </div>
+                                                                        <div class="col-span-12 ml-auto flex items-center space-x-3 py-3">
+                                                                            <button (click)="actionRequest('accept', meeting, timeslot)" class="custom-btn btn-accept px-5 py-1 flex items-center h-30-px">
+                                                                                <svg width="16" height="16" viewBox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                                                                    <path d="M5.86339 10.5836L3.08339 7.80361L2.13672 8.74361L5.86339 12.4703L13.8634 4.47027L12.9234 3.53027L5.86339 10.5836Z" fill="white"/>
+                                                                                </svg>
+                                                                                <span class="ml-2 rubik font-medium not-italic fs-12-px">Accept</span>  
+                                                                            </button>
+                                                                            <button (click)="actionRequest('decline', meeting, timeslot)" class="border-2 border-gray-500 px-5 py-1 rounded flex items-center">
+                                                                                <svg width="16" height="16" viewBox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                                                                    <path d="M12.6673 4.27301L11.7273 3.33301L8.00065 7.05967L4.27398 3.33301L3.33398 4.27301L7.06065 7.99967L3.33398 11.7263L4.27398 12.6663L8.00065 8.93967L11.7273 12.6663L12.6673 11.7263L8.94065 7.99967L12.6673 4.27301Z" fill="#6E6E6E"/>
+                                                                                </svg>
+                                                                                <span class="ml-2 text-main-gray font-medium not-italic fs-12-px">Decline</span> 
+                                                                            </button>
+                                                                        </div>
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+                                                        </ng-container>
+                                                    </ng-container>
+
+                                                      <!-- skeleton loader for receive meeting request-->
+                                                      <ng-container *ngIf="showReceiveMeeting && !meeting_details_isloaded">
+                                                        <!-- *ngIf="timeslot.id == meeting_details[0].ts_id" -->
+                                                        <ng-container >
+                                                            <div class="px-5 py-3">
+                                                                <div class="px-5 py-3 border border-gray-300 rounded-md bg-card">
+                                                                    <div class="grid grid-cols-12 gap-3 maxh-300-px custom-scroll">
+                                                                        <div class="col-span-1">
+                                                                            <div class="w-40-px h-40-px rounded-full">
+                                                                                <app-loader [border_radius_class]="'rounded-lg'" [additional_class]=""></app-loader>
+                                                                            </div>
+                                                                        </div>
+                                                                        <div class="col-span-11">
+                                                                            <div class="flex flex-col space-y-2">
+                                                                                <div class="default-text-color font-semibold w-150-px h-15-px">
+                                                                                    <app-loader [border_radius_class]="'rounded-lg'" [additional_class]=""></app-loader>
+                                                                                </div>
+                                                                                <div class="default-text-color w-160-px h-15-px">
+                                                                                    <app-loader [border_radius_class]="'rounded-lg'" [additional_class]=""></app-loader>
+                                                                                </div>
+                                                                                <div class="text-gray-500 w-1800-px h-15-px">
+                                                                                    <app-loader [border_radius_class]="'rounded-lg'" [additional_class]=""></app-loader>
+                                                                                </div>
+                                                                            </div>
+                                                                        </div>
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+                                                        </ng-container>
+                                                    </ng-container>
+                                                </ng-container>
+                                            </ng-container>
+                                        </ng-container>
+                                    </div>
+                                    <div class="overflow-y-auto h-430-px" *ngIf="receive_request && receive_request_total_count == 0">
+                                        <div class="col-span-12">
+                                            <div class="w-full h-400-px flex flex-col items-center justify-center space-y-3">
+                                                <img src="assets/empty_states/no_meeting_request_receive.svg" alt="">
+                                                <div class="rubik font-semibold text-gray-500 mt-2">
+                                                    No receive meeting requests
+                                                </div>
+                                                <div class="rubik text-gray-500 text-sm">
+                                                    You haven’t receive any meeting requests yet.
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </mat-tab>
+                            </mat-tab-group>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+        </div>
+    </div>
+</div>
+
+
+
+
+
+
+
+
+
+

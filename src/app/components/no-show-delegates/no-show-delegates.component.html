@@ -1,0 +1,138 @@
+<div class="w-full absolute z-50" style="background: #F3F5F6;">
+    <app-header-dashboard></app-header-dashboard>
+</div>
+<div class="w-full absolute" style="margin-top: 70px; z-index: 50;">
+    <app-archive-header></app-archive-header>
+</div>
+<div class="h-screen">
+    <div class="relative py-20">
+        <img src="assets/images/bg-faqs.png" class="absolute left-0 top-12">
+        <img src="assets/images/bg_faqs2.png" class="absolute right-0 top-12">
+
+        <ng-container *ngIf="!noShowEmpty">
+            <div class="px-20 py-16 relative flex justify-center">
+                <div class="bg-white border border-gray-300 rounded-md w-700-px relative">
+                    <img src="assets/images/bg_noshowdelegate1.png" class="absolute top-0 right-0">
+                    <div class="px-7 mt-5 flex items-start">
+                        <img src="assets/images/bg_noshowdelegate.png" class="h-100-px w-100-px">
+                        <div class="rubik not-italic mt-1">
+                            <p class="text-darkblue font-semibold fs-14-px">Top No Show Delegates</p>
+                            <p class="font-medium fs-14-px mt-5" style="color: #092953;">These delegates are all marked as no-show. They are all reported</p>
+                            <p class="font-medium fs-14-px" style="color: #092953;">by other delegates and has been verified by the admin.</p>
+                            <div class="mt-2">
+                                <mat-checkbox class="example-margin text-darkblue rubik font-normal not-italic fs-14-px"  
+                                    (click)="getShowOnlyDelegates()" 
+                                    [checked]="local_no_show">
+                                    <span class="text-main-gray">Show only delegates I have a meeting with</span>
+                                </mat-checkbox>
+                            </div>
+                        </div>
+                    </div>
+                    <hr class="w-full mt-5">
+
+                
+                    <!-- top no show delegates -->
+                    <ng-container *ngIf="!noShowPartnersLoading && !noShowPartnerEmpty">
+                        <div class="py-5 px-5" *ngFor="let list_no_show_delegates of no_show_delegates">
+                            <div class="flex items-start">
+                                <img src="{{list_no_show_delegates.rd_profile_photo_url}}" class="rounded-full h-12 w-12">
+                                <div class="ml-3 rubik not-italic fs-14-px">
+                                    <p class="text-navy font-semibold">{{list_no_show_delegates.rd_company_name}}</p>
+                                    <p class="flex items-center font-medium">
+                                        <span class="text-navy">{{list_no_show_delegates.rd_fullname}}</span> 
+                                        <span class="ml-2 text-red bg-noshow px-3 py-1 rounded-full flex items-center">
+                                            <svg width="15" height="15" viewBox="0 0 15 15" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                                <path d="M11.7771 4.42935C10.7138 4.42935 9.83573 3.74999 8.49897 3.74999C8.00383 3.74999 7.5603 3.83562 7.14887 3.98462C7.20589 3.83804 7.23016 3.68108 7.22002 3.52443C7.18486 2.96904 6.72234 2.52355 6.1575 2.50093C5.52272 2.4755 5 2.97452 5 3.59374C5 3.96535 5.18843 4.29345 5.47619 4.49111V12.0312C5.47619 12.2901 5.68938 12.5 5.95238 12.5H6.26984C6.53284 12.5 6.74603 12.2901 6.74603 12.0312V10.1875C7.30776 9.95187 8.00758 9.75543 9.01657 9.75543C10.0798 9.75543 10.9579 10.4348 12.2947 10.4348C13.2504 10.4348 14.0143 10.1165 14.7253 9.63678C14.8976 9.52055 15 9.32756 15 9.12197V4.37392C15 3.91703 14.5185 3.61474 14.0975 3.8072C13.4162 4.11869 12.5806 4.42935 11.7771 4.42935Z" fill="url(#paint0_linear)"/>
+                                                <defs>
+                                                <linearGradient id="paint0_linear" x1="9.9836" y1="12.4867" x2="9.9836" y2="2.5" gradientUnits="userSpaceOnUse">
+                                                <stop stop-color="#8B0517"/>
+                                                <stop offset="1" stop-color="#AF1B2F"/>
+                                                </linearGradient>
+                                                </defs>
+                                            </svg>
+                                            <span class="ml-2">{{list_no_show_delegates.noshow_count}} no show meeting </span>
+                                        </span>
+                                    </p>
+                                    <p class="text-main-gray font-normal">{{list_no_show_delegates.rd_job_title}}</p>
+                                </div>
+                            </div>
+                        </div>
+                    </ng-container>
+                    <!-- end top no show delegates -->
+
+
+                    <!-- start empty states show only delegates i have a meeting with -->
+                        <ng-container *ngIf="!noShowPartnersLoading && noShowPartnerEmpty">
+                            <div class="py-10 px-5">
+                                <div class="flex justify-center">
+                                    <img src="assets/icon/partner_noshow.png" class="h-20 w-20">
+                                </div>
+                                <div class="rubik text-center text-navy mt-3">
+                                   <p class="font-semibold fs-14-px">No show of My Meeting Partners</p>
+                                   <p class="font-normal fs-14-px">These are all marked as no-show</p>
+                                   <p class="font-normal fs-14-px">that you have a meeting with</p>
+                                </div>
+                                <div class="rubik text-center text-navy font-semibold fs-14-px mt-5">No record found</div>
+                            </div>
+                        </ng-container>
+                    <!-- end empty states show only delegates i have a meeting with -->
+
+
+                    <!-- start skeleton loader -->
+                    <ng-container *ngIf="noShowPartnersLoading">
+                        <ng-container *ngFor="let item of [1,2,3,4,5]">
+                            <div class="py-5 px-5">
+                                <div class="flex items-start">
+                                    <div class="w-12 h-12 rounded-full">
+                                        <app-loader [border_radius_class]="'rounded-full'" [additional_class]=""></app-loader>
+                                    </div>
+                                    <div class="flex flex-col pl-3">
+                                        <div class="w-350-px h-15-px">
+                                            <app-loader [border_radius_class]="'rounded-lg'" [additional_class]=""></app-loader>
+                                        </div>
+                                        <div class="flex items-center">
+                                            <div class="w-171-px h-15-px rounded-full">
+                                                <app-loader [border_radius_class]="'rounded-full'" [additional_class]=""></app-loader>
+                                            </div>
+                                            <div class="w-171-px h-15-px my-1 ml-2">
+                                                <app-loader [border_radius_class]="'rounded-lg'" [additional_class]=""></app-loader>
+                                            </div>
+                                        </div>
+                                        <div class="w-350-px h-15-px rounded-full">
+                                            <app-loader [border_radius_class]="'rounded-full'" [additional_class]=""></app-loader>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <hr class="w-full">
+                        </ng-container>
+                    </ng-container>
+                    <!-- end skeleton loader -->
+                </div>
+            </div>
+        </ng-container>
+
+        <!-- start empty states -->
+        <ng-container *ngIf="noShowEmpty">
+            <div class="px-20 mt-32">
+                <div class="flex justify-center">
+                    <svg width="206" height="116" viewBox="0 0 206 116" fill="none" xmlns="http://www.w3.org/2000/svg">
+                        <ellipse cx="103" cy="110" rx="103" ry="6" fill="#E1E1E1"/>
+                        <path d="M109.082 7.11268V47.5235C120.082 41.6861 134.672 47.5235 134.672 47.5235V7.11268C134.672 7.11268 120.082 1.27521 109.082 7.11268Z" fill="#CCCCCC"/>
+                        <path d="M103.695 47.5236V9.70635C92.6956 15.5438 78.1035 7.11279 78.1035 7.11279V47.5236C78.1035 47.5236 92.6956 53.3611 103.695 47.5236Z" fill="white"/>
+                        <path d="M109.083 7.11268C98.083 12.9502 82.1445 7.11268 82.1445 7.11268V47.5235C82.1445 47.5235 98.083 53.361 109.083 47.5235C120.082 41.6861 130.632 47.5235 130.632 47.5235V7.11268C130.632 7.11268 120.082 1.27521 109.083 7.11268Z" fill="#ADADAD"/>
+                        <path fill-rule="evenodd" clip-rule="evenodd" d="M96.1103 51.4731C89.8946 51.3689 83.7184 50.4754 77.7269 48.8164C77.1524 48.649 76.7578 48.1218 76.7578 47.5235V7.11272C76.7578 6.68809 76.9583 6.29029 77.2976 6.03457C77.6354 5.78042 78.0758 5.70149 78.4814 5.81988C78.6771 5.87671 98.0659 11.4364 108.452 5.92249C119.874 -0.135977 134.555 5.61309 135.173 5.86093C135.685 6.06614 136.021 6.5618 136.021 7.11272V47.5235C136.019 47.9703 135.799 48.387 135.428 48.638C135.058 48.889 134.589 48.9395 134.174 48.7738C134.032 48.7185 120.021 43.2441 109.714 48.7138C105.464 50.7027 100.8 51.6483 96.1103 51.4731ZM79.4521 46.4912C83.518 47.5346 99.4012 51.1353 108.452 46.3333C117.641 41.4556 128.936 44.2275 133.327 45.6245V8.05984C130.131 6.97538 118.558 3.6115 109.714 8.30294C100.168 13.3669 84.6402 10.1593 79.4521 8.8649V46.4912Z" fill="#6E6E6E"/>
+                        <path d="M78.1042 8.35981C77.7475 8.35981 77.4049 8.21774 77.1524 7.96517C76.8999 7.71261 76.7578 7.37006 76.7578 7.01331V2.97223C76.7578 2.22715 77.3608 1.62415 78.1042 1.62415C78.8492 1.62415 79.4521 2.22715 79.4521 2.97223V7.01331C79.4521 7.37006 79.31 7.71261 79.0575 7.96517C78.805 8.21774 78.4625 8.35981 78.1042 8.35981ZM78.1042 82.4458C77.7475 82.4474 77.4049 82.1428 77.1524 81.6013C76.8999 81.0599 76.7578 80.3258 76.7578 79.5602V4.51131C76.7578 2.91698 77.3608 1.62415 78.1042 1.62415C78.8492 1.62415 79.4521 2.91698 79.4521 4.51131V79.5602C79.4521 80.3258 79.31 81.0599 79.0575 81.6013C78.805 82.1428 78.4625 82.4474 78.1042 82.4458ZM78.1042 82.7094C77.7475 82.7094 77.4049 82.5674 77.1524 82.3148C76.8999 82.0622 76.7578 81.7197 76.7578 81.3629V77.3219C76.7578 76.5768 77.3608 75.9738 78.1042 75.9738C78.8492 75.9738 79.4521 76.5768 79.4521 77.3219V81.3629C79.4521 81.7197 79.31 82.0622 79.0575 82.3148C78.805 82.5674 78.4625 82.7094 78.1042 82.7094Z" fill="#6E6E6E"/>
+                    </svg>
+                </div>
+                <div class="text-center rubik text-main-gray not-italic mt-5">
+                    <p class="font-semibold fs-20-px">No one's here yet</p>
+                    <p class="font-normal fs-16-px mt-1">No delegates has been reported</p>
+                    <p class="font-normal fs-16-px">and verified as no show yet.</p>
+                </div>
+            </div>
+        </ng-container>
+        <!-- end empty states -->
+    </div>
+</div>
+

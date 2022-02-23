@@ -1,0 +1,35 @@
+<ngx-smart-modal #imageCropperModal identifier="imageCropperModal" [closable]="false" customClass="nsm-centered" (onOpen)="getData()">
+    <!--  (onClose)="reset()" -->
+    <div class="rounded-lg bg-white p-5">
+        <image-cropper *ngIf="type == 'profile'"
+            [imageChangedEvent]="imageChangedEvent" 
+            [maintainAspectRatio]="true" 
+            [aspectRatio]="5 / 5" 
+            format="jpg,png,jpeg,ico"
+            (imageCropped)="imageCropped($event)" 
+            (imageLoaded)="imageLoaded($event)" 
+            (cropperReady)="cropperReady($event)" 
+            (loadImageFailed)="loadImageFailed()" 
+            [roundCropper]="true"
+            [autoCrop]= "true"
+            [alignImage]= "center"
+        >
+        </image-cropper>
+        
+        <image-cropper *ngIf="type == 'card'"
+            [imageChangedEvent]="imageChangedEvent" 
+            [maintainAspectRatio]="true" 
+            [aspectRatio]="16 / 9"
+            [resizeToWidth]="640"
+            format="jpg,png,jpeg,ico"
+            (imageCropped)="imageCropped($event)" 
+            (imageLoaded)="imageLoaded($event)" 
+            (cropperReady)="cropperReady($event)" 
+            (loadImageFailed)="loadImageFailed()" 
+            [autoCrop]= "true"
+            [alignImage]= "center"
+        >
+        </image-cropper>
+        <button (click)="doneCrop()" class="flex ml-auto focus:outline-none py-2 px-5 text-white rounded bg-green-500 hover:bg-green-700 mt-3">Done</button>
+    </div>
+</ngx-smart-modal>

@@ -1,0 +1,28 @@
+.chip{
+    padding: 6px 14px;
+    border-radius: 9999px;
+    &.chip-1{
+        background: #fef5f7;
+        border: 1px #f9c9db solid;
+        color: #be3887;
+    }
+    &.chip-2{
+        background: #ebf7ff;
+        border: 1px #9cd2f5 solid;
+        color: #3d7db9;
+    }
+    &.chip-3{
+        background: #faf5ff;
+        border: 1px #dcc5f9 solid;
+        color: #8571e3;
+    }
+}
+::ng-deep{
+    .country-menu{
+        &.mat-menu-panel {
+            max-width: none !important;
+            max-height: 300px !important;
+            overflow: hidden !important;
+        }
+    }
+}

@@ -1,0 +1,323 @@
+<div class="w-screen absolute z-50" style="background: #FFFFFF;">
+    <app-header-dashboard></app-header-dashboard>
+</div>
+<div class="w-screen absolute" style="margin-top: 70px; z-index: 20;">
+    <app-archive-header></app-archive-header>
+</div>
+
+<div class="h-full" >
+    <ng-container *ngIf="!isNotesEmpty">
+        <div class="px-20 py-28">
+            <div class="flex justify-between">
+                <div class="text-navy rubik fs-32-px not-italic font-semibold">
+                    Here are all your added notes
+                </div>
+                <div>
+                    <button (click)="addNotesModal(notes)" class="custom-btn btn-blue px-5 py-3 focus:outline-none">
+                        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                            <g clip-path="url(#clip0)">
+                            <path d="M18.2597 4.09791C18.2597 3.53484 18.04 3.00478 17.6417 2.60653L15.6532 0.618C15.2605 0.225234 14.703 0 14.1482 0H14.0273V4.21875H18.2598L18.2597 4.09791Z" fill="white"/>
+                            <path d="M12.8408 14.5095C12.9754 14.101 13.2102 13.7206 13.5165 13.4123L18.2772 8.67075V5.625H13.3365C12.9479 5.625 12.6562 5.31052 12.6562 4.92188V0H2.10938C0.946219 0 0 0.946219 0 2.10938V21.8906C0 23.0538 0.946219 24 2.10938 24H16.149C17.3122 24 18.2772 23.0538 18.2772 21.8906V16.6429L17.5045 17.3969C17.1914 17.7072 16.8248 17.9331 16.4114 18.0712L14.1757 18.8175L13.8351 18.8361C13.272 18.8361 12.7392 18.5621 12.4082 18.1035C12.08 17.6468 11.9908 17.055 12.1693 16.5201L12.8408 14.5095ZM3.51562 12.6562H10.524C10.9127 12.6562 11.2272 12.9707 11.2272 13.3594C11.2272 13.748 10.9127 14.0625 10.524 14.0625H3.51562C3.12698 14.0625 2.8125 13.748 2.8125 13.3594C2.8125 12.9707 3.12698 12.6562 3.51562 12.6562ZM2.8125 10.5469C2.8125 10.1582 3.12698 9.84375 3.51562 9.84375H10.524C10.9127 9.84375 11.2272 10.1582 11.2272 10.5469C11.2272 10.9355 10.9127 11.25 10.524 11.25H3.51562C3.12698 11.25 2.8125 10.9355 2.8125 10.5469ZM2.8125 16.1719C2.8125 15.7832 3.12698 15.4688 3.51562 15.4688H10.524C10.9127 15.4688 11.2272 15.7832 11.2272 16.1719C11.2272 16.5605 10.9127 16.875 10.524 16.875H3.51562C3.12698 16.875 2.8125 16.5605 2.8125 16.1719ZM13.3365 19.6875C13.7252 19.6875 14.0397 20.002 14.0397 20.3906C14.0397 20.7793 13.7252 21.0938 13.3365 21.0938H9.1178C8.72916 21.0938 8.41467 20.7793 8.41467 20.3906C8.41467 20.002 8.72916 19.6875 9.1178 19.6875H13.3365ZM3.51562 8.4375C3.12698 8.4375 2.8125 8.12302 2.8125 7.73438C2.8125 7.34573 3.12698 7.03125 3.51562 7.03125H13.3365C13.7252 7.03125 14.0397 7.34573 14.0397 7.73438C14.0397 8.12302 13.7252 8.4375 13.3365 8.4375H3.51562Z" fill="white"/>
+                            <path d="M14.1148 15.1318L13.503 16.967C13.4114 17.242 13.673 17.5035 13.9479 17.4117L15.782 16.7991L14.1148 15.1318Z" fill="white"/>
+                            <path d="M19.576 9.34277L14.9453 13.9735L16.9424 15.9706C17.989 14.9238 20.0255 12.887 21.5729 11.3396L19.576 9.34277Z" fill="white"/>
+                            <path d="M23.5875 7.32625C23.3403 7.07767 22.9764 6.93555 22.5904 6.93555C22.2045 6.93555 21.8406 7.07767 21.592 7.32695L20.5703 8.34869L22.5671 10.3455C23.1264 9.78606 23.5131 9.39944 23.5889 9.32364C24.1382 8.77356 24.1381 7.87759 23.5875 7.32625Z" fill="white"/>
+                            <path d="M23.5898 9.32349C23.5899 9.32349 23.5899 9.32345 23.5899 9.3234C23.5917 9.3216 23.5925 9.3208 23.594 9.31934C23.5925 9.32085 23.5917 9.32165 23.5898 9.32349Z" fill="white"/>
+                            <path d="M23.5938 9.31986C23.5961 9.31756 23.5987 9.31487 23.6001 9.31348C23.5987 9.31492 23.5961 9.31756 23.5938 9.31986Z" fill="white"/>
+                            <path d="M23.6016 9.31316C23.6063 9.30842 23.6064 9.30833 23.6016 9.31316V9.31316Z" fill="white"/>
+                            </g>
+                            <defs>
+                            <clipPath id="clip0">
+                            <rect width="24" height="24" fill="white"/>
+                            </clipPath>
+                            </defs>
+                        </svg>
+                        <span class="ml-2 rubik font-medium fs-14-px not-italic">Add note</span>
+                    </button>
+                </div>
+            </div>
+
+            <!-- skeleton loader -->
+            <ng-container *ngIf="isNotesLoading">
+                <div class="grid grid-cols-12 gap-5 py-10">
+                    <div class="col-span-12 lg:col-span-4" *ngFor="let item of [1,2,3,4,5,6]">
+                        <div class="w-full-px h-200-px">
+                            <app-loader [border_radius_class]="'rounded-lg'" [additional_class]=""></app-loader>
+                        </div>
+                    </div>
+                </div>
+            </ng-container>
+
+            <div class="grid grid-cols-12 py-10 gap-5">
+                <ng-container *ngIf="!isNotesLoading">
+                    <div class="cursor-pointer col-span-4" *ngFor="let note_list of notes; let i = index" (mouseenter)="show(note_list, true)" (mouseleave)="show(note_list, false)">
+                        <div class="bg-white border border-gray-300 rounded-lg px-5 py-3 hover:shadow-lg"> 
+                            <div (click)="openSendNoteModal(note_list)">
+                                <div class="grid grid-cols-12">
+                                    <div class="col-span-9">
+                                        <div class="flex items-start">
+                                            <img *ngIf="note_list.d_profile_photo.length == 1" class="rounded-full h-10 w-10" src="/assets/empty_states/profile_avatar_{{note_list.d_profile_photo}}.png" />
+                                            <img *ngIf="note_list.d_profile_photo.length > 1" class="rounded-full h-10 w-10" src="{{note_list.d_profile_photo}}" />
+                                            <div class="ml-2">
+                                                <p class="text-navy rubik font-semibold not-italic fs-14-px">{{note_list.company_name}}</p>
+                                                <p class="text-main-gray rubik font-normal not-italic fs-14-px mt-1">{{note_list.d_fullname}}</p>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="col-span-3 ">
+                                        <div class="flex justify-start text-justify text-main-gray rubik font-normal not-italic fs-14-px">
+                                            {{ note_list.created_at | transformDate: '': 'MMM DD, y' }}
+                                            <!-- {{ note_list.created_at | date: 'MMMM dd, yyyy' }} -->
+                                        </div>
+                                    </div>
+                                </div>
+                                <div [innerHTML]="note_list.note" class="text-darkblue rubik font-normal not-italic fs-14-px text-justify mt-5 break-words">
+                                </div>
+                            </div>
+                            <div class="flex items-center space-x-5 mt-5">
+                                <button (click)="sendNoteToMyEmailList(note_list.id,'yes')" *ngIf="hoverNote && hoverNote.id == note_list.id && showing" class="focus:outline-none custom-btn btn-send-to-email rubik font-medium not-italic fs-14-px px-8 py-2">
+                                    <svg width="20" height="20" viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                        <path fill-rule="evenodd" clip-rule="evenodd" d="M18.3327 5.00016C18.3327 4.0835 17.5827 3.3335 16.666 3.3335H3.33268C2.41602 3.3335 1.66602 4.0835 1.66602 5.00016V15.0002C1.66602 15.9168 2.41602 16.6668 3.33268 16.6668H16.666C17.5827 16.6668 18.3327 15.9168 18.3327 15.0002V5.00016ZM16.666 5.00016L9.99935 9.1585L3.33268 5.00016H16.666ZM9.99935 10.8335L3.33268 6.66683V15.0002H16.666V6.66683L9.99935 10.8335Z" fill="#3B67B2"/>
+                                    </svg>      
+                                    <span class="ml-2 text-blue">Send to my email</span>
+                                </button>
+                                <button (click)="confirmationListModal(note_list)" *ngIf="hoverNote && hoverNote.id == note_list.id && showing" class="focus:outline-none custom-btn btn-delete rubik font-medium not-italic fs-14-px px-6 py-2">
+                                    <svg width="20" height="20" viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                        <path fill-rule="evenodd" clip-rule="evenodd" d="M12.0827 2.5H7.91602L7.08268 3.33333H4.16602V5H15.8327V3.33333H12.916L12.0827 2.5ZM13.3327 7.5V15.8333H6.66602V7.5H13.3327ZM4.99935 5.83333H14.9993V15.8333C14.9993 16.75 14.2493 17.5 13.3327 17.5H6.66602C5.74935 17.5 4.99935 16.75 4.99935 15.8333V5.83333Z" fill="#6E6E6E"/>
+                                    </svg>
+                                    <span class="ml-2 text-main-gray">Delete</span>
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                </ng-container>
+            </div>
+        </div>
+    </ng-container>
+
+    <!-- Empty State -->
+    <ng-container *ngIf="isNotesEmpty">
+        <div class="px-20 py-36">
+            <div class="flex justify-center">
+                <svg width="206" height="116" viewBox="0 0 206 116" fill="none" xmlns="http://www.w3.org/2000/svg">
+                    <ellipse cx="103" cy="110" rx="103" ry="6" fill="#E1E1E1"/>
+                    <path d="M101.115 54.4702L109.34 62.9842L97.2871 66.9293L101.115 54.4702ZM141.285 31.5363L140.042 32.7599L136.274 36.47L132.924 39.7679L113.517 58.8749L109.341 62.985L104.336 58.1819L100.779 54.7714L131.618 24.2288L132.828 23.0321C134 21.873 135.531 21.2926 137.063 21.2926C137.403 21.2926 137.746 21.3212 138.082 21.3791C139.246 21.5775 140.364 22.1195 141.272 23.0052C142.209 23.9211 142.78 25.0672 142.984 26.2622C143.304 28.1242 142.736 30.1062 141.285 31.5363Z" fill="#CCCCCC"/>
+                    <path d="M132.922 39.7677L113.515 58.8748C113.004 57.3867 113.344 55.6741 114.535 54.488L128.351 40.722C129.587 39.4902 131.393 39.1726 132.922 39.7677Z" fill="#CCCCCC"/>
+                    <path d="M141.284 31.5363L140.041 32.7599L136.272 36.47C133.47 33.6766 128.925 33.6766 126.123 36.47L104.334 58.1819L100.777 54.7714L131.617 24.2288L132.827 23.0321C133.998 21.873 135.529 21.2926 137.062 21.2926C137.402 21.2926 137.745 21.3212 138.081 21.3791L142.983 26.2622C143.303 28.1242 142.735 30.1062 141.284 31.5363Z" fill="#CCCCCC"/>
+                    <path d="M141.284 31.5363L140.041 32.76L131.617 24.2288L132.827 23.0321C133.999 21.873 135.53 21.2926 137.062 21.2926C138.581 21.2926 140.101 21.8632 141.271 23.0052C143.664 25.3463 143.669 29.187 141.284 31.5363Z" fill="#CCCCCC"/>
+                    <path d="M126.508 11.1876C126.508 11.4529 126.447 11.7067 126.326 11.9402L128.478 13.043C128.773 12.4733 128.928 11.8316 128.928 11.1876C128.928 8.94521 127.097 7.12079 124.847 7.12079H112.906V9.53213H124.847C125.763 9.53213 126.508 10.275 126.508 11.1876ZM106.408 7.12079H109.414V9.53213H106.408V7.12079ZM76.0234 28.6988H118.778V31.1101H76.0234V28.6988ZM76.0234 72.6564H118.778V75.0677H76.0234V72.6564ZM129.53 39.3417L136.21 32.6848L132.995 29.4808L131.283 31.1852L132.788 32.6848L127.819 37.6364L129.53 39.3417ZM128.018 40.8486L126.406 42.455L124.695 40.7498L126.307 39.1441L128.018 40.8486Z" fill="#666666"/>
+                    <path fill-rule="evenodd" clip-rule="evenodd" d="M142.932 31.812L142.057 32.6846L141.639 33.101L140.346 34.3891L125.582 49.1012V84.7179H68.0058V76.3688H61V11.1866C61 6.67252 64.6856 3 69.2158 3H124.847C129.377 3 133.063 6.67252 133.063 11.1866C133.063 15.4542 129.769 18.9668 125.582 19.339V28.5166L130.018 24.0972L131.729 22.392L132.604 21.5201C135.204 18.9284 139.436 18.9284 142.037 21.5201L142.932 22.4124C144.192 23.6678 144.886 25.3372 144.886 27.1126C144.886 28.888 144.192 30.5566 142.932 31.812ZM123.162 82.3065V51.5125L116.118 58.5319H118.777V60.9432H113.698L110.432 64.1978L104.363 65.9904H118.777V68.4017H96.1994L95.7513 68.534L95.7906 68.4017H76.0225V65.9904H96.5083L98.0099 60.9432H76.0225V58.5319H98.7267L100.104 53.9051L100.526 53.4847H76.0225V51.0734H102.946L108.011 46.0262H76.0225V43.6149H110.431L115.496 38.5677H76.0225V36.1564H117.916L123.162 30.9288V19.3733H70.4257V82.3065H123.162ZM68.0058 73.9574V16.9619H69.2158C72.4115 16.9619 75.0116 14.371 75.0116 11.1866C75.0116 8.00227 72.4115 5.41134 69.2158 5.41134C66.0201 5.41134 63.4199 8.00227 63.4199 11.1866V73.9574H68.0058ZM124.847 5.41134H75.0329C76.5148 6.89292 77.4315 8.93448 77.4315 11.1866C77.4315 13.438 76.514 15.4804 75.0329 16.9619H124.847C128.043 16.9619 130.643 14.371 130.643 11.1866C130.643 8.00227 128.043 5.41134 124.847 5.41134ZM138.635 32.6846L131.728 25.8024L102.887 54.541L109.794 61.4232L138.635 32.6846ZM101.759 56.8266L99.3386 64.9594L107.5 62.5481L101.759 56.8266ZM142.466 27.1118C142.466 25.9812 142.024 24.9176 141.221 24.1176L140.326 23.2254C138.668 21.574 135.972 21.574 134.315 23.2254L133.439 24.0972L140.346 30.9794L141.221 30.1068C142.024 29.3068 142.466 28.2432 142.466 27.1118Z" fill="#666666"/>
+                </svg>   
+            </div>
+            <div class="text-center rubik text-main-gray not-italic py-5">
+               <p class="font-semibold fs-20-px">No notes added</p>
+               <p class="font-normal fs-16-px">There is no notes added yet. Tap the button</p>
+               <p class="font-normal fs-16-px">below to create a new note.</p>
+            </div>
+            <div class="flex justify-center">
+                <button (click)="addNotesModal()" class="custom-btn btn-blue px-5 py-3 focus:outline-none">
+                    <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                        <g clip-path="url(#clip0)">
+                        <path d="M18.2597 4.09791C18.2597 3.53484 18.04 3.00478 17.6417 2.60653L15.6532 0.618C15.2605 0.225234 14.703 0 14.1482 0H14.0273V4.21875H18.2598L18.2597 4.09791Z" fill="white"/>
+                        <path d="M12.8408 14.5095C12.9754 14.101 13.2102 13.7206 13.5165 13.4123L18.2772 8.67075V5.625H13.3365C12.9479 5.625 12.6562 5.31052 12.6562 4.92188V0H2.10938C0.946219 0 0 0.946219 0 2.10938V21.8906C0 23.0538 0.946219 24 2.10938 24H16.149C17.3122 24 18.2772 23.0538 18.2772 21.8906V16.6429L17.5045 17.3969C17.1914 17.7072 16.8248 17.9331 16.4114 18.0712L14.1757 18.8175L13.8351 18.8361C13.272 18.8361 12.7392 18.5621 12.4082 18.1035C12.08 17.6468 11.9908 17.055 12.1693 16.5201L12.8408 14.5095ZM3.51562 12.6562H10.524C10.9127 12.6562 11.2272 12.9707 11.2272 13.3594C11.2272 13.748 10.9127 14.0625 10.524 14.0625H3.51562C3.12698 14.0625 2.8125 13.748 2.8125 13.3594C2.8125 12.9707 3.12698 12.6562 3.51562 12.6562ZM2.8125 10.5469C2.8125 10.1582 3.12698 9.84375 3.51562 9.84375H10.524C10.9127 9.84375 11.2272 10.1582 11.2272 10.5469C11.2272 10.9355 10.9127 11.25 10.524 11.25H3.51562C3.12698 11.25 2.8125 10.9355 2.8125 10.5469ZM2.8125 16.1719C2.8125 15.7832 3.12698 15.4688 3.51562 15.4688H10.524C10.9127 15.4688 11.2272 15.7832 11.2272 16.1719C11.2272 16.5605 10.9127 16.875 10.524 16.875H3.51562C3.12698 16.875 2.8125 16.5605 2.8125 16.1719ZM13.3365 19.6875C13.7252 19.6875 14.0397 20.002 14.0397 20.3906C14.0397 20.7793 13.7252 21.0938 13.3365 21.0938H9.1178C8.72916 21.0938 8.41467 20.7793 8.41467 20.3906C8.41467 20.002 8.72916 19.6875 9.1178 19.6875H13.3365ZM3.51562 8.4375C3.12698 8.4375 2.8125 8.12302 2.8125 7.73438C2.8125 7.34573 3.12698 7.03125 3.51562 7.03125H13.3365C13.7252 7.03125 14.0397 7.34573 14.0397 7.73438C14.0397 8.12302 13.7252 8.4375 13.3365 8.4375H3.51562Z" fill="white"/>
+                        <path d="M14.1148 15.1318L13.503 16.967C13.4114 17.242 13.673 17.5035 13.9479 17.4117L15.782 16.7991L14.1148 15.1318Z" fill="white"/>
+                        <path d="M19.576 9.34277L14.9453 13.9735L16.9424 15.9706C17.989 14.9238 20.0255 12.887 21.5729 11.3396L19.576 9.34277Z" fill="white"/>
+                        <path d="M23.5875 7.32625C23.3403 7.07767 22.9764 6.93555 22.5904 6.93555C22.2045 6.93555 21.8406 7.07767 21.592 7.32695L20.5703 8.34869L22.5671 10.3455C23.1264 9.78606 23.5131 9.39944 23.5889 9.32364C24.1382 8.77356 24.1381 7.87759 23.5875 7.32625Z" fill="white"/>
+                        <path d="M23.5898 9.32349C23.5899 9.32349 23.5899 9.32345 23.5899 9.3234C23.5917 9.3216 23.5925 9.3208 23.594 9.31934C23.5925 9.32085 23.5917 9.32165 23.5898 9.32349Z" fill="white"/>
+                        <path d="M23.5938 9.31986C23.5961 9.31756 23.5987 9.31487 23.6001 9.31348C23.5987 9.31492 23.5961 9.31756 23.5938 9.31986Z" fill="white"/>
+                        <path d="M23.6016 9.31316C23.6063 9.30842 23.6064 9.30833 23.6016 9.31316V9.31316Z" fill="white"/>
+                        </g>
+                        <defs>
+                        <clipPath id="clip0">
+                        <rect width="24" height="24" fill="white"/>
+                        </clipPath>
+                        </defs>
+                    </svg>
+                    <span class="ml-2 rubik font-medium fs-14-px not-italic">Add note</span>
+                </button>
+            </div>
+        </div>
+    </ng-container>
+
+    <!-- Pages -->
+    <ng-container *ngIf="notes_list_total_page >= 1">
+        <div class="flex justify-center mb-10">
+            <div class="flex items-center justify-center pagination barlow mt-6 rounded">
+                <button class="focus:outline-none page-btn border-r border-gray-400" (click)="prevPage()" [disabled]="notes_page == 1">
+                    <i class="px-2 fa fa-angle-left mr-2 angle-icon "></i>
+                </button>
+
+                <ng-container *ngFor="let page of notes_list_page_array; let i= index;">
+                    <button *ngIf="page" class="text-center font-semibold cursor-pointer" (click)="setPage(page)" [disabled]="notes_page == 1 && notes_page == notes_list_total_page" [ngClass]="{'active': notes_page == page}">{{ page }}</button>
+                </ng-container> 
+                
+                <button class="focus:outline-none page-btn border-l border-gray-400" (click)="nextPage()" [disabled]="notes_page == notes_list_total_page" style="white-space: nowrap;">
+                    <i class="px-2 fa fa-angle-right ml-2 angle-icon"></i>
+                </button>
+            </div>
+        </div>
+    </ng-container>
+</div>
+
+
+<!-- addNoteModal -->
+<ngx-smart-modal #addNoteModal identifier="addNoteModal" customClass="nsm-centered" [dismissable]="false" [closable]="false" (onOpen)="getSelectNoteID()" (onClose)=resetSelectNoteID()>
+    <!-- <ng-container *ngIf="note"> -->
+        <div class="bg-white w-450-px rounded-lg py-5">
+            <div class="text-black rubik font-semibold not-italic fs-16-px flex justify-between px-5">Add new note
+                <svg (click)="closeAddNote()" class="cursor-pointer" width="14" height="14" viewBox="0 0 14 14" fill="none" xmlns="http://www.w3.org/2000/svg">
+                    <path d="M14 1.41L12.59 0L7 5.59L1.41 0L0 1.41L5.59 7L0 12.59L1.41 14L7 8.41L12.59 14L14 12.59L8.41 7L14 1.41Z" fill="#6E6E6E"/>
+                </svg>
+            </div>
+            <div class="px-5 py-3" >
+                <form [formGroup]="noteForm">
+                    <mat-form-field class="w-full">
+                        <mat-label disbled selected>Select delegate</mat-label>
+                        <mat-select formControlName="fullname">
+                          <mat-option  *ngFor="let delegates_list of delegate" (click)="setDelegate(delegates_list)" value="{{delegates_list.fullname}}">
+                            {{delegates_list.fullname}}
+                          </mat-option>
+                        </mat-select>
+                      </mat-form-field>
+                    <div class="mt-5">
+                        <textarea id="myTextarea" type="text" formControlName="note" class="w-full h-120-px focus:outline-none mt-3" placeholder="Type here ..." autocomplete="off">
+                        </textarea>
+                    </div>
+                    <div class="bg-save mt-2">
+                        <button [disabled]="!noteForm.controls.note.value" [ngClass]="{'btn-gray' : !noteForm.controls.note.value, 'btn-blue' : noteForm.controls.note.value}" class="custom-btn rubik font-medium not-italic sfs-14-px px-5 py-2 ml-auto focus:outline-none" (click)="saveNote()">Save note</button>
+                        <!-- <button class="custom-btn btn-blue rubik font-medium not-italic sfs-14-px px-5 py-2 ml-auto focus:outline-none" (click)="saveNote()">Save note</button> -->
+                    </div>
+                </form>
+            </div>
+        </div>
+    <!-- </ng-container> -->
+</ngx-smart-modal>
+
+
+<!-- sendNoteModal -->
+<ngx-smart-modal #sendToMyEmail identifier="sendToMyEmail" customClass="nsm-centered" [dismissable]="false" [closable]="false" (onOpen)='getData()' (onClose)="reset()" (onClose)="resetEmailType()">
+    <div *ngIf="note_data" class="bg-white w-600-px rounded-lg py-5">
+        <div class="px-5 grid grid-cols-12">
+            <div class="col-span-8">
+                <div class="flex items-start">  
+                    <img *ngIf="note_data.data.d_profile_photo.length == 1" class="rounded-full h-10 w-10" src="/assets/empty_states/profile_avatar_{{note_data.data.d_profile_photo}}.png" />
+                    <img *ngIf="note_data.data.d_profile_photo.length > 1" class="rounded-full h-10 w-10" src="{{note_data.data.d_profile_photo}}" />
+                    <div class="ml-2 rubik not-italic fs-14-px">
+                       <p class="text-navy font-semibold w-full">{{note_data.data.company_name}}</p> 
+                       <p class="text-main-gray font-medium">{{note_data.data.d_fullname}}</p>
+                    </div>
+                </div>
+            </div>
+            <div class="col-span-3 ml-auto">
+                <div class="rubik text-main-gray not-italic font-normal"> 
+                    <p class="fs-12-px">Added on {{note_data.data.created_at | transformDate: '': 'MMM DD, y'}}</p>
+                    <p class="fs-12-px">Edited on {{note_data.data.updated_at | transformDate: '': 'MMM DD, y'}}</p>
+                    <!-- <p class="fs-12-px">Added on {{note_data.data.created_at | date: 'MMMM dd, yyyy'}}</p>
+                    <p class="fs-12-px">Edited on {{note_data.data.updated_at | date: 'MMMM dd, yyyy'}}</p> -->
+                </div>
+            </div>
+            <div class="col-span-1 ml-auto">
+                <svg (click)="closeSendNoteModal()" class="cursor-pointer" width="14" height="14" viewBox="0 0 14 14" fill="none" xmlns="http://www.w3.org/2000/svg">
+                    <path d="M14 1.41L12.59 0L7 5.59L1.41 0L0 1.41L5.59 7L0 12.59L1.41 14L7 8.41L12.59 14L14 12.59L8.41 7L14 1.41Z" fill="#6E6E6E"/>
+                </svg>
+            </div>
+        </div>
+        <div class="px-5 mt-5" >
+           <div class="grid grid-cols-12">
+                <div class="col-span-10">
+                        <ng-container *ngIf="!showEditNote">
+                            <div [innerHTML]="note_data.data.note" class="text-darkblue rubik font-normal not-italic fs-14-px text-justify break-words">
+                            </div>
+                        </ng-container>
+
+                        <div *ngIf="showEditNote">
+                            <textarea 
+                                class="focus:outline-none border border-gray-400 rounded-md px-3 py-2 h-150-px w-full" 
+                                [(ngModel)]="note_content" 
+                                [ngModelOptions]="{standalone: true}">
+                            </textarea>
+                        </div>
+                </div>
+                <div class="col-span-2 ml-auto flex justify-center">
+                    <div (click)="editNote('note', 'edit')" *ngIf="!showEditNote" class="logo-blue fs-14-px flex items-center font-normal text-sm cursor-pointer"> 
+                        <svg width="20" height="20" viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg" >
+                            <path fill-rule="evenodd" clip-rule="evenodd" d="M14.7157 2.5C14.5074 2.5 14.2907 2.58333 14.1324 2.74167L12.6074 4.26667L15.7324 7.39167L17.2574 5.86667C17.5824 5.54167 17.5824 5.01667 17.2574 4.69167L15.3074 2.74167C15.1407 2.575 14.9324 2.5 14.7157 2.5ZM11.7157 7.51667L12.4824 8.28333L4.93236 15.8333H4.16569V15.0667L11.7157 7.51667ZM2.49902 14.375L11.7157 5.15833L14.8407 8.28333L5.62402 17.5H2.49902V14.375Z" fill="#3B67B2"/>
+                        </svg>
+                        <span class="ml-2"> Edit </span>
+                    </div>
+                    <div (click)="editNote('note', 'save')" *ngIf="showEditNote" class="logo-blue fs-14-px flex items-center font-normal text-sm cursor-pointer"> 
+                        <svg width="16" height="12" viewBox="0 0 16 12" fill="none" xmlns="http://www.w3.org/2000/svg" class="mr-2">
+                            <path d="M5.32923 9.22914L1.85423 5.75414L0.670898 6.92914L5.32923 11.5875L15.3292 1.58748L14.1542 0.412476L5.32923 9.22914Z" fill="#3B67B2"/>
+                        </svg>
+                        <span class="ml-2"> Save </span>
+                    </div>
+                </div>
+           </div>
+           <div class="flex items-center space-x-5 mt-5">
+                <button (click)="sendNoteToMyEmail('yes')" class="focus:outline-none custom-btn btn-send-to-email rubik font-medium not-italic fs-14-px px-5 py-2">
+                    <svg width="20" height="20" viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg">
+                        <path fill-rule="evenodd" clip-rule="evenodd" d="M18.3327 5.00016C18.3327 4.0835 17.5827 3.3335 16.666 3.3335H3.33268C2.41602 3.3335 1.66602 4.0835 1.66602 5.00016V15.0002C1.66602 15.9168 2.41602 16.6668 3.33268 16.6668H16.666C17.5827 16.6668 18.3327 15.9168 18.3327 15.0002V5.00016ZM16.666 5.00016L9.99935 9.1585L3.33268 5.00016H16.666ZM9.99935 10.8335L3.33268 6.66683V15.0002H16.666V6.66683L9.99935 10.8335Z" fill="#3B67B2"/>
+                    </svg>      
+                    <span class="ml-2 text-blue">Send to my email</span>
+                </button>
+                <button (click)="sendToOtherDelegate('yes')" class="focus:outline-none custom-btn btn-send-to-email rubik font-medium not-italic fs-14-px px-5 py-2">
+                    <svg width="20" height="20" viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg">
+                        <path fill-rule="evenodd" clip-rule="evenodd" d="M18.3327 5.00016C18.3327 4.0835 17.5827 3.3335 16.666 3.3335H3.33268C2.41602 3.3335 1.66602 4.0835 1.66602 5.00016V15.0002C1.66602 15.9168 2.41602 16.6668 3.33268 16.6668H16.666C17.5827 16.6668 18.3327 15.9168 18.3327 15.0002V5.00016ZM16.666 5.00016L9.99935 9.1585L3.33268 5.00016H16.666ZM9.99935 10.8335L3.33268 6.66683V15.0002H16.666V6.66683L9.99935 10.8335Z" fill="#3B67B2"/>
+                    </svg>      
+                    <span class="ml-2 text-blue">Send to other delegate</span>
+                </button>
+                <button (click)="confirmationModal()" class="focus:outline-none custom-btn btn-delete rubik font-medium not-italic fs-14-px px-5 py-2">
+                    <svg width="20" height="20" viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg">
+                        <path fill-rule="evenodd" clip-rule="evenodd" d="M12.0827 2.5H7.91602L7.08268 3.33333H4.16602V5H15.8327V3.33333H12.916L12.0827 2.5ZM13.3327 7.5V15.8333H6.66602V7.5H13.3327ZM4.99935 5.83333H14.9993V15.8333C14.9993 16.75 14.2493 17.5 13.3327 17.5H6.66602C5.74935 17.5 4.99935 16.75 4.99935 15.8333V5.83333Z" fill="#6E6E6E"/>
+                    </svg>
+                    <span class="ml-2 text-main-gray">Delete</span>
+                </button>
+            </div>
+        </div>
+    </div>
+</ngx-smart-modal>
+
+
+<!-- confirmationModal in sendNoteModal-->
+<ngx-smart-modal #removeNoteModal identifier="removeNoteModal" customClass="nsm-centered" [dismissable]="false" [closable]="false">
+    <div class="bg-white w-300-px rounded-lg py-5">
+        <div class="text-black rubik font-semibold not-italic fs-16-px flex justify-between px-5">Delete note
+            <svg (click)="closeConfirmationModal()" class="cursor-pointer" width="14" height="14" viewBox="0 0 14 14" fill="none" xmlns="http://www.w3.org/2000/svg">
+                <path d="M14 1.41L12.59 0L7 5.59L1.41 0L0 1.41L5.59 7L0 12.59L1.41 14L7 8.41L12.59 14L14 12.59L8.41 7L14 1.41Z" fill="#6E6E6E"/>
+            </svg>
+        </div>
+        <hr class="w-full mt-2">
+        <div class="px-5 mt-2">
+            <div *ngIf="note_data" class="text-navy rubik fs-14-px not-italic font-normal">
+                Are you sure you want to delete your note with {{note_data.data.d_fullname}}?
+            </div>
+
+            <div class="flex justify-end space-x-2 mt-5">
+                <button (click)="closeConfirmationModal()" class="focus:outline-none text-gray-main rubik fs-14-px not-italic font-normal px-3 py-1">No, Close</button>
+                <button (click)="removeNote()" class="focus:outline-none custom-btn btn-blue rubik fs-14-px not-italic font-normal px-3 py-1">Delete Note</button>
+            </div>
+        </div>
+    </div>
+</ngx-smart-modal>
+
+
+<!-- confirmationModal in removeNoteList-->
+<ngx-smart-modal #removeNoteListModal identifier="removeNoteListModal" customClass="nsm-centered" [dismissable]="false" [closable]="false" (onOpen)="getNoteID()" (onClose)="resetGetNoteID()">
+    <div class="bg-white w-300-px rounded-lg py-5">
+        <div class="text-black rubik font-semibold not-italic fs-16-px flex justify-between px-5">Delete note
+            <svg (click)="closeConfirmationListModal()" class="cursor-pointer" width="14" height="14" viewBox="0 0 14 14" fill="none" xmlns="http://www.w3.org/2000/svg">
+                <path d="M14 1.41L12.59 0L7 5.59L1.41 0L0 1.41L5.59 7L0 12.59L1.41 14L7 8.41L12.59 14L14 12.59L8.41 7L14 1.41Z" fill="#6E6E6E"/>
+            </svg>
+        </div>
+        <hr class="w-full mt-2">
+        <div class="px-5 mt-2">
+            <div *ngIf="removeNoteID" class="text-navy rubik fs-14-px not-italic font-normal">
+                Are you sure you want to delete your note with {{removeNoteID.d_fullname}}?
+            </div>
+
+            <div class="flex justify-end space-x-2 mt-5">
+                <button (click)="closeConfirmationListModal()" class="focus:outline-none text-gray-main rubik fs-14-px not-italic font-normal px-3 py-1">No, Close</button>
+                <button (click)="removeNoteList()" class="focus:outline-none custom-btn btn-blue rubik fs-14-px not-italic font-normal px-3 py-1">Delete Note</button>
+            </div>
+        </div>
+    </div>
+</ngx-smart-modal>

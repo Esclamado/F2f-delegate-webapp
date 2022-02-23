@@ -1,0 +1,25 @@
+<div class="bg-white rounded-lg w-350-px h-400-px border border-gray-200 shadow-md">
+    <div class="bg-gray-100 w-full minh-25-px p-2">
+        <div class="flex items-center justify-between">
+            <div class="text-base default-text-color cursor-pointer">Romel Postrano</div>
+            <div class="flex items-center space-x-2">
+                <span class="material-icons cursor-pointer hover:text-gray-700 font-semibold text-base" (click)="minimize()">
+                    minimize
+                </span>
+                <span class="material-icons cursor-pointer hover:text-gray-700 font-semibold text-base" (click)="close()">
+                    close
+                </span>
+            </div>
+        </div>
+    </div>
+    <div class="h-309-px flex items-center justify-center default-text-color">
+        No message yet!
+    </div>
+
+    <div class="h-50-px relative flex items-center">
+        <input type="text" placeholder="type here..." class="w-full border-t border-gray-400 focus:outline-none p-2 default-text-color" style="padding-right: 35px;">
+        <span class="material-icons absolute text-blue-600 right-0 mr-2 cursor-pointer hover:text-blue-500">
+            send
+        </span>
+    </div>
+</div>

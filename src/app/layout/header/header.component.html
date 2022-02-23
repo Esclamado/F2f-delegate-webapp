@@ -1,0 +1,46 @@
+<div class="flex flex-grow items-center justify-between px-20 shadow-bottom header-bg relative h-60-px">
+    <div class="flex items-center space-x-5 h-full">
+        <img src="assets/images/f2f-main.png" [routerLink]="['/events']" class="cursor-pointer">
+        <div class="links h-full">
+            <div class="flex items-center space-x-3 h-full">
+                <div (click)="gotoEvent()" class="h-full flex items-center py-3 w-60-px" [routerLink]="'/events'">
+                    <span routerLinkActive="active-link" class="h-full flex items-center justify-center w-full"> Events</span>
+                </div>
+                <div (click)="gotoPastEvent()" class="h-full flex items-center py-3 w-100-px" [routerLink]="'/past-events'">
+                    <span routerLinkActive="active-link" class="h-full flex items-center justify-center w-full"> Past Events</span>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="relative" x-data="{ open: false }">
+        <div class="flex justify-between" *ngIf="user">
+            <button [matMenuTriggerFor]="menu" #t="matMenuTrigger" type="button" aria-haspopup="true" :aria-expanded="open ? 'true' : 'false'" class="flex items-center transition-opacity duration-200 rounded-full dark:opacity-75 dark:hover:opacity-100 focus:outline-none"
+                aria-expanded="false"><!-- (click)="openProfileDropdown()" -->
+                <span class="sr-only">User menu</span>
+                <img class="w-8 h-8 rounded-full" src="{{user.profile_photo_url}}">
+                <span class="text-white hidden lg:block ml-2">{{user.fullname}}</span>
+                <i class="fas fa-caret-down hidden lg:block text-gray-500 h-5 w-5 ml-4"></i>
+            </button>
+        </div>
+
+        <!-- User dropdown menu -->
+        <mat-menu #menu="matMenu" class="overflow-x-hidden header-menu mt-5" xPosition="before">
+            <div class="absolute bg-white w-10-px h-10-px block custom-menu-container"></div>
+            <ng-container>
+                <div class="minw-230-px  rounded bg-white shadow-xl">
+                    <button routerLink="/user-profile" class=" py-1 fs-15-px focus:outline-none focus:shadow-none fw-300 hover:text-teal-800 hover:bg-teal-300" mat-menu-item>
+                        <strong>View Profile</strong>
+                    </button>
+                    <hr>
+                    <button routerLink="/edit-profile/{{user ? user.id : ''}}" class=" py-1 fs-15-px focus:outline-none focus:shadow-none fw-300 hover:text-teal-800 hover:bg-teal-300" mat-menu-item>
+                        <strong>Edit Profile</strong>
+                    </button>
+                    <hr>
+                    <button class=" py-1 fs-15-px focus:outline-none focus:shadow-none fw-300  custom-btn btn-bg-pink " style="border-top-left-radius: 0px;border-top-right-radius: 0px" (click)="logout()" mat-menu-item>
+                        <strong>Logout</strong>
+                    </button>
+                </div>
+            </ng-container>
+        </mat-menu>
+    </div>
+</div>

@@ -1,0 +1,151 @@
+<ngx-spinner [name]="env.loaderSpinner" [fullScreen]="true" type="ball-clip-rotate-multiple" size="medium">
+    <p class="text-white"> {{env.loaderText}} </p>
+</ngx-spinner>
+<ngx-smart-modal #socialLinks identifier="socialLinks" customClass="nsm-centered" [closable]="false" (onOpen)="getData()">
+    <div class="w-870-px p-5 bg-white rounded-lg rubik">
+        <form [formGroup]="social_links_form">
+            <div class="fs-20-px default-text-color font-semibold">
+                Link social media
+            </div>
+            <div class="test-base default-text-color">
+                Let people know where else they can reach you.
+            </div>
+            <div class="grid grid-cols-12 gap-3">
+                <div class="col-span-6">
+                    <div class="w-full my-5">
+                        <!-----------Facebook ------------>
+                        <label for="facebook" class="block text-gray-500 mb-2 flex">
+                            <div class="social-media-icon fb mgr-5">
+                                <i class="fab fa-facebook-f text-white"></i>
+                            </div>
+                            Facebook
+                        </label>
+                        <div class="w-full flex justify-end items-center">
+                            <input type="text" (focus)="social_links_form.controls.facebook.markAsUntouched()" class="appearance-none border rounded w-full py-2 px-3 leading-tight custom-input relative bg-none p-input" [ngClass]="{'error  pr-30-px': social_links_form.controls.facebook.touched && social_links_form.controls.facebook.hasError('pattern')}"
+                                formControlName="facebook" autocomplete="off">
+                        </div>
+                        <ng-container *ngIf="social_links_form.controls.facebook.touched">
+                            <span class="text-red-700 mb-0 fs-14-px absolute" *ngIf="social_links_form.controls.facebook.hasError('pattern')">Facebook link must be in valid format!</span>
+                        </ng-container>
+                    </div>
+                    <div class="w-full my-5">
+                        <!-----------Twitter ------------>
+                        <label for="twitter" class="block text-gray-500 mb-2 flex">
+                            <div class="social-media-icon tw mgr-5">
+                            <i class="fab fa-twitter text-white"></i>
+                        </div>
+                            Twitter
+                        </label>
+                        <div class="w-full flex justify-end items-center">
+                            <input type="text" (focus)="social_links_form.controls.twitter.markAsUntouched()" class="appearance-none border rounded w-full py-2 px-3 leading-tight custom-input relative bg-none p-input" [ngClass]="{'error  pr-30-px': social_links_form.controls.twitter.touched && social_links_form.controls.twitter.hasError('pattern')}" formControlName="twitter" autocomplete="off">
+                        </div>
+                        <ng-container *ngIf="social_links_form.controls.twitter.touched">
+                            <span class="text-red-700 mb-0 fs-14-px absolute" *ngIf="social_links_form.controls.twitter.hasError('pattern')">Twitter link must be in valid format!</span>
+                        </ng-container>
+                    </div>
+                    <div class="w-full my-5">
+                        <!-----------Linkedin ------------>
+                        <label for="linkedin" class="block text-gray-500 mb-2 flex">
+                            <div class="social-media-icon ln mgr-5">
+                                <i class="fab fa-linkedin-in text-white"></i>
+                            </div>
+                            Linkedin 
+                        </label>
+                        <div class="w-full flex justify-end items-center">
+                            <input type="text" (focus)="social_links_form.controls.linkedin.markAsUntouched()" class="appearance-none border rounded w-full py-2 px-3 leading-tight custom-input relative bg-none p-input" [ngClass]="{'error  pr-30-px': social_links_form.controls.linkedin.touched && social_links_form.controls.linkedin.hasError('pattern')}" formControlName="linkedin" autocomplete="off">
+                        </div>
+                        <ng-container *ngIf="social_links_form.controls.linkedin.touched">
+                            <span class="text-red-700 mb-0 fs-14-px absolute" *ngIf="social_links_form.controls.linkedin.hasError('pattern')">Linkedin link must be in valid format!</span>
+                        </ng-container>
+                    </div>
+                    <div class="w-full my-5">
+                        <!-----------Skype ------------>
+                        <label for="skype" class="block text-gray-500 mb-2 flex">
+                            <div class="social-media-icon sk mgr-5">
+                                <i class="fab fa-skype text-white"></i>
+                            </div>
+                            Skype
+                        </label>
+                        <div class="w-full flex justify-end items-center">
+                            <input type="text" (focus)="social_links_form.controls.skype.markAsUntouched()" class="appearance-none border rounded w-full py-2 px-3 leading-tight custom-input relative bg-none p-input" [ngClass]="{'error  pr-30-px': social_links_form.controls.skype.touched && social_links_form.controls.skype.hasError('pattern')}" formControlName="skype" autocomplete="off">
+                        </div>
+                        <ng-container *ngIf="social_links_form.controls.skype.touched">
+                            <span class="text-red-700 mb-0 fs-14-px absolute" *ngIf="social_links_form.controls.skype.hasError('pattern')">Skype link must be in valid format!</span>
+                        </ng-container>
+                    </div>
+                </div>
+                <div class="col-span-6">
+                    <div class="w-full my-5">
+                        <!-----------Whatsapp ------------>
+                        <label for="whatsapp" class="block text-gray-500 mb-2 flex">
+                            <div class="social-media-icon wa mgr-5">
+                            <i class="fab fa-whatsapp text-white"></i>
+                        </div>
+                            Whatsapp
+                        </label>
+                        <div class="w-full flex justify-end items-center">
+                            <input type="text" (focus)="social_links_form.controls.whatsapp.markAsUntouched()" class="appearance-none border rounded w-full py-2 px-3 leading-tight custom-input relative bg-none p-input" [ngClass]="{'error  pr-30-px': social_links_form.controls.whatsapp.touched && social_links_form.controls.whatsapp.hasError('pattern')}" formControlName="whatsapp" autocomplete="off">
+                        </div>
+                        <ng-container *ngIf="social_links_form.controls.whatsapp.touched">
+                            <span class="text-red-700 mb-0 fs-14-px absolute" *ngIf="social_links_form.controls.whatsapp.hasError('pattern')">Whatsapp link must be in valid format!</span>
+                        </ng-container>
+                    </div>
+                    <div class="w-full my-5">
+                        <!-----------WeChat ------------>
+                        <label for="wechat" class="block text-gray-500 mb-2 flex">
+                            <div class="social-media-icon wc mgr-5">
+                            <i class="fab fa-weixin text-white"></i>
+                        </div>
+                            WeChat
+                        </label>
+                        <div class="w-full flex justify-end items-center">
+                            <input type="text" (focus)="social_links_form.controls.wechat.markAsUntouched()" class="appearance-none border rounded w-full py-2 px-3 leading-tight custom-input relative bg-none p-input" [ngClass]="{'error  pr-30-px': social_links_form.controls.wechat.touched && social_links_form.controls.wechat.hasError('pattern')}" formControlName="wechat" autocomplete="off">
+                        </div>
+                        <ng-container *ngIf="social_links_form.controls.wechat.touched">
+                            <span class="text-red-700 mb-0 fs-14-px absolute" *ngIf="social_links_form.controls.wechat.hasError('pattern')">WeChat link must be in valid format!</span>
+                        </ng-container>
+                    </div>
+                    <div class="w-full my-5">
+                        <!-----------Kakao ------------>
+                        <label for="kakao" class="block text-gray-500 mb-2 flex">
+                            <div class="social-media-icon kt mgr-5">
+                                <i class="fas fa-comment"></i> 
+                            </div>
+                            Kakao
+                        </label>
+                        <div class="w-full flex justify-end items-center">
+                            <input type="text" (focus)="social_links_form.controls.kakao.markAsUntouched()" class="appearance-none border rounded w-full py-2 px-3 leading-tight custom-input relative bg-none p-input" [ngClass]="{'error  pr-30-px': social_links_form.controls.kakao.touched && social_links_form.controls.kakao.hasError('pattern')}" formControlName="kakao" autocomplete="off">
+                        </div>
+                        <ng-container *ngIf="social_links_form.controls.kakao.touched">
+                            <span class="text-red-700 mb-0 fs-14-px absolute" *ngIf="social_links_form.controls.kakao.hasError('pattern')">Kakao link must be in valid format!</span>
+                        </ng-container>
+                    </div>
+                    <div class="w-full my-5">
+                        <!-----------Zoom ------------>
+                        <label for="zoom" class="block text-gray-500 mb-2 flex">
+                            <div class="social-media-icon zm mgr-5">
+                            <i class="fas fa-video text-white"></i>
+                        </div>
+                            Zoom
+                        </label>
+                        <div class="w-full flex justify-end items-center">
+                            <input type="text" (focus)="social_links_form.controls.zoom.markAsUntouched()" class="appearance-none border rounded w-full py-2 px-3 leading-tight custom-input relative bg-none p-input" [ngClass]="{'error  pr-30-px': social_links_form.controls.zoom.touched && social_links_form.controls.zoom.hasError('pattern')}" formControlName="zoom" autocomplete="off">
+                        </div>
+                        <ng-container *ngIf="social_links_form.controls.zoom.touched">
+                            <span class="text-red-700 mb-0 fs-14-px absolute" *ngIf="social_links_form.controls.zoom.hasError('pattern')">Zoom link must be in valid format!</span>
+                        </ng-container>
+                    </div>
+                </div>
+                <div class="col-span-12 flex items-center justify-end space-x-4">
+                    <span class="text-gray-700 cursor-pointer" (click)="closeEditSocialLinks()">Cancel</span>
+                    <button class="px-6 py-3 custom-btn btn-blue focus:outline-none" (click)="updateSocialLinks()">
+                        Update links
+                    </button>
+                </div>
+            </div>
+        </form>
+    </div>
+</ngx-smart-modal>
+
+<ngx-spinner bdColor="rgba(51, 51, 51, 0.8)" size="large" color="#934d4d" type="square-jelly-box">
+</ngx-spinner>

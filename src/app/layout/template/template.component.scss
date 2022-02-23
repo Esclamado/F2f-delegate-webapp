@@ -1,0 +1,17 @@
+.min-h-calc{
+    min-height: calc(100vh - 60px) !important;
+}
+.h-grid{
+    margin-top: 60px;
+    min-height: calc(100vh - 60px) !important;
+}
+.default-bg-color {
+    background: #FFFFFF;
+}
+.main-content{
+    height: calc(100% - 64px);
+    align-self: baseline;
+}
+.header-bg {
+    background-color: #05172d;
+}

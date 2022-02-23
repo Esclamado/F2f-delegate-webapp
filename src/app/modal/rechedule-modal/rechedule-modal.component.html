@@ -1,0 +1,127 @@
+<ngx-smart-modal #rescheduleModal identifier="rescheduleModal" [closable]="false" customClass="nsm-centered" (onOpen)="onInitianRequest()" (onAnyCloseEvent)="reset()">
+    <ng-container *ngIf="meeting_details && schedules">
+        <div class="bg-white py-3 rounded-lg w-539-px rubik">
+            <div class="flex justify-between items-center px-6 font-semibold">
+                <div class="text-base defaulte-text-color flex items-center font-semibold">
+                    Rechedule meeting:&nbsp;
+                    <span *ngIf="event && event.type == '2'" class="text-gray-500">
+                        Timezone {{ env.trim(event.time_zone) }}
+                    </span>
+                </div>
+                <svg (click)="reset()" class="cursor-pointer" width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                    <path d="M19 6.41L17.59 5L12 10.59L6.41 5L5 6.41L10.59 12L5 17.59L6.41 19L12 13.41L17.59 19L19 17.59L13.41 12L19 6.41Z" fill="#ADADAD" />
+                </svg>
+            </div>
+            <hr class="w-full my-3">
+            <div class="px-6 mt-2 grid grid-cols-12 gap-2">
+                <div class="col-span-12 text-sm">
+                    <div class="basic-text-color mb-3 w-full">
+                        We already filtered these where you’re both available.
+                    </div><div class="text-gray-500 mb-3 w-full">
+                        Rescheduling a meeting is prohibited 2hrs before the scheduled meeting
+                    </div>
+                    <div class="w-full flex items-center">
+                        <ng-container>
+                            <div *ngIf="selected_date" class="flex items-center justify-between w-full" >
+                                <div class="flex items-center">
+                                    <div #t1="matMenuTrigger" #select1 [matMenuTriggerFor]="date_select" 
+                                        class="border border-gray-400 rounded-md flex justify-between items-center p-2 cursor-pointer minw-200-px h-38-px">
+                                        <span class="barlow text-black text-sm font-lg">
+                                            {{ env.getDays3(selected_date.date) }}, {{ selected_date.date | date: 'MMMM dd, yyyy' }}
+                                        </span>
+                                        <i class="fas fa-caret-down"></i>
+                                    </div>
+                                    <mat-menu class="w-full edit-menu custom-scroll" #date_select="matMenu" >
+                                        <div class="w-full barlow relative flex items-center justify-end text-base" *ngFor="let sched of schedules">
+                                            <ng-container>
+                                                <button mat-menu-item (click)="selectDate(sched)"
+                                                    class="tracking-wide focus:outline-none barlow hover:text-teal-800 hover:bg-teal-300 w-200-px">
+                                                    {{ env.getDays3(sched.date) }}, {{ sched.date | date: 'MMMM dd, yyyy' }}
+                                                </button>
+                                            </ng-container>
+                                        </div>
+                                    </mat-menu>
+                                    &nbsp; &nbsp;
+                                    <div #t2="matMenuTrigger" #select2 [matMenuTriggerFor]="time_select" 
+                                        class="border border-gray-400 rounded-md flex justify-between items-center p-2 cursor-pointer minw-200-px h-38-px">
+                                        <span *ngIf="selected_time" class="barlow text-black text-sm font-lg">
+                                            {{selected_time.start_time}} - {{selected_time.end_time_orig}}
+                                        </span>
+                                        <i class="fas fa-caret-down"></i>
+                                    </div>
+                                    <mat-menu class="w-full edit-menu custom-scroll" #time_select="matMenu">
+                                        <ng-container>
+                                            <div *ngFor="let timeslot of available_timeslot" 
+                                                class="w-full barlow relative flex items-center justify-end text-base">
+                                                <button *ngIf="available_timeslot.length >= 1" mat-menu-item (click)="selectTime(timeslot)"
+                                                    class="tracking-wide focus:outline-none barlow hover:text-teal-800 hover:bg-teal-300 w-235-px">
+                                                    {{timeslot.start_time}} - {{timeslot.end_time_orig}}
+                                                </button>
+                                            </div>
+                                            <div *ngIf="available_timeslot.length == 0" 
+                                                class="w-full barlow relative flex items-center justify-end text-base px-5 py-4">
+                                                No timeslot available
+                                            </div>
+                                        </ng-container>
+                                    </mat-menu>
+                                    &nbsp; &nbsp;
+                                    <button [disabled]="!selected_date || !selected_time"
+                                        class="custom-btn p-3 flex items-center justify-center focus:outline-none float-right
+                                        {{ selected_time && selected_date ? 'btn-blue-light' : 'btn-disabled'}}" (click)="rescheduleAMeeting()">
+                                        <svg class="mr-1" width="16" height="12" viewBox="0 0 16 12" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                            <path d="M5.32923 9.22927L1.85423 5.75426L0.670898 6.92927L5.32923 11.5876L15.3292 1.5876L14.1542 0.412598L5.32923 9.22927Z" fill="#3B67B2"/>
+                                        </svg>
+                                        save
+                                    </button>
+                                </div>
+                            </div>
+                        </ng-container>
+                    </div>
+                    <div class="border border-gray-400 rounded-lg p-5 w-full mb-3 mt-4">
+                        <div class="grid grid-cols-12 gap-2">
+                            <div class="col-span-8">
+                                <div class="w-full flex flex-col">
+                                    <div class="text-gray-500 mb-1">
+                                        You’re having a meeting with:
+                                    </div>
+                                    <div class="grid-cols-12 grid">
+                                        <div class="col-span-12 flex">
+                                            <img src="{{meeting_details.meeting_schedule.delegate_profile_photo ? meeting_details.meeting_schedule.delegate_profile_photo : 'assets/empty_states/profile_avatar2.png'}}" 
+                                                class="w-40-px h-40-px mr-4 rounded-full objext cover"
+                                            >
+                                            <div class="flex flex-col space-y-1">
+                                                <div class="default-text-color font-semibold">
+                                                    {{ meeting_details.meeting_schedule.delegate_company_name }}
+                                                </div>
+                                                <div class="default-text-color">
+                                                    {{ meeting_details.meeting_schedule.delegate_fullname }}
+                                                </div>
+                                                <div class="text-gray-500">
+                                                    {{ meeting_details.meeting_schedule.delegate_job_title }}
+                                                </div>
+                                                <div class="flex items-center text-gray rubik font-normal fs-14-px">
+                                                    <img src="assets/flags/{{meeting_details.meeting_schedule.delegate_company_country_iso}}.png" class="h-4 w-4">
+                                                    <span class="ml-2">{{meeting_details.meeting_schedule.delegate_company_country_nicename}}</span>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-span-4">
+                                <div class="flex flex-col">
+                                    <div (click)="gotoDelegateprofile()" style="color: #6E6E6E;" class="cursor-pointer focus:outline-none flex items-center justify-end mb-14">
+                                        <svg class="mr-2 cursor-pointer" width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                            <path fill-rule="evenodd" clip-rule="evenodd" d="M5 5V19H19V12H21V19C21 20.1 20.1 21 19 21H5C3.89 21 3 20.1 3 19V5C3 3.9 3.89 3 5 3H12V5H5ZM14 5V3H21V10H19V6.41L9.17 16.24L7.76 14.83L17.59 5H14Z" fill="#6E6E6E"/>
+                                        </svg>
+                                        View profile
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </ng-container>
+</ngx-smart-modal>

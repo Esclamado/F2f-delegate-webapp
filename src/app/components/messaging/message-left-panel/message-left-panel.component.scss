@@ -1,0 +1,45 @@
+::ng-deep {
+    .mat-mini-fab.mat-accent {
+        &.settings-fab {
+            background-color: white !important;
+            mat-icon.mat-icon.notranslate.material-icons.mat-icon-no-color {
+                color: gray !important;
+            }
+            .mat-icon {
+                fill: rgba(0, 0, 0, 0.5) !important;
+            }
+            &:hover {
+                .mat-icon {
+                    fill: rgba(0, 0, 0, 0.8) !important;
+                }
+            }
+        }
+    }
+}
+.selected-chat{
+    background: #f0f3f9;
+    border-left: #3b67b2 .4rem solid;
+}
+.read{
+    color:#6E6E6E;
+}
+.unread{
+    font-weight: 600;
+    color: #05172D;  
+}
+
+.custom-right-shadow {
+    box-shadow: 8px 0px 12px rgb(0 0 0 / 6%)
+}
+
+@media only screen and (min-width: 770px) {
+    .left-pane-width {
+        width: 400px;
+    }
+}
+
+@media only screen and (max-width: 769px) {
+    .left-pane-width {
+        width: 100%;
+    }
+}

@@ -1,0 +1,17 @@
+::ng-deep{
+    .width .nsm-content{
+        background: none !important;
+        box-shadow: none !important;
+        width: 100vw !important;
+        border-radius: 8px;
+    }
+    .nsm-dialog{
+        max-width: 100% !important;
+    }
+}
+.photo{
+    width: 600px;
+    background-size: contain;
+    background-position: center;
+    background-repeat: no-repeat;
+}

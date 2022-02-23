@@ -1,0 +1,120 @@
+@media only screen and (max-width: 425px) {
+    .right-panel {
+      display: none;
+    }
+}
+@media only screen and (max-width: 320px) {
+    .f-col {
+        flex-direction: column;
+        align-items: start;
+    }
+    .mar-0{
+        margin-left: 0px !important;
+    }
+}
+::ng-deep .mat-checkbox-checked.mat-accent .mat-checkbox-background,.mat-checkbox-indeterminate.mat-accent .mat-checkbox-background .remember-me {
+    background-color: #6F940c;
+}
+.login-bg{
+    background-size: cover;
+    background-position: center;
+    background-repeat: no-repeat;
+    
+}
+::ng-deep {
+    .mat-horizontal-stepper-header-container {
+        display: none !important;   
+    }
+}
+.email-input {
+    border: 1px solid #BCC0C6;
+    border-top-left-radius: .50rem;
+    border-top-right-radius: .50rem;
+    padding-left: 0.5rem;
+    padding-right: 0.5rem;
+    padding-top: 0.75rem;
+    padding-bottom: 0.75rem;
+    outline: none;
+    &:focus,
+    &:active {
+        border: 2px solid #389C1B;
+        background: #f2f8f4;
+    }
+    &.dropdown-focused {
+        border: 2px solid #389C1B;
+        background: #F2F8F4;
+    }
+    &.active,
+    &.active:focus,
+    &.active:active,
+    &.dropdown-active{
+        border: 2px solid #389C1B;
+        background: #f2f8f4;
+    }
+    &.error,
+    &.error:focus,
+    &.error:active,
+    &.dropdown-error {
+        border: 2px solid #BE1E2D;
+        background: #FFF4F4;
+    }
+    &.password-input {
+        padding-right: 30px;
+    }
+}
+.password-input {
+    border: 1px solid #BCC0C6;
+    border-bottom-left-radius: .50rem;
+    border-bottom-right-radius: .50rem;
+    padding-left: 0.5rem;
+    padding-right: 0.5rem;
+    padding-top: 0.75rem;
+    padding-bottom: 0.75rem;
+    outline: none;
+    &:focus,
+    &:active {
+        border: 2px solid #389C1B;
+        background: #f2f8f4;
+    }
+    &.dropdown-focused {
+        border: 2px solid #389C1B;
+        background: #F2F8F4;
+    }
+    &.active,
+    &.active:focus,
+    &.active:active,
+    &.dropdown-active{
+        border: 2px solid #389C1B;
+        background: #f2f8f4;
+    }
+    &.error,
+    &.error:focus,
+    &.error:active,
+    &.dropdown-error {
+        border: 2px solid #BE1E2D;
+        background: #FFF4F4;
+    }
+    &.password-input {
+        padding-right: 30px;
+    }
+}
+.trans-t{
+    transform: translateY(-1px);
+}
+::ng-deep{
+    .white-loader.mat-progress-spinner circle{
+        stroke: #FFF !important;
+    }
+    .teal-loader.mat-progress-spinner circle{
+        stroke: teal !important;
+    }
+    .pink-loader.mat-progress-spinner circle{
+        stroke:  #EE2A7B !important;
+    }
+}
+
+
+input::-ms-reveal,
+input::-ms-clear {
+display: none;
+}

@@ -1,0 +1,654 @@
+<div class="h-full">
+    <div class="px-20 py-5">
+        <div class="grid grid-cols-12 gap-5" *ngIf="user">
+            <div class="lg:col-span-4 col-span-12">
+                <div class="bg-white shadow-md rounded-md border border-gray-400 mt-4">
+                    <img src="assets/images/bg-profile.png" class="w-full h-110-px">
+
+                    <div class="relative h-100-px mgt--50 w-full flex justify-center">
+                        <div class="relative h-101-px w-101-px profile-pic">
+                            <img *ngIf="!croppedprofilePhoto" src="{{user.profile_photo_url ? user.profile_photo_url : 'assets/images/empty-photo.jpg'}}" class="prof-img h-26 w-26 border-5 border-white rounded-full absolute bottom-0 h-24 w-24">
+                            <img *ngIf="croppedprofilePhoto" [src]="croppedprofilePhoto" class="prof-img h-26 w-26 border-5 border-white rounded-full absolute bottom-0 h-24 w-24">
+                            <input class="hidden" #image type="file" (change)="changeProfilePic($event)" />
+                            <img src="assets/icon/camera-icon.png" class="h-8 w-8 absolute bottom-0 right-0 focus:outline-none" (click)="changeProfilePhoto(image)">
+                        </div>
+                    </div>
+                    <div class="mt-5 mb-5 text-center">
+                        <div class="text-darkblue rubik font-semibold not-italic fs-20-px">{{user.fullname}}</div>
+                        <div class="text-main-gray rubik font-normal not-italic fs-14-px">
+                            <p>{{user.job_title}}</p>
+                            <p class="px-5">{{user.company.name}}</p>
+                        </div>
+                    </div>
+
+                    <div class="px-5">
+                        <div class="text-main-gray rubik font-normal not-italic fs-12-px py-4">
+                            Mobile:
+                            <p class="text-navy rubik font-normal not-italic fs-14-px">{{user.mobile ? user.mobile : 'No mobile yet'}}</p>
+                        </div>
+                        <div class="text-main-gray rubik font-normal not-italic fs-12-px">
+                            <div class="flex justify-between">
+                                Social Links
+                                <div class="s-14-px flex items-center cursor-pointer" (click)="editSocialLinks()">
+                                    <img src="assets/icon/edit-icon.png">
+                                    <button class="text-blue rubik font-semibold not-italic fs-14-px ml-2 focus:outline-none">Edit</button>
+                                </div>
+                            </div>
+                            <div *ngIf="user.social_media_links_detail && user.social_media_links_detail.facebook" class="flex items-center my-2">
+                                <div class="social-media-icon fb mgr-5">
+                                    <i class="fab fa-facebook-f text-white"></i>
+                                </div>
+                                <span class="basic-default-color w-full" style="word-break: break-all;"> {{user.social_media_links_detail.facebook}} </span>
+                            </div>
+                            <div *ngIf="user.social_media_links_detail && user.social_media_links_detail.kakao" class="flex items-center my-2">
+                                <div class="social-media-icon kt mgr-5">
+                                    <i class="fas fa-comment"></i> 
+                                </div>
+                                <span class="basic-default-color w-full" style="word-break: break-all;"> {{user.social_media_links_detail.kakao}} </span>
+                            </div>
+                            <div *ngIf="user.social_media_links_detail && user.social_media_links_detail.linkedin" class="flex items-center my-2">
+                                <div class="social-media-icon ln mgr-5">
+                                    <i class="fab fa-linkedin-in text-white"></i>
+                                </div>
+                                <span class="basic-default-color w-full" style="word-break: break-all;"> {{user.social_media_links_detail.linkedin}} </span>
+                            </div>
+                            <div *ngIf="user.social_media_links_detail && user.social_media_links_detail.skype" class="flex items-center my-2">
+                                <div class="social-media-icon sk mgr-5">
+                                    <i class="fab fa-skype text-white"></i>
+                                </div>
+                                <span class="basic-default-color w-full" style="word-break: break-all;"> {{user.social_media_links_detail.skype}} </span>
+                            </div>
+                            <div *ngIf="user.social_media_links_detail && user.social_media_links_detail.twitter" class="flex items-center my-2">
+                                <div class="social-media-icon tw mgr-5">
+                                    <i class="fab fa-twitter text-white"></i>
+                                </div>
+                                <span class="basic-default-color w-full" style="word-break: break-all;"> {{user.social_media_links_detail.twitter}} </span>
+                            </div>
+                            <div *ngIf="user.social_media_links_detail && user.social_media_links_detail.wechat" class="flex items-center my-2">
+                                <div class="social-media-icon wc mgr-5">
+                                    <i class="fab fa-weixin text-white"></i>
+                                </div>
+                                <span class="basic-default-color w-full" style="word-break: break-all;"> {{user.social_media_links_detail.wechat}} </span>
+                            </div>
+                            <div *ngIf="user.social_media_links_detail && user.social_media_links_detail.whatsapp" class="flex items-center my-2">
+                                <div class="social-media-icon wa mgr-5">
+                                    <i class="fab fa-whatsapp text-white"></i>
+                                </div>
+                                <span class="basic-default-color w-full" style="word-break: break-all;"> {{user.social_media_links_detail.whatsapp}} </span>
+                            </div>
+                            <div *ngIf="user.social_media_links_detail && user.social_media_links_detail.zoom" class="flex items-center my-2">
+                                <div class="social-media-icon zm mgr-5">
+                                    <i class="fas fa-video text-white"></i>
+                                </div>
+                                <span class="basic-default-color w-full" style="word-break: break-all;"> {{user.social_media_links_detail.zoom}} </span>
+                            </div>
+                            <div *ngIf="
+                                !user.social_media_links_detail ||
+                                (
+                                    !user.social_media_links_detail.facebook && 
+                                    !user.social_media_links_detail.kakao && 
+                                    !user.social_media_links_detail.linkedln && 
+                                    !user.social_media_links_detail.skype && 
+                                    !user.social_media_links_detail.twitter && 
+                                    !user.social_media_links_detail.wechat && 
+                                    !user.social_media_links_detail.whatsapp && 
+                                    !user.social_media_links_detail.zoom
+                                )" class="flex items-center my-2">
+                                <span class="text-navy rubik font-normal not-italic fs-14-px"> No social media yet </span>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="bg-network px-5 py-3 mt-3">
+                        <div class="grid grid-cols-12">
+                            <div class="col-span-1 flex items-center">
+                                <label class="switch">
+                                    <input type="checkbox" (change)="changePrivacy(user_privacy)" [(ngModel)]="user_privacy" [ngModelOptions]="{standalone: true}">
+                                    <span class="slider round"></span>
+                                </label>
+                            </div>
+                            <div class="col-span-11">
+                                <span class="text-navy rubik font-normal not-italic fs-14-px ml-4">Let other delegates view my profile</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="lg:col-span-8 col-span-12">
+                <mat-tab-group class="mt-4">
+                    <mat-tab label="Profile">
+                        <div class="px-5 py-5 bg-white">
+                            <div class="grid grid-cols-12">
+                                <div class="col-span-6">
+                                    <div class="text-gray900 rubik font-semibold not-italic fs-16-px">About this delegate</div>
+                                    <div class="text-gray rubik font-normal not-italic fs-14-px">Personal details and preferences.</div>
+                                </div>
+                                <div class="col-span-6 ml-auto">
+                                    <div class="flex items-center cursor-pointer">
+                                        <img src="assets/icon/edit-icon.png">
+                                        <button class="text-blue rubik font-semibold not-italic fs-14-px ml-1 focus:outline-none" routerLink="/edit-profile/{{user.id}}">Edit</button>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <hr class="w-full">
+                        <div *ngIf="!isUserProfileLoading">
+                            <div class="grid grid-cols-12 gap-5 px-5 py-4 bg-alternate">
+                                <div class="col-span-4">
+                                    <p class="text-main-gray rubik font-normal not-italic fs-14-px">Full Name</p>
+                                </div>
+                                <div class="col-span-8">
+                                    <p class="text-navy rubik font-normal not-italic fs-14-px">{{user.fullname}}</p>
+                                </div>
+                            </div>
+                            <div class="grid grid-cols-12 gap-5 px-5 py-4 bg-white">
+                                <div class="col-span-4">
+                                    <p class="text-main-gray rubik font-normal not-italic fs-14-px">Email Address</p>
+                                </div>
+                                <div class="col-span-8">
+                                    <p class="text-navy rubik font-normal not-italic fs-14-px">{{user.email}}</p>
+                                </div>
+                            </div>
+                            <div class="grid grid-cols-12 gap-5 px-5 py-4 bg-alternate">
+                                <div class="col-span-4">
+                                    <p class="text-main-gray rubik font-normal not-italic fs-14-px">City</p>
+                                </div>
+                                <div class="col-span-8">
+                                    <p *ngIf="user.address" class="text-navy rubik font-normal not-italic fs-14-px">{{user.address ? user.address : 'No address shared'}}</p>
+                                    
+                                    <div *ngIf="!user.address" class="flex items-center cursor-pointer">
+                                        <button class="text-blue rubik font-semibold not-italic fs-14-px ml-1 focus:outline-none" routerLink="/edit-profile/{{user.id}}">Add Timezone</button>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="grid grid-cols-12 gap-5 px-5 py-4 bg-white">
+                                <div class="col-span-4">
+                                    <p class="text-main-gray rubik font-normal not-italic fs-14-px">Timezone</p>
+                                </div>
+                                <div *ngIf="user.timezone_status == 1" class="col-span-8 space-y-2">
+                                    <ng-container *ngIf="user.address && user.timezone">
+                                        <p class="text-navy rubik font-normal not-italic fs-14-px">Please confirm your address and timezone</p>
+                                        <!-- city -->
+                                        <!-- #t2="matMenuTrigger" #select2 [matMenuTriggerFor]="select_city" -->
+                                        <div class="flex items-center cursor-pointer space-x-3">
+                                            <span class="text-main-gray rubik font-medium not-italic fs-14-px">City: <span class="text-navy rubik font-semibold not-italic fs-14-pxii">{{user.address ? user.address: 'No city shared'}}</span></span>
+                                            <!-- <i class="fas fa-caret-down text-main-gray"></i> -->
+                                        </div>
+                                        <!-- <mat-menu class="w-full sports-menu" #select_city="matMenu">
+                                            <button mat-menu-item class="tracking-wide focus:outline-none barlow hover:text-teal-800 hover:bg-teal-300 w-235-px">
+                                                <strong>{{user.address}}</strong> 
+                                            </button>
+                                        </mat-menu> -->
+                                        <!-- timezone -->
+
+                                        <!-- #t2="matMenuTrigger" #select2 [matMenuTriggerFor]="select_timezone"  -->
+                                        <div class="flex items-center cursor-pointer space-x-3">
+                                            <span class="text-main-gray rubik font-medium not-italic fs-14-px">Timezone: <span class="text-navy rubik font-semibold not-italic fs-14-pxii">{{user.timezone}}</span></span>
+                                            <!-- <i class="fas fa-caret-down text-main-gray"></i> -->
+                                        </div>
+                                        <!-- <mat-menu class="w-full sports-menu" #select_timezone="matMenu">
+                                            <button mat-menu-item class="tracking-wide focus:outline-none barlow hover:text-teal-800 hover:bg-teal-300 w-235-px">
+                                                <strong>{{user.timezone}}</strong> 
+                                            </button>
+                                        </mat-menu> -->
+                                        <div class="bg-save px-5 py-5 flex items-center justify-end">
+                                            <button (click)="verifyAddressAndTimezone()" class="custom-btn btn-blue rubik font-medium not-italic px-5 py-2 focus:outline-none"> 
+                                                Verify Timezone
+                                            </button>
+                                            <button class="custom-btn px-5 py-2 btn-gray-cancel ml-5 text-white" routerLink="/edit-profile/{{user.id}}">
+                                                Edit Timezone
+                                            </button>
+                                        </div>
+                                    </ng-container>
+                                </div>
+                                <div *ngIf="user.timezone_status == 2 && user.timezone" class="col-span-8 space-y-2">
+                                    <p class="text-navy rubik font-normal not-italic fs-14-px">{{user.timezone}}</p>
+                                </div>
+                            </div>
+                            <div class="grid grid-cols-12 gap-5 px-5 py-4 bg-alternate">
+                                <div class="col-span-4">
+                                    <p class="text-main-gray rubik font-normal not-italic fs-14-px">Operational Software</p>
+                                </div>
+                                <div class="col-span-8">
+                                    <div  *ngIf="user.pref_software_ids_detail && user.pref_software_ids_detail.length > 0" class="flex flex-wrap">
+                                        <span class="text-darkblue rubik font-normal not-italic fs-14-px bg-lightpurple rounded-xl mx-1 my-1 px-2 py-1" 
+                                        *ngFor="let pref_software of user.pref_software_ids_detail">{{pref_software.name}}</span>
+                                    </div>
+                                    <p *ngIf="!user.pref_software_ids_detail || (user.pref_software_ids_detail && user.pref_software_ids_detail.length == 0)" 
+                                        class="text-navy rubik font-normal not-italic fs-14-px">
+                                        No operational software yet
+                                    </p>
+                                </div>
+                            </div>
+                            <div class="grid grid-cols-12 gap-5 px-5 py-4 bg-white">
+                                <div class="col-span-4">
+                                    <p class="text-main-gray rubik font-normal not-italic fs-14-px">Services interested in</p>
+                                </div>
+                                <div class="col-span-8">
+                                    <div *ngIf="user.pref_services_ids_detail && user.pref_services_ids_detail.length > 0" class="flex flex-wrap">
+                                        <span class="text-darkblue rubik font-normal not-italic fs-14-px bg-lightpurple rounded-xl mx-1 my-1 px-2 py-1" 
+                                        *ngFor="let pref_service of user.pref_services_ids_detail">{{pref_service.name}}</span>
+                                    </div>
+                                    <p *ngIf="!user.pref_services_ids_detail || (user.pref_services_ids_detail && user.pref_services_ids_detail.length == 0)" 
+                                        class="text-navy rubik font-normal not-italic fs-14-px">
+                                        No services yet
+                                    </p>
+                                </div>
+                            </div>
+                            <div class="grid grid-cols-12 gap-5 px-5 py-4 bg-alternate">
+                                <div class="col-span-4">
+                                    <p class="text-main-gray rubik font-normal not-italic fs-14-px">Specializations interested in</p>
+                                </div>
+                                <div class="col-span-8">
+                                    <div *ngIf="user.pref_specialization_ids_detail && user.pref_specialization_ids_detail.length > 0" class="flex flex-wrap">
+                                        <span class="text-darkblue rubik font-normal not-italic fs-14-px bg-lightpurple rounded-xl mx-1 my-1 px-2 py-1"
+                                        *ngFor="let pref_specializations of user.pref_specialization_ids_detail">{{pref_specializations.name}}</span>
+                                    </div>
+                                    <p *ngIf="!user.pref_specialization_ids_detail || (user.pref_specialization_ids_detail && user.pref_specialization_ids_detail.length == 0)" 
+                                        class="text-navy rubik font-normal not-italic fs-14-px">
+                                        No specialization yet
+                                    </p>
+                                </div>
+                            </div>
+                            <div class="grid grid-cols-12 gap-5 px-5 py-4 bg-white">
+                                <div class="col-span-4">
+                                    <p class="text-main-gray rubik font-normal not-italic fs-14-px">Countries I'm not prepared to meet (this will not display in your profile)</p>
+                                </div>
+                                <div class="col-span-8 flex items-center flex-wrap">
+                                    <span class="text-darkblue rubik font-normal not-italic fs-14-px flex items-center rounded-xl bg-country mx-1 my-1 px-2 py-1"
+                                    *ngFor="let pref_country of user.pref_countries_ids_detail">
+                                        <img src="assets/flags/{{pref_country.iso}}.png" class="h-3 w-3">
+                                        <span class="ml-1">{{pref_country.nicename}}</span>
+                                    </span>
+                                </div>
+                            </div>
+                            <div class="grid grid-cols-12 gap-5 px-5 py-4 bg-alernate">
+                                <div class="col-span-4">
+                                    <p class="text-main-gray rubik font-normal not-italic fs-14-px">My business card</p>
+                                </div>
+                                <div *ngIf="user.businesscard_url" class="col-span-8">
+                                    <img src="{{user.businesscard_url}}" class="w-442-px h-242-px">
+                                </div>
+                                <div *ngIf="!user.businesscard_url" class="col-span-8">
+                                    <div class="business-card-outline w-442-px h-242-px h-full flex flex-col items-center justify-center cursor-pointer">
+                                        <img src="assets/images/id.png" class="object-cover h-100-px" alt="">
+                                        <div class="text-gray-500 text-base">
+                                            You didn't upload any business card
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <ng-container *ngIf="isUserProfileLoading">
+                            <ng-container *ngFor="let item of [1]">
+                                <div class="grid grid-cols-12 gap-5 px-5 py-4 bg-alternate">
+                                    <div class="col-span-4">
+                                        <div class="w-200-px h-15-px">
+                                            <app-loader [border_radius_class]="'rounded-lg'" [additional_class]=""></app-loader>
+                                        </div>
+                                    </div>
+                                    <div class="col-span-8">
+                                        <div class="w-250-px h-15-px">
+                                            <app-loader [border_radius_class]="'rounded-lg'" [additional_class]=""></app-loader>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="grid grid-cols-12 gap-5 px-5 py-4 bg-white">
+                                    <div class="col-span-4">
+                                        <div class="w-200-px h-15-px">
+                                            <app-loader [border_radius_class]="'rounded-lg'" [additional_class]=""></app-loader>
+                                        </div>
+                                    </div>
+                                    <div class="col-span-8">
+                                        <div class="w-250-px h-15-px">
+                                            <app-loader [border_radius_class]="'rounded-lg'" [additional_class]=""></app-loader>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="grid grid-cols-12 gap-5 px-5 py-4 bg-alternate">
+                                    <div class="col-span-4">
+                                        <div class="w-200-px h-15-px">
+                                            <app-loader [border_radius_class]="'rounded-lg'" [additional_class]=""></app-loader>
+                                        </div>
+                                    </div>
+                                    <div class="col-span-8">
+                                        <div class="w-250-px h-15-px">
+                                            <app-loader [border_radius_class]="'rounded-lg'" [additional_class]=""></app-loader>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="grid grid-cols-12 gap-5 px-5 py-4 bg-white">
+                                    <div class="col-span-4">
+                                        <div class="w-200-px h-15-px">
+                                            <app-loader [border_radius_class]="'rounded-lg'" [additional_class]=""></app-loader>
+                                        </div>
+                                    </div>
+                                    <div class="col-span-8">
+                                        <div class="w-250-px h-15-px">
+                                            <app-loader [border_radius_class]="'rounded-lg'" [additional_class]=""></app-loader>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="grid grid-cols-12 gap-5 px-5 py-4 bg-alternate">
+                                    <div class="col-span-4">
+                                        <div class="w-200-px h-15-px">
+                                            <app-loader [border_radius_class]="'rounded-lg'" [additional_class]=""></app-loader>
+                                        </div>
+                                    </div>
+                                    <div class="flex items-center col-span-8">
+                                        <div class="w-100-px h-15-px">
+                                            <app-loader [border_radius_class]="'rounded-lg'" [additional_class]=""></app-loader>
+                                        </div>
+                                    
+                                        <div class="w-100-px h-15-px ml-2">
+                                            <app-loader [border_radius_class]="'rounded-lg'" [additional_class]=""></app-loader>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="grid grid-cols-12 gap-5 px-5 py-4 bg-white">
+                                    <div class="col-span-4">
+                                        <div class="w-200-px h-15-px">
+                                            <app-loader [border_radius_class]="'rounded-lg'" [additional_class]=""></app-loader>
+                                        </div>
+                                    </div>
+                                    <div class="flex items-center col-span-8">
+                                        <div class="w-100-px h-15-px">
+                                            <app-loader [border_radius_class]="'rounded-lg'" [additional_class]=""></app-loader>
+                                        </div>
+                                    
+                                        <div class="w-100-px h-15-px ml-2">
+                                            <app-loader [border_radius_class]="'rounded-lg'" [additional_class]=""></app-loader>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="grid grid-cols-12 gap-5 px-5 py-4 bg-alternate">
+                                    <div class="col-span-4">
+                                        <div class="w-200-px h-15-px">
+                                            <app-loader [border_radius_class]="'rounded-lg'" [additional_class]=""></app-loader>
+                                        </div>
+                                    </div>
+                                    <div class="flex items-center col-span-8">
+                                        <div class="w-100-px h-15-px">
+                                            <app-loader [border_radius_class]="'rounded-lg'" [additional_class]=""></app-loader>
+                                        </div>
+                                    
+                                        <div class="w-100-px h-15-px ml-2">
+                                            <app-loader [border_radius_class]="'rounded-lg'" [additional_class]=""></app-loader>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="grid grid-cols-12 gap-5 px-5 py-4 bg-white">
+                                    <div class="col-span-4">
+                                        <div class="w-200-px h-15-px">
+                                            <app-loader [border_radius_class]="'rounded-lg'" [additional_class]=""></app-loader>
+                                        </div>
+                                    </div>
+                                    <div class="col-span-8">
+                                        <div class="w-442-px h-242-px">
+                                            <app-loader [border_radius_class]="'rounded-lg'" [additional_class]=""></app-loader>
+                                        </div>
+                                    </div>
+                                </div>
+                            </ng-container>
+                        </ng-container>
+                    </mat-tab>
+                    <mat-tab label="Company">
+                        <div class="px-5 py-5 bg-white">
+                            <div class="grid grid-cols-12">
+                                <div class="col-span-6">
+                                    <div class="text-gray900 rubik font-semibold not-italic fs-16-px ">About the company</div>
+                                    <div class="text-gray rubik font-normal not-italic fs-14-px">Details of your company</div>
+                                </div>
+                                <div class="col-span-6 ml-auto">
+                                    <!-- <div class="flex items-center cursor-pointer">
+                                        <img src="assets/icon/edit-icon.png">
+                                        <button class="text-blue rubik font-semibold not-italic fs-14-px ml-1 focus:outline-none" routerLink="/admin/edit-company-details">Edit</button>
+                                    </div> -->
+                                </div>
+                            </div>
+                        </div>
+                        <hr class="w-full">
+                        <div>
+                            <div class="grid grid-cols-12 px-5 py-4 bg-alternate">
+                                <div class="col-span-4">
+                                    <p class="text-main-gray rubik font-normal not-italic fs-14-px">Name</p>
+                                </div>
+                                <div class="col-span-8">
+                                    <p class="text-navy rubik font-semibold not-italic fs-14-px">{{user.company.name ? user.company.name : 'No company name'}}</p>
+                                </div>
+                            </div>
+                            <div class="grid grid-cols-12 px-5 py-4 bg-white">
+                                <div class="col-span-4">
+                                    <p class="text-main-gray rubik font-normal not-italic fs-14-px">Description</p>
+                                </div>
+                                <div class="col-span-7">
+                                    <ng-container *ngIf="!showInputDescription" >
+                                        <span *ngIf="user.company && user.company.description">
+                                            <pre class="text-navy rubik font-normal not-italic fs-14-px break-words">{{ user.company.description }}</pre>
+                                        </span>
+                                        <p *ngIf="!user.company || !user.company.description" class="text-navy rubik font-normal not-italic fs-14-px">
+                                            No description yet
+                                        </p>
+                                    </ng-container>
+
+                                    <div *ngIf="showInputDescription">
+                                        <textarea 
+                                            class="focus:outline-none border border-gray-400 rounded-md px-3 py-2 h-150-px w-11/12" 
+                                            [(ngModel)]="user.company.description" 
+                                            [ngModelOptions]="{standalone: true}"
+                                        ></textarea>
+                                    </div> 
+                                </div>
+                                <div class="col-span-1 flex justify-center">
+                                    <div (click)="editfield('description', 'edit')" *ngIf="!showInputDescription" class="logo-blue fs-14-px flex items-center font-normal text-sm cursor-pointer">
+                                        <svg width="20" height="20" viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg" >
+                                            <path fill-rule="evenodd" clip-rule="evenodd" d="M14.7157 2.5C14.5074 2.5 14.2907 2.58333 14.1324 2.74167L12.6074 4.26667L15.7324 7.39167L17.2574 5.86667C17.5824 5.54167 17.5824 5.01667 17.2574 4.69167L15.3074 2.74167C15.1407 2.575 14.9324 2.5 14.7157 2.5ZM11.7157 7.51667L12.4824 8.28333L4.93236 15.8333H4.16569V15.0667L11.7157 7.51667ZM2.49902 14.375L11.7157 5.15833L14.8407 8.28333L5.62402 17.5H2.49902V14.375Z" fill="#3B67B2"/>
+                                        </svg>
+                                        <span class="ml-2"> Edit </span>
+                                    </div>
+                                    <div (click)="editfield('description', 'save')" *ngIf="showInputDescription" class="logo-blue fs-14-px flex items-center font-normal text-sm cursor-pointer">
+                                        <svg width="16" height="12" viewBox="0 0 16 12" fill="none" xmlns="http://www.w3.org/2000/svg" class="mr-2">
+                                            <path d="M5.32923 9.22914L1.85423 5.75414L0.670898 6.92914L5.32923 11.5875L15.3292 1.58748L14.1542 0.412476L5.32923 9.22914Z" fill="#3B67B2"/>
+                                        </svg>
+                                        <span class="ml-2"> Save </span>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="grid grid-cols-12 px-5 py-4 bg-alternate">
+                                <div class="col-span-4">
+                                    <p class="text-main-gray rubik font-normal not-italic fs-14-px">Sector</p>
+                                </div>
+                                <div class="col-span-8">
+                                    <p *ngIf="user.company && user.company.pref_sector_name" class="text-navy rubik font-normal not-italic fs-14-px">
+                                        {{ user.company.pref_sector_name }}
+                                    </p>
+                                    <p *ngIf="!user.company || !user.company.pref_sector_name" class="text-navy rubik font-normal not-italic fs-14-px">
+                                        No sector yet
+                                    </p>
+                                </div>
+                            </div>
+                            <div *ngIf="user.company && user.company.member_since" class="grid grid-cols-12 px-5 py-4 bg-white">
+                                <div class="col-span-4">
+                                    <p class="text-main-gray rubik font-normal not-italic fs-14-px">Member Since</p>
+                                </div>
+                                <div class="col-span-8">
+                                    <p class="text-navy rubik font-normal not-italic fs-14-px">
+                                        {{ user.company.member_since }}
+                                    </p>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="bg-network px-5 py-3">
+                            <div class="text-gray900 rubik font-semibold not-italic fs-16-px ">Network Information</div>
+                        </div>
+                        <div>
+                            <div class="grid grid-cols-12 px-5 py-4 bg-alternate">
+                                <div class="col-span-4">
+                                    <p class="text-main-gray rubik font-normal not-italic fs-14-px">Network</p>
+                                </div>
+                                <div class="col-span-8">
+                                    <p *ngIf="user.company && user.company.pref_network_name" class="text-navy rubik font-normal not-italic fs-14-px">
+                                        {{ user.company.pref_network_name }}
+                                    </p>
+                                    <p *ngIf="!user.company || !user.company.pref_network_name" class="text-navy rubik font-normal not-italic fs-14-px">
+                                        No network yet
+                                    </p>
+                                </div>
+                            </div>
+                            <div class="grid grid-cols-12 px-5 py-4 bg-white">
+                                <div class="col-span-4">
+                                    <p class="text-main-gray rubik font-normal not-italic fs-14-px">Membership Status</p>
+                                </div>
+                                <div class="col-span-8">
+                                    <p *ngIf="user.company && user.company.membershipstatus" class="text-navy rubik font-normal not-italic fs-14-px">
+                                        {{ user.company.membershipstatus }}
+                                    </p>
+                                    <p *ngIf="!user.company || !user.company.membershipstatus" class="text-navy rubik font-normal not-italic fs-14-px">
+                                        No membership status yet
+                                    </p>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="bg-network px-5 py-3">
+                            <div class="text-gray900 rubik font-semibold not-italic fs-16-px ">Company Address</div>
+                        </div>
+                        <div>
+                            <div class="grid grid-cols-12 bg-alternate px-5 py-4">
+                                <div class="col-span-4">
+                                    <p class="text-main-gray rubik font-normal not-italic fs-14-px">Country</p>
+                                </div>
+                                <div class="col-span-8">
+                                    <span *ngIf="user.company_country && user.company_country.nicename" class="text-darkblue rubik font-normal not-italic fs-14-px flex items-center px-2 rounded-xl bg-country w-max">
+                                        <img src="assets/flags/{{user.company_country.iso}}.png" class="h-3 w-3">
+                                        <span class="ml-1">{{user.company_country.nicename}}</span>
+                                    </span>
+                                    <p *ngIf="!user.company_country || !user.company_country.nicename" class="text-navy rubik font-normal not-italic fs-14-px"> No country yet </p>
+                                </div>
+                            </div>
+                            <div class="grid grid-cols-12 bg-white px-5 py-4">
+                                <div class="col-span-4">
+                                    <p class="text-main-gray rubik font-normal not-italic fs-14-px">Zip Code</p>
+                                </div>
+                                <div class="col-span-8">
+                                    <p *ngIf="user.company && user.company.zipcode" class="text-navy rubik font-normal not-italic fs-14-px">{{user.company.zipcode}}</p>
+                                    <p *ngIf="!user.company || !user.company.zipcode" class="text-navy rubik font-normal not-italic fs-14-px"> No zipcode yet </p>
+                                </div>
+                            </div>
+                            <div class="grid grid-cols-12 bg-alternate px-5 py-4">
+                                <div class="col-span-4">
+                                    <p class="text-main-gray rubik font-normal not-italic fs-14-px">Address</p>
+                                </div>
+                                <div class="col-span-8">
+                                    <p *ngIf="user.company && user.company.address" class="text-navy rubik font-normal not-italic fs-14-px">{{user.company.address}}</p>
+                                    <p *ngIf="!user.company || !user.company.address" class="text-navy rubik font-normal not-italic fs-14-px"> No address yet </p>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="bg-network px-5 py-3">
+                            <div class="text-gray900 rubik font-semibold not-italic fs-16-px ">Contact Information</div>
+                        </div>
+                        <div class="grid grid-cols-12 px-5 py-4 bg-alternate">
+                            <div class="col-span-4">
+                                <p class="text-main-gray rubik font-normal not-italic fs-14-px">Telephone</p>
+                            </div>
+                            <div class="col-span-8">
+                                <p *ngIf="user.company.social_media_links_detail && user.company.social_media_links_detail.phoneNumber" class="text-navy rubik font-normal not-italic fs-14-px"> {{user.company.social_media_links_detail.phoneNumber}} </p>
+                                <p *ngIf="!user.company.social_media_links_detail || !user.company.social_media_links_detail.phoneNumber" class="text-navy rubik font-normal not-italic fs-14-px"> No telephone yet </p>
+                            </div>
+                        </div>
+                        <div class="grid grid-cols-12 px-5 py-4 bg-white">
+                            <div class="col-span-4">
+                                <p class="text-main-gray rubik font-normal not-italic fs-14-px ">Social Links</p>
+                            </div>
+                            <div class="col-span-8">
+                                <div *ngIf="user.company.social_media_links_detail && user.company.social_media_links_detail.facebook" class="flex items-center my-1">
+                                    <div class="social-media-icon fb mgr-5">
+                                        <i class="fab fa-facebook-f text-white"></i>
+                                    </div>
+                                    <span class="text-navy rubik font-normal not-italic fs-14-px"> {{user.company.social_media_links_detail.facebook}} </span>
+                                </div>
+                                <div *ngIf="user.company.social_media_links_detail && user.company.social_media_links_detail.kakao" class="flex items-center my-1">
+                                    <div class="social-media-icon kt mgr-5">
+                                        <i class="fas fa-comment"></i> 
+                                    </div>
+                                    <span class="text-navy rubik font-normal not-italic fs-14-px"> {{user.company.social_media_links_detail.kakao}} </span>
+                                </div>
+                                <div *ngIf="user.company.social_media_links_detail && user.company.social_media_links_detail.linkedin" class="flex items-center my-1">
+                                    <div class="social-media-icon ln mgr-5">
+                                        <i class="fab fa-linkedin-in text-white"></i>
+                                    </div>
+                                    <span class="text-navy rubik font-normal not-italic fs-14-px"> {{user.company.social_media_links_detail.linkedin}} </span>
+                                </div>
+                                <div *ngIf="user.company.social_media_links_detail && user.company.social_media_links_detail.skype" class="flex items-center my-1">
+                                    <div class="social-media-icon sk mgr-5">
+                                        <i class="fab fa-skype text-white"></i>
+                                    </div>
+                                    <span class="text-navy rubik font-normal not-italic fs-14-px"> {{user.company.social_media_links_detail.skype}} </span>
+                                </div>
+                                <div *ngIf="user.company.social_media_links_detail && user.company.social_media_links_detail.twitter" class="flex items-center my-1">
+                                    <div class="social-media-icon tw mgr-5">
+                                        <i class="fab fa-twitter text-white"></i>
+                                    </div>
+                                    <span class="text-navy rubik font-normal not-italic fs-14-px"> {{user.company.social_media_links_detail.twitter}} </span>
+                                </div>
+                                <div *ngIf="user.company.social_media_links_detail && user.company.social_media_links_detail.wechat" class="flex items-center my-1">
+                                    <div class="social-media-icon wc mgr-5">
+                                        <i class="fab fa-weixin text-white"></i>
+                                    </div>
+                                    <span class="text-navy rubik font-normal not-italic fs-14-px"> {{user.company.social_media_links_detail.wechat}} </span>
+                                </div>
+                                <div *ngIf="user.company.social_media_links_detail && user.company.social_media_links_detail.whatsapp" class="flex items-center my-1">
+                                    <div class="social-media-icon wa mgr-5">
+                                        <i class="fab fa-whatsapp text-white"></i>
+                                    </div>
+                                    <span class="text-navy rubik font-normal not-italic fs-14-px"> {{user.company.social_media_links_detail.whatsapp}} </span>
+                                </div>
+                                <div *ngIf="user.company.social_media_links_detail && user.company.social_media_links_detail.zoom" class="flex items-center my-1">
+                                    <div class="social-media-icon zm mgr-5">
+                                        <i class="fas fa-video text-white"></i>
+                                    </div>
+                                    <span class="text-navy rubik font-normal not-italic fs-14-px"> {{user.company.social_media_links_detail.zoom}} </span>
+                                </div>
+                                    
+                                <div *ngIf="
+                                    !user.company.social_media_links_detail ||
+                                    (
+                                        !user.company.social_media_links_detail.facebook && 
+                                        !user.company.social_media_links_detail.kakao && 
+                                        !user.company.social_media_links_detail.linkedln && 
+                                        !user.company.social_media_links_detail.skype && 
+                                        !user.company.social_media_links_detail.twitter && 
+                                        !user.company.social_media_links_detail.wechat && 
+                                        !user.company.social_media_links_detail.whatsapp && 
+                                        !user.company.social_media_links_detail.zoom
+                                    )" class="flex items-center my-1">
+                                    <span class="text-navy rubik font-normal not-italic fs-14-px"> No social media yet </span>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="grid grid-cols-12 px-5 py-4 bg-alternate">
+                            <div class="col-span-4">
+                                <p class="text-main-gray rubik font-normal not-italic fs-14-px">Other delegates from <br> this company</p>
+                            </div>
+                            <div class="col-span-8 scroll custom-scroll" (scroll)=" onScroll($event)">
+                                <div class="flex justify-between flex-col space-y-3">
+                                    <div class="flex items-center" *ngFor="let other_delegate of other_delegate_company">
+                                        <ng-container *ngIf="user.id != other_delegate.id">
+                                            <img *ngIf="!other_delegate.profile_photo_url" src="assets/empty_states/profile_avatar_{{other_delegate.profile_photo}}.png" class="rounded-full h-40-px w-40-px">
+                                            <img *ngIf="other_delegate.profile_photo_url" src="{{other_delegate.profile_photo_url}}" class="rounded-full h-40-px w-40-px">
+                                            <div class="text-gray900 rubik font-normal not-italic fs-14-px ml-3">
+                                                <p>{{other_delegate.fullname}}</p>
+                                                <p class="text-gray rubik font-normal not-italic fs-14-px">{{other_delegate.job_title}}</p>
+                                            </div>
+                                        </ng-container>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </mat-tab>
+                </mat-tab-group>
+            </div>
+        </div>
+    </div>
+</div>

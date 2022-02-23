@@ -1,0 +1,91 @@
+<div class="h-full">
+    <div class="relative" *ngIf="!isLoading && aboutScheduler">
+        <img src="assets/images/bg-f2f.png" class="absolute left-8 top-8">
+        <img src="assets/images/bg-f2f1.png" class="absolute right-0 top-3">
+        <div class="bg-pad py-16">
+            <div class="border-b-3 border-gray-300 bg-about rounded-md">
+                <div class="text-center py-5">
+                    <div class="text-white rubik font-semibold fs-32-px not-italic" [innerHTML]="aboutScheduler.title"></div>
+                </div>
+                <div class="hr-green py-1"></div>
+                <div class="bg-white">
+                    <div class="px-5 py-5 text-justify">
+                        <div class="text-navy rubik font-normal not-italic fs-16-px" [innerHTML]="aboutScheduler.content">
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Skeleton loader -->
+    <div class="relative" *ngIf="isLoading">
+        <img src="assets/images/bg-f2f.png" class="absolute left-8 top-8">
+        <img src="assets/images/bg-f2f1.png" class="absolute right-0 top-3">
+        <div class="bg-pad py-16">
+            <div class="border-b-3 border-gray-300 bg-about rounded-md">
+                <div class="flex justify-center py-5">
+                    <div class="w-300-px h-20-px rounded-t-lg">
+                        <app-loader [border_radius_class]="'rounded-lg'" [additional_class]=""></app-loader>
+                    </div>
+                </div>
+                <div class="hr-green py-1"></div>
+                <div class="bg-white">
+                    <div class="px-5 py-2 text-justify space-y-2">
+                        <div class="w-full h-15-px rounded-t-lg">
+                            <app-loader [border_radius_class]="'rounded-lg'" [additional_class]=""></app-loader>
+                        </div>
+                        <div class="w-full h-15-px rounded-t-lg">
+                            <app-loader [border_radius_class]="'rounded-lg'" [additional_class]=""></app-loader>
+                        </div>
+                        <div class="w-full h-15-px rounded-t-lg">
+                            <app-loader [border_radius_class]="'rounded-lg'" [additional_class]=""></app-loader>
+                        </div>
+                        <div class="w-full h-15-px rounded-t-lg">
+                            <app-loader [border_radius_class]="'rounded-lg'" [additional_class]=""></app-loader>
+                        </div>
+                        <div class="w-full h-15-px rounded-t-lg">
+                            <app-loader [border_radius_class]="'rounded-lg'" [additional_class]=""></app-loader>
+                        </div>
+                        <div class="w-full h-15-px rounded-t-lg">
+                            <app-loader [border_radius_class]="'rounded-lg'" [additional_class]=""></app-loader>
+                        </div>
+                        <div class="w-full h-15-px rounded-t-lg">
+                            <app-loader [border_radius_class]="'rounded-lg'" [additional_class]=""></app-loader>
+                        </div>
+                        <div class="w-full h-15-px rounded-t-lg">
+                            <app-loader [border_radius_class]="'rounded-lg'" [additional_class]=""></app-loader>
+                        </div>
+                        <div class="w-full h-15-px rounded-t-lg">
+                            <app-loader [border_radius_class]="'rounded-lg'" [additional_class]=""></app-loader>
+                        </div>
+                        <div class="w-full h-15-px rounded-t-lg">
+                            <app-loader [border_radius_class]="'rounded-lg'" [additional_class]=""></app-loader>
+                        </div>
+                        <div class="w-full h-15-px rounded-t-lg">
+                            <app-loader [border_radius_class]="'rounded-lg'" [additional_class]=""></app-loader>
+                        </div>
+                        <div class="w-full h-15-px rounded-t-lg">
+                            <app-loader [border_radius_class]="'rounded-lg'" [additional_class]=""></app-loader>
+                        </div>
+                        <div class="w-full h-15-px rounded-t-lg">
+                            <app-loader [border_radius_class]="'rounded-lg'" [additional_class]=""></app-loader>
+                        </div>
+                        <div class="w-full h-15-px rounded-t-lg">
+                            <app-loader [border_radius_class]="'rounded-lg'" [additional_class]=""></app-loader>
+                        </div>
+                        <div class="w-full h-15-px rounded-t-lg">
+                            <app-loader [border_radius_class]="'rounded-lg'" [additional_class]=""></app-loader>
+                        </div>
+                        <div class="w-full h-15-px rounded-t-lg">
+                            <app-loader [border_radius_class]="'rounded-lg'" [additional_class]=""></app-loader>
+                        </div>
+                        <div class="w-full h-15-px rounded-t-lg">
+                            <app-loader [border_radius_class]="'rounded-lg'" [additional_class]=""></app-loader>
+                        </div>
+                    </div>
+                </div>
+            </div>
+         </div>
+    </div>
+</div>

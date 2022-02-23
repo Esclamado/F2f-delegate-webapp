@@ -1,0 +1,145 @@
+/* You can add global styles to this file, and also import other style files */
+
+@import 'tailwindcss/base';
+@import 'tailwindcss/components';
+@import 'tailwindcss/utilities';
+@import 'assets/css/mixins.scss';
+@import 'assets/css/global.scss';
+@import "assets/css/colors.scss";
+@import "assets/css/datatables.scss";
+@import "assets/css/toast.scss";
+@import "assets/css/smartmodal.scss";
+@import 'assets/css/fonts.scss';
+// @import "~@fortawesome/fontawesome-free/css/all.min.css";
+// @import "assets/fontawesome/css/all.min.css";
+html,
+body {
+    height: 100%;
+    font-family: "Rubik", Roboto, "Helvetica Neue", sans-serif !important;
+}
+
+body {
+    margin: 0;
+    font-family: "Rubik", Roboto, "Helvetica Neue", sans-serif;
+}
+
+@font-face {
+    font-family: "Rubik";
+    src: local("Rubik"), url(./assets/css/Rubik/static/Rubik-Regular.ttf) format("truetype");
+}
+
+@font-face {
+    font-family: "Inter";
+    src: local("Inter"), url(./assets/css/Inter/static/Inter-Regular.ttf) format("truetype");
+}
+.primary-color{
+    color: #3B67B2 ;
+}
+.primary-bgcolor{
+    background-color: #3B67B2 ;
+}
+.secondary-color{
+    color: #87AF1B ;
+}
+.secondary-bgcolor{
+    background-color: #87AF1B;
+}
+.danger-color{
+    color: #8B0517;
+}
+.danger-bgcolor{
+    background-color: #8B0517;
+}
+
+.form-check input[type=checkbox] + label {
+    margin-left: 0px;
+    position: relative;
+    padding-left: 35px;
+    font-size: 16px;
+    line-height: 22px;
+}
+
+.business-card-outline{
+    border: 2px dashed #CCCCCC;
+}
+
+.profile-pic{
+    .prof-img{
+        border: 3px solid #FFFFFF;
+    }
+}
+
+.border-bottom-gray{
+    border-bottom: 1px solid #EEEEEE;
+}
+
+.mat-form-field-appearance-legacy .mat-form-field-infix{
+    padding: 0;
+}
+
+.bg-gray-card{
+    background: #F3F5F6;
+}
+
+.border-gray-300{
+    border: 1px solid #CCCCCC;
+}
+
+.border-gray-400{
+    border: 1px solid #CCCCCC;
+}
+
+.bg-gray-600{
+    border: 1px solid #6E6E6E;
+}
+
+.bg-EBEBEB{
+    background: #EBEBEB;
+}
+
+.bg-EEEEEE{
+    background: #EEEEEE;
+}
+
+.color-gray-600{
+    color: #6E6E6E;
+}
+
+.text-gray-500{
+    color: #6E6E6E;
+}
+
+.text-red{
+    color: rgba(175, 27, 47, 1);
+}
+
+.text-blue{
+    color: #3B67B2;
+}
+
+.text-primary{
+    color: #194FA0;
+}
+
+.defaulte-text-color{
+    color: #05172D;
+}
+
+.chip {
+    border-radius: 15px;
+    p.chip-label {
+        font-size: 11px
+    }
+    &.table {
+        background-color: #666666;
+        color: #fff;
+    }
+    &.table-vip {
+        background-color: #face17;
+        color: #05172e;
+    }
+    &.table-booth {
+        color: #fff;
+        background-image: linear-gradient(90deg, #a42d80 0%, #8c1668 100%);
+    }
+}

@@ -1,0 +1,8 @@
+::ng-deep{
+    .cdk-overlay-container{
+        z-index: 999999 !important;
+    }
+    .mat-menu-panel.edit-menu{
+        max-height: 300px !important;
+    }
+}

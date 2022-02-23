@@ -1,0 +1,99 @@
+<div class="overflow-x-auto custom-scroll h-full px-2 md:px-5 lg:px-12 py-8">
+    <button class="border border-gray-600 px-5 py-2 rounded-md hover:bg-gray-card focus:outline-none mb-3" routerLink="/admin/companies">back</button>
+    <div class="fs-32-px barlow-condensed-bold default-text-color mb-5 font-semibold ">
+        <!-- {{ status == 1 ? 'Edit' : ' -->Add
+        <!-- ' }} -->Company </div>
+    <div class="grid grid-cols-12 gap-3">
+        <div class="col-span-12">
+            <form [formGroup]="company_form">
+                <div class="bg-white p-5 w-full rounded-lg shadow-sm">
+                    <div class="mb-5 space-y-1">
+                        <div class="grid grid-cols-12 gap-6">
+                            <div class="col-span-12">
+                                <span class="default-text-color text-2xl font-semibold mb-5">Company Information</span>
+                                <div class="flex justify-start lg:justify-end">
+                                    <span class="border py-2 px-3 border-gray-600 rounded-md cursor-pointer flex items-center w-250-px ">
+                                        <input #inputPicker (focus)="company_form.controls.date.markAsUntouched();picker.open();"
+                                        (click)="company_form.controls.date.markAsUntouched();picker.open();" readonly [matDatepicker]="picker"
+                                        placeholder="Select a date"
+                                        class="appearance-none rounded w-fullleading-tight relative border-0 cursor-pointer focus:outline-none"
+                                        formControlName="date" autocomplete="off">
+                                        <mat-datepicker (closed)="inputPicker.blur();" #picker></mat-datepicker>
+                                        <span class="material-icons" (click)="inputPicker.click();">
+                                            expand_more
+                                        </span>
+                                    </span>
+                                </div>
+                            </div>
+                            <div class="col-span-12 lg:col-span-6">
+                                <div class="mb-8 relative">
+                                    <label for="CompanyName" class="default-text-color">Company Name</label>
+                                    <input type="text" formControlName="name" class="custom-input w-full text-lg mt-2" maxlength="70" [ngClass]="{'error  pr-30-px': company_form.controls.name.touched && !company_form.controls.name.valid}" autocomplete="off">
+                                    <ng-container *ngIf="company_form.controls.name.touched">
+                                        <div class="text-red-700 mb-0 fs-14-px absolute" *ngIf="company_form.controls.name.hasError('required')">Company Name is required
+                                        </div>
+                                    </ng-container>
+
+                                </div>
+                                <div class="mb-8 relative">
+                                    <label for="email" class="default-text-color">Email</label>
+                                    <input type="text" formControlName="email" class="custom-input w-full text-lg mt-2" maxlength="70" autocomplete="off" [ngClass]="{'error  pr-30-px': company_form.controls.email.touched && !company_form.controls.email.valid}">
+                                    <ng-container *ngIf="company_form.controls.email.touched">
+                                        <div class="text-red-700 mb-0 fs-14 absolute" *ngIf="company_form.controls.email.hasError('required')">Email is required
+                                        </div>
+                                        <div class="text-red-700 mb-0 fs-14 absolute" *ngIf="company_form.controls.email.hasError('pattern')">Email must be in valid format!</div>
+                                    </ng-container>
+                                </div>
+                                <div class="mb-8 relative">
+                                    <label for="Companynumber" class="default-text-color">Company number</label>
+                                    <input type="text" 
+                                        formControlName="number" 
+                                        onkeydown="return event.keyCode !== 69 && event.keyCode !== 190" 
+                                        class="custom-input w-full text-lg mt-2" 
+                                        [ngClass]="{'error  pr-30-px': company_form.controls.number.touched && !company_form.controls.number.valid}"
+                                    >
+                                    <ng-container *ngIf="company_form.controls.number.touched">
+                                        <div class="text-red-700 mb-0 fs-14-px " *ngIf="company_form.controls.number.hasError('required')">Mobile Number is required
+                                        </div>
+                                        <!-- <div class="text-red-700 mb-0 fs-14-px " *ngIf="company_form.controls.number.hasError('minlength')">Mobile Number must contatin 12 digits</div> -->
+                                        <div class="text-red-700 mb-0 fs-14-px " *ngIf="company_form.controls.number.hasError('pattern')">Mobile Number must contatin numbers only.</div>
+                                    </ng-container>
+                                </div>
+                            </div>
+                            <div class="col-span-12 lg:col-span-6">
+                                <div class="mb-8">
+                                    <label for="CompanyName" class="default-text-color">Company Name</label>
+                                    <input type="text" class="custom-input w-full text-lg mt-2" maxlength="70">
+                                </div>
+                                <div class="mb-8">
+                                    <label for="email" class="default-text-color">Email</label>
+                                    <input type="text" class="custom-input w-full text-lg mt-2" maxlength="70">
+                                </div>
+                                <div class="mb-8">
+                                    <label for="Companynumber" class="default-text-color">Company number</label>
+                                    <input type="number" class="custom-input w-full text-lg mt-2" maxlength="70">
+                                </div>
+                            </div>
+                            <div class="col-span-12">
+                                <button (click)="saveCompanyModal()" class="focus:outline-none btn-bg-orange custom-btn px-6 py-3 ml-auto">Add Company</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </form>
+        </div>
+        <!-- <div class="lg:col-span-4 sm:col-span-12">
+            <div class="bg-white p-5 w-full rounded-lg shadow-sm default-text-color">
+                <div class="flex flex-col space-y-2">
+                    <span class="font-semibold text-lg">deactivate</span>
+                    <div class="text-base">
+                        Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation
+                    </div>
+                    <div class="ml-auto">
+                        <button class="btn-bg-orange custom-btn px-3 py-2">Deactivate</button>
+                    </div>
+                </div>
+            </div>
+        </div> -->
+    </div>
+</div>

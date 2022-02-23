@@ -1,0 +1,203 @@
+.content-container {
+    height: calc(100vh - 131px);
+    // height: 100vh;
+    margin-top: 131px;
+}
+
+@media only screen and (max-width: 768px) {
+    .template {
+        width: 100%;
+        &.exp {
+            width: 100%;
+        }
+    }
+}
+
+@media only screen and (min-width: 769px) {
+    .template {
+        width: calc(100vw - 80px);
+        &.exp {
+            width: calc(100vw - 260px);
+        }
+    }
+}
+
+@media only screen and (min-width: 770px) {
+    .left-pane-width {
+        width: 400px;
+    }
+}
+
+@media only screen and (max-width: 769px) {
+    .left-pane-width {
+        width: 100%;
+    }
+}
+textarea{
+    resize: none;
+    &.custom-scroll{
+        &::-webkit-scrollbar {
+            width: 8px;
+            
+        }
+
+        /* Track */
+        &::-webkit-scrollbar-track {
+            background: #E0E1E1;
+            // -webkit-border-radius: 2px;
+            // border-radius: 2px;
+        }
+
+        /* Handle */
+        &::-webkit-scrollbar-thumb {
+            // -webkit-border-radius: 2px;
+            // border-radius: 2px;
+            pointer-events: all !important;
+            background:#2a2c30; 
+            box-shadow: 1px 1px 8px rgba(0, 0, 0, 0.1);
+        }
+    }
+
+}
+.message-card-shadow{
+    filter: drop-shadow( 0 4px 4px rgba(0, 0, 0, 0.25));
+    // box-shadow: 0 4px 4px rgba(0, 0, 0, 0.25);
+}
+.bounce1{
+    animation: bounce1 .8s ease-in-out 0s infinite;
+}
+.bounce2{
+    animation: bounce1 .8s ease-in-out .2s infinite;
+}
+.bounce3{
+    animation: bounce1 .8s ease-in-out .4s infinite;
+}
+
+@keyframes bounce1 {
+    0% { transform: translateY(0px) }
+    50% { transform: translateY(-5px) }
+    100% { transform: translateY(0px) }
+}
+::ng-deep {
+    .mat-mini-fab.mat-accent {
+        &.settings-fab {
+            background-color: white !important;
+            mat-icon.mat-icon.notranslate.material-icons.mat-icon-no-color {
+                color: gray !important;
+            }
+            .mat-icon {
+                fill: rgba(0, 0, 0, 0.5) !important;
+            }
+            &:hover {
+                .mat-icon {
+                    fill: rgba(0, 0, 0, 0.8) !important;
+                }
+            }
+        }
+    }
+    .white-loader.mat-progress-spinner circle{
+        stroke: #FFF !important;
+    }
+}
+.selected-chat{
+    background: #f0f3f9;
+    border-left: #3b67b2 .4rem solid;
+}
+.read{
+    color:#6E6E6E;
+}
+.unread{
+    font-weight: 600;
+    color: #05172D;  
+}
+
+.custom-right-shadow {
+    box-shadow: 8px 0px 12px rgb(0 0 0 / 6%)
+}
+
+@media only screen and (min-width: 770px) {
+    .left-pane-width {
+        width: 400px;
+    }
+}
+
+@media only screen and (max-width: 769px) {
+    .left-pane-width {
+        width: 100%;
+    }
+}
+.others{
+    border-radius: 0px 10px 10px 10px;
+    background: #fff ;
+    color: #06172d;
+}
+.mine{
+    border-radius: 10px 0px 10px 10px;
+    background:#06172d ;
+    color: #fff;
+}
+.message-btn {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: center;
+    border-radius: 4px;
+    color: white;
+    box-sizing: border-box;
+    &.send-btn{
+        background: #3b67b2;
+        &:hover{
+            background: #2e579c;
+        }
+    }
+    &.btn-disabled {
+        background: #D8DCE2;
+        color: #7E868F;
+        svg path {
+            fill: #7E868F;
+        }
+    }
+}
+textarea {
+    overflow: auto;
+    overflow-x: hidden;
+}
+
+textarea::-webkit-scrollbar-track {
+    background: #E0E1E1;
+}
+
+textarea::-webkit-scrollbar {
+    width: 8px;
+    background-color: #F5F5F5;
+}
+
+textarea::-webkit-scrollbar-thumb {
+    background: #2a2c30;
+    box-shadow: 1px 1px 8px rgba(0, 0, 0, 0.1);
+}
+.user-pp.online:after {
+    content: "";
+    display: block;
+    position: absolute;
+    width: 12px;
+    height: 12px;
+    border-radius: 5px;
+    background-color: #3ec195;
+    border: 1.5px solid #ffffff;
+    top: 0px;
+    left: 0px;
+    z-index: 10;
+}
+
+.mar-top{
+    margin-top: 160px;
+  }
+.search-container{
+    overflow: auto;
+    max-height: 300px;
+    min-height: 250px;
+}
+.thread-container{
+    min-height: 76px;
+}

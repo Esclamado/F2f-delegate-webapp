@@ -1,0 +1,141 @@
+<div class="w-screen h-screen login-bg px-2 relative"
+    [ngStyle]="{'background-image': 'url(' + img_path + ')'}">
+    <img src="assets/images/bg-login-topleft.png" class="absolute top-5 left-5">
+    <img src="assets/images/bg-login-topright.png" class="absolute top-0 right-0">
+    <img src="assets/images/bg-login-bottomleft.png" class="absolute bottom-0 left-0">
+    <img src="assets/images/bg-login-bottomright.png" class="absolute bottom-0 right-0">
+    <div class="flex items-center justify-center w-full h-full">
+        <div> 
+            <form [formGroup]="login_form">
+                <div class="flex flex-col justify-start items-center rubik">
+                    <img src="assets/images/f2f.svg" class="h-40-px mb-6" alt="">
+                    <div class="fs-32-px font-semibold default-text-color">
+                        Sign in to your account
+                    </div>
+                    <div class="fs-14-px text-gray-600 my-1 mb-6">
+                        Start managing your schedules in your events.
+                    </div>
+                    <div class="mt-4 w-full">
+                        <div class="relative flex">
+                            <input type="text" formControlName="email"
+                                class="p-2 w-full text-lg focus:outline-none email-input" maxlength="70"
+                                [ngClass]="{'error pr-30-px': login_form.controls.email.touched && !login_form.controls.email.valid, 'active pr-30-px': login_form.controls.email.touched || login_form.controls.email.valid}"
+                                autocomplete="off" placeholder="Email address">
+                            <ng-container *ngIf="login_form.controls.email.touched">
+                                <svg class="absolute top-5 right-3" *ngIf="login_form.controls.email.valid"
+                                    width="14" height="15" viewBox="0 0 14 15" fill="none"
+                                    xmlns="http://www.w3.org/2000/svg">
+                                    <path
+                                        d="M13.5981 7.5C13.5981 11.255 10.5541 14.2991 6.79907 14.2991C3.04404 14.2991 0 11.255 0 7.5C0 3.74496 3.04404 0.700926 6.79907 0.700926C10.5541 0.700926 13.5981 3.74496 13.5981 7.5ZM6.01263 11.1001L11.0571 6.05558C11.2284 5.88429 11.2284 5.60654 11.0571 5.43525L10.4368 4.81491C10.2655 4.64359 9.98773 4.64359 9.81641 4.81491L5.70245 8.92885L3.78174 7.00814C3.61045 6.83684 3.3327 6.83684 3.16138 7.00814L2.54104 7.62847C2.36975 7.79976 2.36975 8.07751 2.54104 8.2488L5.39227 11.1C5.56359 11.2713 5.84131 11.2713 6.01263 11.1001Z"
+                                        fill="#389C18" />
+                                </svg>
+                                <svg class="absolute top-5 right-3" *ngIf="!login_form.controls.email.valid"
+                                    width="14" height="15" viewBox="0 0 14 15" fill="none"
+                                    xmlns="http://www.w3.org/2000/svg" mat-raised-button
+                                    matTooltip="This email is not registered in our platform"
+                                    matTooltipPosition="right"
+                                    aria-label="Button that displays a tooltip when focused or hovered over">
+                                    <path
+                                        d="M13.5981 7.5C13.5981 11.2559 10.5538 14.2991 6.79907 14.2991C3.04431 14.2991 0 11.2559 0 7.5C0 3.74634 3.04431 0.700928 6.79907 0.700928C10.5538 0.700928 13.5981 3.74634 13.5981 7.5ZM6.79907 8.87078C6.10258 8.87078 5.53796 9.43541 5.53796 10.1319C5.53796 10.8284 6.10258 11.393 6.79907 11.393C7.49557 11.393 8.06019 10.8284 8.06019 10.1319C8.06019 9.43541 7.49557 8.87078 6.79907 8.87078ZM5.60175 4.33772L5.80512 8.06624C5.81463 8.24072 5.95889 8.3773 6.13361 8.3773H7.46453C7.63925 8.3773 7.78351 8.24072 7.79303 8.06624L7.9964 4.33772C8.00668 4.14926 7.85663 3.9908 7.6679 3.9908H5.93022C5.74149 3.9908 5.59147 4.14926 5.60175 4.33772Z"
+                                        fill="url(#paint0_linear)" />
+                                    <defs>
+                                        <linearGradient id="paint0_linear" x1="6.77677" y1="14.281" x2="6.77677"
+                                            y2="0.700928" gradientUnits="userSpaceOnUse">
+                                            <stop stop-color="#8B0517" />
+                                            <stop offset="1" stop-color="#AF1B2F" />
+                                        </linearGradient>
+                                    </defs>
+                                </svg>
+                            </ng-container>
+                        </div>
+                        <div class="relative mb-5">
+                            <input
+                                class="w-full text-lg p-2 rounded-b-md focus:outline-none password-input trans-t"
+                                formControlName="password" type="{{ login_password_type }}" maxlength="70"
+                                [ngClass]="{'error  pr-30-px': login_form.controls.password.touched && !login_form.controls.password.valid, 'active pr-30-px': login_form.controls.password.touched || login_form.controls.password.valid}"
+                                placeholder="Password">
+                            <ng-container *ngIf="login_form.controls.password.touched">
+                                <svg class="absolute top-5 right-9" *ngIf="login_form.controls.password.valid"
+                                    width="14" height="15" viewBox="0 0 14 15" fill="none"
+                                    xmlns="http://www.w3.org/2000/svg">
+                                    <path
+                                        d="M13.5981 7.5C13.5981 11.255 10.5541 14.2991 6.79907 14.2991C3.04404 14.2991 0 11.255 0 7.5C0 3.74496 3.04404 0.700926 6.79907 0.700926C10.5541 0.700926 13.5981 3.74496 13.5981 7.5ZM6.01263 11.1001L11.0571 6.05558C11.2284 5.88429 11.2284 5.60654 11.0571 5.43525L10.4368 4.81491C10.2655 4.64359 9.98773 4.64359 9.81641 4.81491L5.70245 8.92885L3.78174 7.00814C3.61045 6.83684 3.3327 6.83684 3.16138 7.00814L2.54104 7.62847C2.36975 7.79976 2.36975 8.07751 2.54104 8.2488L5.39227 11.1C5.56359 11.2713 5.84131 11.2713 6.01263 11.1001Z"
+                                        fill="#389C18" />
+                                </svg>
+                                <svg class="absolute top-5 right-9" *ngIf="!login_form.controls.password.valid"
+                                    width="14" height="15" viewBox="0 0 14 15" fill="none"
+                                    xmlns="http://www.w3.org/2000/svg" mat-raised-button
+                                    matTooltip="Password incorrect" matTooltipPosition="right"
+                                    aria-label="Button that displays a tooltip when focused or hovered over">
+                                    <path
+                                        d="M13.5981 7.5C13.5981 11.2559 10.5538 14.2991 6.79907 14.2991C3.04431 14.2991 0 11.2559 0 7.5C0 3.74634 3.04431 0.700928 6.79907 0.700928C10.5538 0.700928 13.5981 3.74634 13.5981 7.5ZM6.79907 8.87078C6.10258 8.87078 5.53796 9.43541 5.53796 10.1319C5.53796 10.8284 6.10258 11.393 6.79907 11.393C7.49557 11.393 8.06019 10.8284 8.06019 10.1319C8.06019 9.43541 7.49557 8.87078 6.79907 8.87078ZM5.60175 4.33772L5.80512 8.06624C5.81463 8.24072 5.95889 8.3773 6.13361 8.3773H7.46453C7.63925 8.3773 7.78351 8.24072 7.79303 8.06624L7.9964 4.33772C8.00668 4.14926 7.85663 3.9908 7.6679 3.9908H5.93022C5.74149 3.9908 5.59147 4.14926 5.60175 4.33772Z"
+                                        fill="url(#paint0_linear)" />
+                                    <defs>
+                                        <linearGradient id="paint0_linear" x1="6.77677" y1="14.281" x2="6.77677"
+                                            y2="0.700928" gradientUnits="userSpaceOnUse">
+                                            <stop stop-color="#8B0517" />
+                                            <stop offset="1" stop-color="#AF1B2F" />
+                                        </linearGradient>
+                                    </defs>
+                                </svg>
+                            </ng-container>
+                            <div class="absolute top-5 right-3 h-14-px flex items-center">
+                                <svg *ngIf="!show" (click)="showPassword(true)" class="cursor-pointer eye-icon"
+                                width="18" height="10" viewBox="0 0 18 10" fill="none"
+                                xmlns="http://www.w3.org/2000/svg">
+                                    <path
+                                        d="M17.9244 1.23362C17.1489 2.7145 15.92 3.96902 14.3696 4.86323L16.2729 6.69829C16.5475 6.96302 16.5475 7.39225 16.2729 7.65701C15.9983 7.92174 15.5532 7.92174 15.2785 7.65701L13.0457 5.50417C11.9934 5.92411 10.8638 6.1767 9.7031 6.24941V9.32208C9.7031 9.6965 9.38831 10 8.99998 10C8.61164 10 8.29685 9.6965 8.29685 9.32208V6.24944C7.13617 6.17674 6.0066 5.92414 4.95424 5.50421L2.72143 7.65704C2.44682 7.9218 2.0016 7.9218 1.72703 7.65704C1.4525 7.39231 1.4525 6.96309 1.72707 6.69833L3.63032 4.86327C2.08 3.96906 0.851081 2.71453 0.0756048 1.23365C-0.0994029 0.899405 0.0397455 0.491703 0.386386 0.322935C0.732921 0.154167 1.15596 0.288295 1.33093 0.622542C2.63515 3.11312 5.54166 4.9156 9.00001 4.9156C12.461 4.9156 15.366 3.11095 16.6691 0.622509C16.8444 0.287718 17.2675 0.154406 17.6136 0.322903C17.9603 0.491671 18.0994 0.899405 17.9244 1.23362Z"
+                                        fill="#838383" />
+                                </svg>
+                                <svg *ngIf="show" (click)="showPassword(false)" class="cursor-pointer eye-icon"
+                                width="18" height="14" viewBox="0 0 18 14" fill="none"
+                                xmlns="http://www.w3.org/2000/svg">
+                                    <path
+                                        d="M8.99999 7.63281C7.25536 7.63281 5.836 9.05221 5.836 10.7969C5.836 12.5415 7.25536 13.9609 8.99999 13.9609C10.7446 13.9609 12.164 12.5415 12.164 10.7969C12.164 9.05221 10.7446 7.63281 8.99999 7.63281ZM8.99999 12.5547C8.03073 12.5547 7.24221 11.7661 7.24221 10.7969C7.24221 9.82762 8.03073 9.03906 8.99999 9.03906C9.96925 9.03906 10.7578 9.82762 10.7578 10.7969C10.7578 11.7661 9.96925 12.5547 8.99999 12.5547Z"
+                                        fill="#72787F" />
+                                    <path
+                                        d="M17.9243 9.13138C17.1489 7.59544 15.92 6.29427 14.3696 5.36682L16.2729 3.46353C16.5475 3.18896 16.5475 2.74377 16.2729 2.46917C15.9983 2.1946 15.5532 2.1946 15.2785 2.46917L13.0457 4.70205C11.9934 4.2665 10.8638 4.00451 9.7031 3.9291V0.742188C9.7031 0.353852 9.38831 0.0390625 8.99998 0.0390625C8.61164 0.0390625 8.29685 0.353852 8.29685 0.742188V3.92907C7.13617 4.00448 6.0066 4.26646 4.95423 4.70201L2.72143 2.46913C2.44682 2.19453 2.0016 2.19453 1.72703 2.46913C1.4525 2.7437 1.4525 3.18889 1.72707 3.46349L3.63032 5.36678C2.08 6.29424 0.851081 7.59541 0.0756048 9.13135C-0.0994029 9.47802 0.0397455 9.90088 0.386386 10.0759C0.732921 10.251 1.15596 10.1119 1.33093 9.76518C2.63515 7.182 5.54166 5.3125 9.00001 5.3125C12.461 5.3125 15.366 7.18425 16.6691 9.76521C16.8444 10.1125 17.2675 10.2507 17.6136 10.076C17.9603 9.90092 18.0994 9.47802 17.9243 9.13138Z"
+                                        fill="#72787F" />
+                                </svg>
+                            </div>
+                        </div>
+                        <div class="flex items-center justify-between">
+                            <label class="flex flex-row items-center text-black text-sm">
+                                <mat-checkbox name="accepted" formControlName="rememberme" class="remember-me"></mat-checkbox>
+                                <span class="text-sm w-100-px ml-2 mt-1 default-text-color">Remember me</span>
+                            </label>
+                            <span class="text-blue-600 hover:text-blue-900 cursor-pointer text-sm rubik-bold"
+                                (click)="forgotPass()">
+                                Forgot your password?
+                            </span>
+                        </div>
+                        <div class="w-full mt-5">
+                            <button (click)="signIn()" *ngIf="!isLoading"
+                                class="custom-btn py-3 w-full focus:outline-none  {{ !login_form.valid || !login_form.controls.email.valid || !login_form.controls.password.valid ? 'btn-disabled' : 'btn-blue' }}"
+                                [disabled]="!login_form.valid || !login_form.controls.email.valid || !login_form.controls.password.valid">
+                                Sign in
+                            </button>
+                            <button  class="btn-blue custom-btn py-3 w-full focus:outline-none" *ngIf="isLoading">
+                                <mat-spinner class="white-loader" diameter="20" color="accent" mode="indeterminate"></mat-spinner>
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </form> 
+        </div>
+    </div>
+    <div class="grid grid-cols-12 px-10 py-5 bg-white absolute b-0 r-0 w-full">
+        <div class="lg:col-span-6 col-span-12 md:text-center">
+            <div class="text-main-gray rubik font-normal not-italic fs-14-px">2021 Copyright @ Face2Face Scheduler All Rights Reserved</div>
+        </div>
+        <div class="lg:col-span-2 col-span-12 md:text-center">
+            <div class="text-footer rubik font-normal not-italic fs-14-px cursor-pointer" (click)="openAboutf2f()">About Face2face</div>
+        </div>
+        <div class="lg:col-span-2 col-span-12 md:text-center">
+            <div class="text-footer rubik font-normal not-italic fs-14-px cursor-pointer" (click)="openTerms()">Terms of Services</div>
+        </div>
+        <div class="lg:col-span-2 col-span-12 md:text-center">
+            <div class="text-footer rubik font-normal not-italic fs-14-px cursor-pointer" (click)="openPrivacy()">Privacy Policy</div>
+        </div>
+    </div>
+</div>

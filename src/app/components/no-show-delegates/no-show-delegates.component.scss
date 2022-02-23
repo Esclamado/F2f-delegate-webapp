@@ -1,0 +1,13 @@
+::ng-deep{
+    .mat-checkbox-indeterminate.mat-accent .mat-checkbox-background, .mat-checkbox-checked.mat-accent .mat-checkbox-background {
+        background: linear-gradient(353.62deg, #678B05 4.89%, #87AF1B 86.86%) !important;
+    }
+}
+
+.bg-noshow{
+    background: #F9D2D7;
+}
+
+.text-red{
+    color: #8B0517;
+}

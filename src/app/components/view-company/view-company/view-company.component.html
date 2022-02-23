@@ -1,0 +1,183 @@
+<div class="overflow-x-auto custom-scroll h-full">
+    <button class="border border-gray-600 px-5 py-2 rounded-md hover:bg-gray-card focus:outline-none ml-12 mt-10" routerLink='/admin/companies'>back</button>
+    <div class="mx-auto p-10 ">
+        <div class="grid grid-cols-12 gap-5">
+            <div class="col-span-12">
+                <div class="bg-white shadow-lg rounded-lg p-3">
+                    <div class="grid grid-cols-12 gap-4">
+                        <div class="col-span-8">
+                            <div class="flex flex-col">
+                                <div class="text-base text-gray-600 mb-2">
+                                    FILTERS
+                                </div>
+                                <div class="flex items-center justify-start space-x-2">
+                                    <!-- -----------country---------- -->
+                                    <div #t1="matMenuTrigger" #select1 [matMenuTriggerFor]="country_select" class="border border-gray-400 rounded-md py-3 pl-0 pr-3 minw-150-px flex justify-between items-center h-55-px cursor-pointer">
+                                        <span class="barlow text-black text-base font-lg p-5">{{ selected_country ? selected_country : 'Countries'}}</span>
+                                        <span class="material-icons text-blue-900">
+                                            arrow_drop_down
+                                        </span>
+                                    </div>
+                                    <mat-menu class="w-full country-menu" #country_select="matMenu">
+                                        <button mat-menu-item class="tracking-wide focus:outline-none barlow hover:text-teal-800 hover:bg-teal-300 w-235-px" (click)="clickfilter(null, 'country')">
+                                            <strong>All</strong> 
+                                        </button>
+                                        <div class="w-full barlow relative flex items-center justify-end text-base" *ngFor="let item of countries">
+                                            <button mat-menu-item class="tracking-wide focus:outline-none barlow hover:text-teal-800 hover:bg-teal-300 w-235-px" (click)="clickfilter(item.name, 'country')">
+                                                <strong>{{ item.name | titlecase }}</strong> 
+                                            </button>
+                                        </div>
+                                    </mat-menu>
+                                    <!-- -----------state/province---------- -->
+                                    <div #t2="matMenuTrigger" #select2 [matMenuTriggerFor]="state_select" class="border border-gray-400 rounded-md py-3 pl-0 pr-3 minw-150-px flex justify-between items-center h-55-px cursor-pointer">
+                                        <span class="barlow text-black text-base font-lg p-5">{{ selected_state ? selected_state : 'States/Province'}}</span>
+                                        <span class="material-icons text-blue-900">
+                                            arrow_drop_down
+                                        </span>
+                                    </div>
+                                    <mat-menu class="w-full country-menu" #state_select="matMenu">
+                                        <button mat-menu-item class="tracking-wide focus:outline-none barlow hover:text-teal-800 hover:bg-teal-300 w-235-px" (click)="clickfilter(null, 'state')">
+                                            <strong>All</strong> 
+                                        </button>
+                                        <div class="w-full barlow relative flex items-center justify-end text-base" *ngFor="let item of states">
+                                            <button mat-menu-item class="tracking-wide focus:outline-none barlow hover:text-teal-800 hover:bg-teal-300 w-235-px" (click)="clickfilter(item.name, 'state')">
+                                                <strong>{{ item.name | titlecase }}</strong> 
+                                            </button>
+                                        </div>
+                                    </mat-menu>
+
+                                    <!-- -----------Payment---------- -->
+                                    <div #t3="matMenuTrigger" #select3 [matMenuTriggerFor]="payment_select" class="border border-gray-400 rounded-md py-3 pl-0 pr-3 minw-150-px flex justify-between items-center h-55-px cursor-pointer">
+                                        <span class="barlow text-black text-base font-lg p-5">{{ selected_payment ? selected_payment : 'Payment Status'}}</span>
+                                        <span class="material-icons text-blue-900">
+                                            arrow_drop_down
+                                        </span>
+                                    </div>
+                                    <mat-menu class="w-full country-menu" #payment_select="matMenu">
+                                        <button mat-menu-item class="tracking-wide focus:outline-none barlow hover:text-teal-800 hover:bg-teal-300 w-235-px" (click)="clickfilter(null, 'payment')">
+                                            <strong>All</strong> 
+                                        </button>
+                                        <div class="w-full barlow relative flex items-center justify-end text-base" *ngFor="let item of payment">
+                                            <button mat-menu-item class="tracking-wide focus:outline-none barlow hover:text-teal-800 hover:bg-teal-300 w-235-px" (click)="clickfilter(item.name, 'payment')">
+                                                <strong>{{ item.name | titlecase }}</strong> 
+                                            </button>
+                                        </div>
+                                    </mat-menu>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-span-4">
+                            <div class="flex flex-col">
+                                <div class="text-base mb-2 flex items-center justify-between">
+                                    <span class="text-gray-600">Search:</span>
+                                    <span class="text-blue-700 cursor-pointer hover:text-indigo-900">Clear Filters</span>
+                                </div>
+                            </div>
+                            <div class=" flex items-center">
+                                <input type="text" class="custom-input w-full" placeholder="Search a deligate or a companny">
+                                <span class="material-icons default-text-color fs-75-px mb-3" style="transform: translate(-30px, 6px);">
+                                    search
+                                </span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="col-span-12 grid-cols-12 grid gap-4">
+                <div class="bg-white shadow-lg rounded-lg p-3 col-span-2 cursor-pointer">
+                    <span class="default-text-color flex items-center" #t4="matMenuTrigger" #select4 [matMenuTriggerFor]="sort_select">
+                        sort by: <span class="capitalize mr-2" style="color: #678B06;">{{ selected_sort ? selected_sort : 'name' }}</span> 
+                        <span class="material-icons ml-auto" style="color: #678B06;">
+                            arrow_drop_down
+                        </span>
+                    </span>
+                    <mat-menu class="w-full country-menu" #sort_select="matMenu">
+                        <button mat-menu-item class="tracking-wide focus:outline-none barlow hover:text-teal-800 hover:bg-teal-300 w-235-px" (click)="clickfilter(null, 'sort')">
+                            <strong>All</strong> 
+                        </button>
+                        <div class="w-full barlow relative flex items-center justify-end text-base" *ngFor="let item of sort">
+                            <button mat-menu-item class="tracking-wide focus:outline-none barlow hover:text-teal-800 hover:bg-teal-300 w-235-px" (click)="clickfilter(item.name, 'sort')">
+                                <strong>{{ item.name | titlecase }}</strong> 
+                            </button>
+                        </div>
+                    </mat-menu>
+                </div>
+                <div class="bg-white shadow-lg rounded-lg p-3 col-span-2 cursor-pointer">
+                    <span class="default-text-color flex items-center" #t5="matMenuTrigger" #select5 [matMenuTriggerFor]="limit_select">
+                        show: <span class="capitalize mr-2" style="color: #678B06;">{{ selected_limit ? selected_limit : '10' }}</span> 
+                        <span class="material-icons ml-auto" style="color: #678B06;">
+                            arrow_drop_down
+                        </span>
+                    </span>
+                    <mat-menu class="w-full country-menu" #limit_select="matMenu">
+                        <button mat-menu-item class="tracking-wide focus:outline-none barlow hover:text-teal-800 hover:bg-teal-300 w-235-px" (click)="clickfilter(null, 'limit')">
+                            <strong>All</strong> 
+                        </button>
+                        <div class="w-full barlow relative flex items-center justify-end text-base" *ngFor="let item of limit">
+                            <button mat-menu-item class="tracking-wide focus:outline-none barlow hover:text-teal-800 hover:bg-teal-300 w-235-px" (click)="clickfilter(item.name, 'limit')">
+                                <strong>{{ item.name }}</strong> 
+                            </button>
+                        </div>
+                    </mat-menu>
+                </div>
+            </div>
+
+            <div class="col-span-12 lg:col-span-4 ">
+                <div class="bg-white shadow-lg rounded-lg">
+                    <img src="assets/images/office.jpg" class="object-cover w-full h-200-px rounded-lg" alt="">
+                    <div class="flex flex-col items-center p-4">
+                        <div class="text-lg default-text-color text-center ">
+                            Baki'n Beans Capital
+                        </div>
+                        <div class="text-base default-text-color text-center">
+                            34 A. Soriano Highway, Daang Amaya 3, Tanza, Cavite
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="col-span-12 lg:col-span-8">
+                <div class="bg-white shadow-lg rounded-lg p-5 text-base">
+                    <div class="flex items-center justify-between">
+                        <div>
+                            <label for="" class="text-gray-500">Name</label>
+                            <div class="default-text-color">Baki'n Beans Capital</div>
+                        </div>
+                        <div>
+                            <label for="" class="text-gray-500">Date Established</label>
+                            <div class="default-text-color">Feb 03, 2020</div>
+                        </div>
+                        <div>
+                            <label for="" class="text-gray-500">Product</label>
+                            <div class="default-text-color">Frozen Goods</div>
+                        </div>
+                    </div>
+                    <div class="my-3">
+                        <label for="" class="text-gray-500">Product</label>
+                        <div class="default-text-color">Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.</div>
+                    </div>
+                </div>
+            </div>
+            <!-- <div class="col-span-12">
+                <div class="bg-white shadow-lg rounded-lg p-5 text-base minh-350-px">
+                    <div class="flex items-center space-x-3">
+                        <div class="border chip flex items-center" *ngFor="let item of chip; let i = index"
+                        [ngClass]="{'chip-1': item.type == 1, 'chip-2': item.type == 2, 'chip-3': item.type == 3}">
+                            <span>{{item.name}}</span> 
+                            <span class="material-icons text-base ml-auto cursor-pointer" (click)="removeChip(item, i)">
+                                close
+                            </span>
+                        </div>
+                    </div>
+                    <div class="my-3">
+                        <mat-radio-group aria-label="Select an option" (change)="selectRadio($event)" class="flex flex-col">
+                            <mat-radio-button value="1" [checked]="true"><span class="barlow-bold">Chip 1</span></mat-radio-button>
+                            <mat-radio-button value="2" [checked]="false"><span class="barlow-bold">Chip 2</span></mat-radio-button>
+                            <mat-radio-button value="3" [checked]="false"><span class="barlow-bold">Chip 3</span></mat-radio-button>
+                        </mat-radio-group>
+                    </div>
+                    <input type="text" class="custom-input mt-4" (keyup.enter)="addChip($event)">
+                </div>
+            </div> -->
+        </div>
+    </div>
+</div>

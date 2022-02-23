@@ -1,0 +1,21 @@
+<div class="h-full">
+    <div [routerLink]="['/messaging']" class="bg-white p-5 shadow-md">
+        <i class="fas fa-chevron-left"></i>
+        <span class="ml-2 text-black text-lg font-medium">{{name}}</span>
+    </div>
+    <div class="p-5 bg-gray-card">
+        <app-message-card class="maxh-500-px"></app-message-card>
+    </div>
+
+    <div class="w-full gap-2 p-5 custom-top-shadow  h-150-px flex items-end  z-20 relative">
+        <textarea placeholder="Send a message..." name="" id="" class="placeholder-gray-400 custom-scroll p-3 focus:outline-none barlow default-text-color text-lg h-60-px flex-grow border-2 border-gray-200 rounded-md"></textarea>
+        <button class="bg-blue-600  focus:outline-none hover:bg-teal-700 text-white text-lg px-4 py-3 rounded barlow flex items-center gap-2">
+            <svg width="18" height="16" viewBox="0 0 18 16" fill="none" xmlns="http://www.w3.org/2000/svg">
+                <path fill-rule="evenodd" clip-rule="evenodd"
+                    d="M0.25 6.33333L0.258333 0.5L17.75 8L0.258333 15.5L0.25 9.66667L12.75 8L0.25 6.33333ZM1.925 3.025L8.18333 5.70833L1.91667 4.875L1.925 3.025ZM8.175 10.2917L1.91667 12.975V11.125L8.175 10.2917Z"
+                    fill="white" />
+            </svg>
+            <span class="fw-300">Send</span>
+        </button>
+    </div>
+</div>

@@ -1,0 +1,90 @@
+<div class="events-container container mx-auto rubik pt-8">
+    <div class="default-text-color mb-8">
+        <div class="fs-38-px font-medium ">
+            On-going and upcoming events
+        </div>
+        <div class="text-base">
+            Select an event to view its details and start scheduling meetings with other delegates
+        </div>
+    </div>
+    <div class="grid grid-cols-12 gap-5" *ngIf="events && (events.datas && !events.datas.end_time)">
+        <ng-container *ngIf="events &&  !isEmpty && !isLoading">
+            <div class="col-span-12 lg:col-span-4" *ngFor="let item of events.datas" (click)="viewEvents(item)">
+                <div class="bg-white p-5 rounded-lg border cursor-pointer Border hover:shadow-xl" [ngClass]="{'b-blue': item.isongoing, 'b-gray': !item.isongoing }">
+                    <div class="flex items-center space-x-3">
+                        <img [src]="item.event_icon_url ? item.event_icon_url : 'assets/empty_states/no_event_profile.png'" class="object-cover w-55-px h-55-px rounded-lg" alt="">
+                        <div class="bg-blue-100 text-blue-600 px-2 rounded-full flex items-center py-1" *ngIf="item.isongoing">
+                            <svg width="12" height="12" viewBox="0 0 12 12" fill="none" xmlns="http://www.w3.org/2000/svg" class="mr-3">
+                                <path fill-rule="evenodd" clip-rule="evenodd" d="M0.166992 6C0.166992 2.79166 2.79199 0.166664 6.00033 0.166664C9.20866 0.166664 11.8337 2.79166 11.8337 6C11.8337 9.20833 9.20866 11.8333 6.00033 11.8333C2.79199 11.8333 0.166992 9.20833 0.166992 6ZM5.41699 3.08333H6.29199V6.11666L8.91699 7.69166L8.45033 8.45L5.41699 6.58333V3.08333Z" fill="url(#paint0_linear)"/>
+                                <defs>
+                                <linearGradient id="paint0_linear" x1="7.92351" y1="-0.358163" x2="-2.0519" y2="4.74854" gradientUnits="userSpaceOnUse">
+                                <stop stop-color="#1D4FA5"/>
+                                <stop offset="1" stop-color="#094F8C"/>
+                                </linearGradient>
+                                </defs>
+                            </svg>
+                            <div class="text-sm">
+                                On-going event
+                            </div>
+                        </div>
+                        <div class="type-badge text-sm" [ngClass]="{'physical': item.type == 1, 'virtual': item.type == 2}">
+                            {{ item.type == 1 ? 'Physical' : 'Virtual' }}
+                        </div>
+                    </div>
+                    <div class="text-base my-3">
+                        {{ item.name }}
+                    </div>
+                    <div class="text-sm text-blue-600">
+                        {{ item.start_date | date: 'MMM dd-' }}{{ item.end_date | date: 'dd yyyy' }}
+                    </div>
+                    <div class="text-sm text-gray-500 mt-3" *ngIf="item.type == 1">
+                        {{ item.event_address }}
+                    </div>
+                </div>
+            </div>
+        </ng-container>
+
+        <!-- skeleton loader -->
+        <ng-container *ngIf="isLoading">
+            <div class="col-span-12 lg:col-span-4" *ngFor="let item of [1,2,3]">
+                <div class="w-full h-300-px">
+                    <app-loader [border_radius_class]="'rounded-lg'" [additional_class]=""></app-loader>
+                </div>
+            </div>
+        </ng-container>
+
+        <!-- Empty states  -->
+        <ng-container *ngIf="isEmpty">
+            <div class="col-span-12">
+                <div class="w-full h-300-px flex flex-col items-center justify-center space-y-3">
+                    <img src="assets/images/empty/calendar.svg" alt="">
+                    <div class="rubik font-semibold text-gray-500">
+                        No event found
+                    </div>
+                    <div class="rubik text-gray-500">
+                        You are current not added on any events
+                    </div>
+                </div>
+            </div>
+        </ng-container>
+    </div>
+
+    <!-- Pages -->
+    <ng-container *ngIf="events_list_total_page >= 1">
+        <div class="flex justify-center mb-10 mt-5">
+            <div class="flex items-center justify-center pagination barlow mt-6 rounded">
+                <button class="focus:outline-none page-btn border-r border-gray-400" (click)="prevPage()" [disabled]="events_page == 1">
+                    <i class="px-2 fa fa-angle-left mr-2 angle-icon "></i>
+                </button>
+
+                <ng-container *ngFor="let page of events_list_page_array; let i= index;">
+                    <button *ngIf="page" class="text-center font-semibold cursor-pointer" (click)="setPage(page)" [disabled]="events_page == 1 && events_page == events_list_total_page"  [ngClass]="{'active': events_page == page}">{{ page }}</button>
+                </ng-container> 
+                
+                <button class="focus:outline-none page-btn border-l border-gray-400" (click)="nextPage()" [disabled]="events_page == events_list_total_page" style="white-space: nowrap;">
+                    <i class="px-2 fa fa-angle-right ml-2 angle-icon"></i>
+                </button>
+            </div>
+        </div>
+    </ng-container>
+</div>

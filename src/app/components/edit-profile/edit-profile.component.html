@@ -1,0 +1,326 @@
+<div class="h-full">
+    <div class="px-20 py-10">
+        <div class="grid grid-cols-12">
+            <div class="col-span-6">
+                <div class="flex items-center">
+                    <span class="text-navy rubik font-normal not-italic fs-16-px cursor-pointer focus:outline-none" routerLink="/user-profile">Profile</span>
+                    <img src="assets/icon/karrow-right-icon.png" class="ml-2">
+                    <span class="text-navy rubik font-semibold not-italic fs-16-px ml-2">Edit Profile</span>
+                </div>
+            </div>
+            <!-- <div class="col-span-6 ml-auto ">
+                <button routerLink="/admin/edit-company-details" class="border border-black rounded-md px-3 py-2 flex items-center focus:outline-none ">
+                    <img src="assets/icon/edit-black-icon.png "> <span class="ml-2 text-navy rubik font-semibold not-italic fs-14-px ">Edit company details</span>
+                </button>
+            </div> -->
+        </div>
+
+        <div class="grid grid-cols-12 py-7 ">
+            <div class="col-span-4 ">
+                <div class="text-gray900 rubik font-semibold not-italic fs-20-px ">
+                    Personal information
+                    <div class="text-gray rubik font-normal not-italic fs-14-px ">Select your preferences in businesses you want to meet during the events.</div>
+                </div>
+            </div>
+
+            <div class="col-span-8 ">
+                <div class="bg-white rounded-md border border-gray-400 ">
+                    <form [formGroup]="editProfileForm">
+                        <div class="px-5 py-3 ">
+                            <div class="grid grid-cols-12 gap-5 ">
+                                <div class="col-span-6 ">
+                                    <label class="text-navy rubik font-normal not-italic fs-14-px ">Full name</label>
+                                    <input type="text" formControlName="name" class="custom-input h-12 w-full text-lg mt-2 bg-disable" maxlength="70" autocomplete="off" disabled [ngClass]="{ 'error  pr-30-px': !editProfileForm.controls.name.valid} ">
+                                    <ng-container>
+                                        <div class="text-red-700 mb-0 fs-14-px" *ngIf="editProfileForm.controls.name.hasError( 'required')">Fullname is required.</div>
+                                    </ng-container>
+                                </div>
+                                <div class="col-span-6 ">
+                                    <label class="text-navy rubik font-normal not-italic fs-14-px">Email</label>
+                                    <input type="text" formControlName="email" class="custom-input h-12 w-full text-lg mt-2 bg-disable" maxlength="70 " autocomplete="off" disabled [ngClass]="{ 'error  pr-30-px': !editProfileForm.controls.email.valid} ">
+                                    <div class="text-red-700 mb-0 fs-14-px " *ngIf="editProfileForm.controls.email.hasError( 'required') ">Email is required.</div>
+                                    <div class="text-red-700 mb-0 fs-14-px " *ngIf="editProfileForm.controls.email.hasError( 'pattern') ">Email must be invalid format!.</div>
+                                </div>
+                                <div class="col-span-6 ">
+                                    <label class="text-navy rubik font-normal not-italic fs-14-px">Job title</label>
+                                    <input type="text " formControlName="job_title" class="custom-input h-12 w-full text-lg mt-2 " maxlength="70 " autocomplete="off " [ngClass]="{ 'error  pr-30-px': submitted && !editProfileForm.controls.job_title.valid} ">
+                                    <div class="text-red-700 mb-0 fs-14-px " *ngIf="submitted && editProfileForm.controls.job_title.hasError( 'required')">Job title is required.</div>
+                                </div>
+                                <div class="col-span-6 ">
+                                    <label class="text-navy rubik font-normal not-italic fs-14-px">Mobile</label>
+                                    <input 
+                                        type="text" 
+                                        onkeydown="return event.keyCode !== 69 && event.keyCode !== 190" 
+                                        formControlName="mobile" 
+                                        class="custom-input h-12 w-full text-lg mt-2 " 
+                                        (keypress)="keyPressNumbers($event)" autocomplete=" off " 
+                                        [ngClass]="{ 'error  pr-30-px': submitted && !editProfileForm.controls.mobile.valid} "
+                                        ><!-- (blur)="saveDelegateProfile('mobile')" -->
+                                    <ng-container>
+                                        <div class="text-red-700 mb-0 fs-14-px" *ngIf="submitted && editProfileForm.controls.mobile.hasError('required')">Mobile is required.</div>
+                                        <!-- <div class="text-red-700 mb-0 fs-14-px" *ngIf="editProfileForm.controls.mobile.hasError('pattern')">Minimum of 11 characters.</div> -->
+                                    </ng-container>
+                                </div>
+                                <div class="col-span-6 ">
+                                    <label class="text-navy rubik font-normal not-italic fs-14-px">My City</label>
+                                    <input 
+                                        type="text" 
+                                        formControlName="my_city" 
+                                        class="custom-input h-12 w-full text-lg mt-2 "
+                                        ngx-google-places-autocomplete 
+                                        #placesRef="ngx-places" 
+                                        (onAddressChange)="handleAddressChange($event)" 
+                                        [ngClass]="{ 'error  pr-30-px': submitted && !editProfileForm.controls.my_city.valid} 
+                                    ">
+                                    <div class="text-red-700 mb-0 fs-14-px" *ngIf="submitted && editProfileForm.controls.my_city.hasError( 'required')">My City is required.</div>
+                                </div>
+                                <div class="col-span-6 ">
+                                    <label class="text-navy rubik font-normal not-italic fs-14-px">Timezone</label>
+                                    <input type="text" formControlName="timezone" class="custom-input h-12 w-full text-lg mt-2 bg-disable" maxlength="70" autocomplete="off" disabled>
+                                </div>
+                            </div>
+                            <div class="py-5 ">
+                                <label class="text-gray-700 inter font-medium not-italic fs-14-px">Photo</label>
+                                <div class="flex justify-between mt-2">
+                                    <div class="flex items-center" *ngIf="user">
+                                        <img *ngIf="!croppedprofilePhoto" src="{{user.profile_photo_url ? user.profile_photo_url : 'assets/images/empty-photo.jpg'}}" class="rounded-full h-16 w-16 border border-gray-400">
+                                        <img *ngIf="croppedprofilePhoto"  [src]="croppedprofilePhoto" class="rounded-full h-16 w-16 border border-gray-400 mt-2">
+                                        <div>
+                                            <input class="hidden" #image type="file" (change)="changeProfilePic($event)" />
+                                            <button *ngIf="croppedprofilePhoto || user.profile_photo_url" class="border border-gray-400 rounded-md text-navy rubik font-semibold not-italic fs-14-px px-3 py-1 ml-2 focus:outline-none" (click)="changeProfilePhoto(image)">Change</button>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            
+                            <input class="hidden" #bussiness_card type="file" (change)="uploadBusinessCard($event)" />
+                            <label class="text-gray-700 inter font-medium not-italic fs-14-px my-2 ">Bussiness card</label>
+                            <button *ngIf="croppedprofilePhotoCard || user.businesscard_url" (click)="changeBusinessCard(bussiness_card)" class="border border-gray-400 rounded-md text-navy rubik font-semibold not-italic fs-14-px px-3 py-1 ml-2 focus:outline-none">
+                                Change
+                            </button>
+                            <!-- <button *ngIf="(isProfileImageLoadedCard && croppedprofilePhotoCard || user.businesscard_url)" (click)="removeBusinessCard()" class="border border-gray-400 rounded-md text-navy rubik font-semibold not-italic fs-14-px px-3 py-1 ml-2 focus:outline-none danger-color">
+                                Remove
+                            </button> -->
+                            
+                            <div *ngIf="!isProfileImageLoadedCard && !user.businesscard_url" class="py-5 business-card-outline rounded-md mgt-5 cursor-pointer" (click)="changeBusinessCard(bussiness_card)">
+                                <img src="assets/icon/upload-path-icon.png" class="h-16 w-16 m-auto mb-2">
+                                <div class="">
+                                    <div class="text-center" >
+                                        <button class="text-blue rubik font-medium not-italic fs-14-px focus:outline-none">Upload a file </button>
+                                        <p class="text-gray rubik font-normal not-italic fs-12-px ">PNG, JPG, GIF up to 10MB</p>
+                                    </div>
+                                </div>
+                            </div>
+                            <div *ngIf="isProfileImageLoadedCard && !profileUploadWrongFileCard" class="mgt-5">
+                                <img [src]="croppedprofilePhotoCard" class="w-442-px h-242-px">
+                            </div>
+                            <div *ngIf="!isProfileImageLoadedCard && user.businesscard_url" class="mgt-5">
+                                <img [src]="user.businesscard_url" class="w-442-px h-242-px mt-2 py-3">
+                            </div>
+                        </div>
+                        <div class="bg-save px-5 py-5">
+                            <button class="custom-btn btn-blue rubik font-medium not-italic sfs-14-px px-5 py-2 ml-auto focus:outline-none" (click)="saveDelegateProfile()">Save</button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+
+            <hr class="w-full col-span-12 mt-5 border ">
+
+            <div class="col-span-4 mt-5 ">
+                <div class="text-gray900 rubik font-semibold not-italic fs-20-px">
+                    Preferences
+                    <div class="text-gray rubik font-normal not-italic fs-14-px">Decide which communications you'd like to recieve <br> and how.</div>
+                </div>
+            </div>
+
+            <div class="col-span-8 mt-5 ">
+                <div class="bg-white rounded-md border border-gray-400 ">
+                    <div class="px-5 py-3">
+                        <section class="example-section">
+                            <div class="text-darkblue rubik font-semibold not-italic fs-14-px col-span-12 mt-6 mb-3">Select the services you're interested in</div>
+                            <div class="grid grid-cols-12 gap-3 max-h-72" [ngClass]="{'overflow-y-scroll': services_total_count > 16}">
+                                <ng-container *ngFor="let service of services">
+                                    <div class="col-span-6 ">
+                                        <mat-checkbox 
+                                            (ngModelChange)="selectServices(service, $event)" 
+                                            [(ngModel)]="service.checked" 
+                                            [ngModelOptions]="{standalone: true}"
+                                            class="example-margin text-darkblue rubik font-normal not-italic fs-14-px">
+                                            {{service.name}}
+                                        </mat-checkbox>
+                                    </div>
+                                </ng-container>
+                            </div>
+                            <div class="text-darkblue rubik font-semibold not-italic fs-14-px mt-6 mb-3 col-span-12">Select the specializations you're interested in</div>
+                            <div class="grid grid-cols-12 gap-3 max-h-72" [ngClass]="{'overflow-y-scroll': specializations_total_count > 16}">
+                                <ng-container *ngFor="let specialization of specializations">
+                                    <div class="col-span-6">
+                                        <mat-checkbox 
+                                            (ngModelChange)="selectSpecialization(specialization, $event)" 
+                                            [(ngModel)]="specialization.checked" 
+                                            [ngModelOptions]="{standalone: true}"
+                                            class="example-margin text-darkblue rubik font-normal not-italic fs-14-px"
+                                        >
+                                            {{specialization.name}}
+                                        </mat-checkbox>
+                                    </div>
+                                </ng-container>
+                            </div>
+
+                            <div class="text-darkblue rubik font-semibold not-italic fs-14-px mt-6 mb-3 col-span-12">Select the softwares you're interested in</div>
+                            <div class="grid grid-cols-12 gap-3 max-h-72" [ngClass]="{'overflow-y-scroll': softwares_total_count > 16}">
+                                <ng-container *ngFor="let software of softwares">
+                                    <div class="col-span-6 ">
+                                        <mat-checkbox 
+                                            (ngModelChange)="selectSoftwares(software, $event)" 
+                                            [(ngModel)]="software.checked" 
+                                            [ngModelOptions]="{standalone: true}" 
+                                            class="example-margin text-darkblue rubik font-normal not-italic fs-14-px"
+                                        >
+                                            {{software.name}}
+                                        </mat-checkbox>
+                                    </div>
+                                </ng-container>
+                            </div>
+
+                            <div class="text-darkblue rubik font-semibold not-italic fs-14-px mt-6 col-span-12">Countries I'm not willing to meet</div>
+                            <div class="flex items-center mt-3 mb-3 relative">
+                                <input 
+                                    type="text" 
+                                    class="custom-input w-2/4 bg-gray-card rounded-lg h-48-px my-2" 
+                                    [(ngModel)]="search_key_countries" 
+                                    [ngModelOptions]="{standalone: true}"
+                                    (keydown.enter)="searchCountries(search_key_countries)" 
+                                    (ngModelChange)="this.subscribeSearch.next($event)"
+                                    placeholder="Search" 
+                                    style="padding-left: 35px;"
+                                >
+                                <span class="material-icons text-gray-400 fs-75-px mb-3 absolute left-2 top-5">
+                                    search
+                                </span>
+                            </div>
+                            <ng-container *ngIf="!isLoaded">
+                                <div class="grid grid-cols-12">
+                                    <div class="col-span-6 mx-4 my-1" *ngFor="let skeleton of env.skeleton_loader">
+                                        <ngx-skeleton-loader 
+                                            [theme]="{width: '100%', height: '25px', margin: 0}"> 
+                                        </ngx-skeleton-loader>
+                                    </div>
+                                </div>
+                            </ng-container>
+
+                            <div class="my-10" *ngIf="isLoaded && (contries && countries_total_count == 0)">
+                                <p class="w-3/6 m-auto text-main-gray rubik font-medium fs-16-px text-center">No results found. Please check all words are spelled correctly, or try another keywords.</p>
+                            </div>
+
+                            <div *ngIf="isLoaded && (contries && countries_total_count > 0)" class="grid grid-cols-12 gap-3 max-h-72 custom-scroll" [ngClass]="{'overflow-y-scroll': countries_total_count > 16}">
+                                <ng-container *ngFor="let country of contries"> 
+                                    <div class="col-span-6">
+                                        <mat-checkbox 
+                                            (ngModelChange)="selectCountries(country, $event)"
+                                            [(ngModel)]="country.checked" 
+                                            [ngModelOptions]="{standalone: true}"
+                                            class="example-margin text-darkblue rubik font-normal not-italic fs-14-px"> 
+                                            {{country.nicename}} 
+                                        </mat-checkbox>
+                                    </div>  
+                                </ng-container>
+                            </div>
+                        </section>
+                    </div>
+                    <div class="bg-save px-5 py-5 ">
+                        <button class="custom-btn btn-blue rubik font-medium not-italic sfs-14-px px-5 py-2 ml-auto focus:outline-none" (click)="savePreferences()">Save</button>
+                    </div>
+                </div>
+            </div>
+
+            <hr class="w-full col-span-12 mt-5 border ">
+
+            <div class="col-span-4 mt-5 ">
+                <div class="text-gray900 rubik font-semibold not-italic fs-20-px ">
+                    Change Password
+                    <div class="text-gray rubik font-normal not-italic fs-14-px ">It's a good idea to use a strong password <br> that you're not using elsewhere.</div>
+                </div>
+            </div>
+
+            <div class="col-span-8 mt-5 ">
+                <div class="bg-white rounded-md border border-gray-400 ">
+                    <form [formGroup]="changePasswordForm ">
+                        <div class="px-40 py-10 ">
+                            <div class="grid grid-cols-12 gap-4">
+                                <div class="col-span-12 relative">
+                                    <label class="text-navy rubik font-normal not-italic fs-14-px ">Old Password</label>
+                                    <input type="{{old_password_type}}" formControlName="old_password" (change)="checkIfSame()" class="custom-input h-12 w-full text-lg mt-2 " maxlength="70 " autocomplete="off " [ngClass]="{ 'error  pr-30-px': inCorrectPassword || (isSubmitPass && !changePasswordForm.controls.old_password.valid)}">
+                                    <ng-container *ngIf="isSubmitPass">
+                                        <div class="text-red-700 mb-0 fs-14-px" *ngIf="changePasswordForm.controls.old_password.hasError( 'required') ">Old password is required.</div>
+                                        <div class="text-red-700 mb-0 fs-14-px" *ngIf="inCorrectPassword">Incorrect password.</div>
+                                    </ng-container>
+                                    <div class="absolute top-12 right-3 h-14-px flex items-center">
+                                        <svg *ngIf="!show" (click)="showPassword(true)" class="cursor-pointer eye-icon" width="18" height="10" viewBox="0 0 18 10" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                            <path d="M17.9244 1.23362C17.1489 2.7145 15.92 3.96902 14.3696 4.86323L16.2729 6.69829C16.5475 6.96302 16.5475 7.39225 16.2729 7.65701C15.9983 7.92174 15.5532 7.92174 15.2785 7.65701L13.0457 5.50417C11.9934 5.92411 10.8638 6.1767 9.7031 6.24941V9.32208C9.7031 9.6965 9.38831 10 8.99998 10C8.61164 10 8.29685 9.6965 8.29685 9.32208V6.24944C7.13617 6.17674 6.0066 5.92414 4.95424 5.50421L2.72143 7.65704C2.44682 7.9218 2.0016 7.9218 1.72703 7.65704C1.4525 7.39231 1.4525 6.96309 1.72707 6.69833L3.63032 4.86327C2.08 3.96906 0.851081 2.71453 0.0756048 1.23365C-0.0994029 0.899405 0.0397455 0.491703 0.386386 0.322935C0.732921 0.154167 1.15596 0.288295 1.33093 0.622542C2.63515 3.11312 5.54166 4.9156 9.00001 4.9156C12.461 4.9156 15.366 3.11095 16.6691 0.622509C16.8444 0.287718 17.2675 0.154406 17.6136 0.322903C17.9603 0.491671 18.0994 0.899405 17.9244 1.23362Z" fill="#838383" />
+                                        </svg>
+                                        <svg *ngIf="show" (click)="showPassword(false)" class="cursor-pointer eye-icon" width="18" height="14" viewBox="0 0 18 14" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                            <path d="M8.99999 7.63281C7.25536 7.63281 5.836 9.05221 5.836 10.7969C5.836 12.5415 7.25536 13.9609 8.99999 13.9609C10.7446 13.9609 12.164 12.5415 12.164 10.7969C12.164 9.05221 10.7446 7.63281 8.99999 7.63281ZM8.99999 12.5547C8.03073 12.5547 7.24221 11.7661 7.24221 10.7969C7.24221 9.82762 8.03073 9.03906 8.99999 9.03906C9.96925 9.03906 10.7578 9.82762 10.7578 10.7969C10.7578 11.7661 9.96925 12.5547 8.99999 12.5547Z" fill="#72787F" />
+                                            <path d="M17.9243 9.13138C17.1489 7.59544 15.92 6.29427 14.3696 5.36682L16.2729 3.46353C16.5475 3.18896 16.5475 2.74377 16.2729 2.46917C15.9983 2.1946 15.5532 2.1946 15.2785 2.46917L13.0457 4.70205C11.9934 4.2665 10.8638 4.00451 9.7031 3.9291V0.742188C9.7031 0.353852 9.38831 0.0390625 8.99998 0.0390625C8.61164 0.0390625 8.29685 0.353852 8.29685 0.742188V3.92907C7.13617 4.00448 6.0066 4.26646 4.95423 4.70201L2.72143 2.46913C2.44682 2.19453 2.0016 2.19453 1.72703 2.46913C1.4525 2.7437 1.4525 3.18889 1.72707 3.46349L3.63032 5.36678C2.08 6.29424 0.851081 7.59541 0.0756048 9.13135C-0.0994029 9.47802 0.0397455 9.90088 0.386386 10.0759C0.732921 10.251 1.15596 10.1119 1.33093 9.76518C2.63515 7.182 5.54166 5.3125 9.00001 5.3125C12.461 5.3125 15.366 7.18425 16.6691 9.76521C16.8444 10.1125 17.2675 10.2507 17.6136 10.076C17.9603 9.90092 18.0994 9.47802 17.9243 9.13138Z" fill="#72787F" />
+                                        </svg>
+                                    </div>
+                                </div>
+                                <div class="col-span-12 relative">
+                                    <label class="text-navy rubik font-normal not-italic fs-14-px ">New Password</label>
+                                    <input type="{{new_password_type}}" id="new_password" formControlName="new_password" (change)="checkIfSame()" class="custom-input h-12 w-full text-lg mt-2 " maxlength="70 " autocomplete="off " [ngClass]="{ 'error  pr-30-px': isSubmitPass && !changePasswordForm.controls.new_password.valid}">
+                                    <ng-container *ngIf="isSubmitPass">
+                                        <div class="text-red-700 mb-0 fs-14-px " *ngIf="changePasswordForm.controls.new_password.hasError( 'required') ">New password is required.</div>
+                                    </ng-container>
+                                    <div class="absolute top-12 right-3 h-14-px flex items-center">
+                                        <svg *ngIf="!showNew" (click)="showNewPassword(true)" class="cursor-pointer eye-icon" width="18" height="10" viewBox="0 0 18 10" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                            <path d="M17.9244 1.23362C17.1489 2.7145 15.92 3.96902 14.3696 4.86323L16.2729 6.69829C16.5475 6.96302 16.5475 7.39225 16.2729 7.65701C15.9983 7.92174 15.5532 7.92174 15.2785 7.65701L13.0457 5.50417C11.9934 5.92411 10.8638 6.1767 9.7031 6.24941V9.32208C9.7031 9.6965 9.38831 10 8.99998 10C8.61164 10 8.29685 9.6965 8.29685 9.32208V6.24944C7.13617 6.17674 6.0066 5.92414 4.95424 5.50421L2.72143 7.65704C2.44682 7.9218 2.0016 7.9218 1.72703 7.65704C1.4525 7.39231 1.4525 6.96309 1.72707 6.69833L3.63032 4.86327C2.08 3.96906 0.851081 2.71453 0.0756048 1.23365C-0.0994029 0.899405 0.0397455 0.491703 0.386386 0.322935C0.732921 0.154167 1.15596 0.288295 1.33093 0.622542C2.63515 3.11312 5.54166 4.9156 9.00001 4.9156C12.461 4.9156 15.366 3.11095 16.6691 0.622509C16.8444 0.287718 17.2675 0.154406 17.6136 0.322903C17.9603 0.491671 18.0994 0.899405 17.9244 1.23362Z" fill="#838383" />
+                                        </svg>
+                                        <svg *ngIf="showNew" (click)="showNewPassword(false)" class="cursor-pointer eye-icon" width="18" height="14" viewBox="0 0 18 14" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                            <path d="M8.99999 7.63281C7.25536 7.63281 5.836 9.05221 5.836 10.7969C5.836 12.5415 7.25536 13.9609 8.99999 13.9609C10.7446 13.9609 12.164 12.5415 12.164 10.7969C12.164 9.05221 10.7446 7.63281 8.99999 7.63281ZM8.99999 12.5547C8.03073 12.5547 7.24221 11.7661 7.24221 10.7969C7.24221 9.82762 8.03073 9.03906 8.99999 9.03906C9.96925 9.03906 10.7578 9.82762 10.7578 10.7969C10.7578 11.7661 9.96925 12.5547 8.99999 12.5547Z" fill="#72787F" />
+                                            <path d="M17.9243 9.13138C17.1489 7.59544 15.92 6.29427 14.3696 5.36682L16.2729 3.46353C16.5475 3.18896 16.5475 2.74377 16.2729 2.46917C15.9983 2.1946 15.5532 2.1946 15.2785 2.46917L13.0457 4.70205C11.9934 4.2665 10.8638 4.00451 9.7031 3.9291V0.742188C9.7031 0.353852 9.38831 0.0390625 8.99998 0.0390625C8.61164 0.0390625 8.29685 0.353852 8.29685 0.742188V3.92907C7.13617 4.00448 6.0066 4.26646 4.95423 4.70201L2.72143 2.46913C2.44682 2.19453 2.0016 2.19453 1.72703 2.46913C1.4525 2.7437 1.4525 3.18889 1.72707 3.46349L3.63032 5.36678C2.08 6.29424 0.851081 7.59541 0.0756048 9.13135C-0.0994029 9.47802 0.0397455 9.90088 0.386386 10.0759C0.732921 10.251 1.15596 10.1119 1.33093 9.76518C2.63515 7.182 5.54166 5.3125 9.00001 5.3125C12.461 5.3125 15.366 7.18425 16.6691 9.76521C16.8444 10.1125 17.2675 10.2507 17.6136 10.076C17.9603 9.90092 18.0994 9.47802 17.9243 9.13138Z" fill="#72787F" />
+                                        </svg>
+                                    </div>
+                                </div>
+                                <div class="col-span-12 relative">
+                                    <label class="text-navy rubik font-normal not-italic fs-14-px ">Confirm Password</label>
+                                    <input type="{{confirm_password_type}}" id="confirm_password" formControlName="confirm_password" (change)="checkIfSame()" class="custom-input h-12 w-full text-lg mt-2 " maxlength="70 " autocomplete="off " [ngClass]="{ 'error  pr-30-px': isSubmitPass && !changePasswordForm.controls.confirm_password.valid} ">
+                                   <ng-container *ngIf="isSubmitPass">
+                                        <div class="text-red-700 mb-0 fs-14-px" *ngIf="changePasswordForm.controls.confirm_password.hasError( 'required')">Confirm password is required.</div>
+                                        <div class="mb-0 fs-14-px" style="color: green" *ngIf="password_matched">Password matched.</div>
+                                        <div class="mb-0 fs-14-px text-red-700" *ngIf="!password_matched">Password did not matched.</div>
+                                   </ng-container>
+                                    <div class="absolute top-12 right-3 h-14-px flex items-center">
+                                        <svg *ngIf="!showConfirm" (click)="showConfirmPassword(true)" class="cursor-pointer eye-icon"
+                                        width="18" height="10" viewBox="0 0 18 10" fill="none"
+                                        xmlns="http://www.w3.org/2000/svg">
+                                            <path
+                                                d="M17.9244 1.23362C17.1489 2.7145 15.92 3.96902 14.3696 4.86323L16.2729 6.69829C16.5475 6.96302 16.5475 7.39225 16.2729 7.65701C15.9983 7.92174 15.5532 7.92174 15.2785 7.65701L13.0457 5.50417C11.9934 5.92411 10.8638 6.1767 9.7031 6.24941V9.32208C9.7031 9.6965 9.38831 10 8.99998 10C8.61164 10 8.29685 9.6965 8.29685 9.32208V6.24944C7.13617 6.17674 6.0066 5.92414 4.95424 5.50421L2.72143 7.65704C2.44682 7.9218 2.0016 7.9218 1.72703 7.65704C1.4525 7.39231 1.4525 6.96309 1.72707 6.69833L3.63032 4.86327C2.08 3.96906 0.851081 2.71453 0.0756048 1.23365C-0.0994029 0.899405 0.0397455 0.491703 0.386386 0.322935C0.732921 0.154167 1.15596 0.288295 1.33093 0.622542C2.63515 3.11312 5.54166 4.9156 9.00001 4.9156C12.461 4.9156 15.366 3.11095 16.6691 0.622509C16.8444 0.287718 17.2675 0.154406 17.6136 0.322903C17.9603 0.491671 18.0994 0.899405 17.9244 1.23362Z"
+                                                fill="#838383" />
+                                        </svg>
+                                        <svg *ngIf="showConfirm" (click)="showConfirmPassword(false)" class="cursor-pointer eye-icon"
+                                        width="18" height="14" viewBox="0 0 18 14" fill="none"
+                                        xmlns="http://www.w3.org/2000/svg">
+                                            <path
+                                                d="M8.99999 7.63281C7.25536 7.63281 5.836 9.05221 5.836 10.7969C5.836 12.5415 7.25536 13.9609 8.99999 13.9609C10.7446 13.9609 12.164 12.5415 12.164 10.7969C12.164 9.05221 10.7446 7.63281 8.99999 7.63281ZM8.99999 12.5547C8.03073 12.5547 7.24221 11.7661 7.24221 10.7969C7.24221 9.82762 8.03073 9.03906 8.99999 9.03906C9.96925 9.03906 10.7578 9.82762 10.7578 10.7969C10.7578 11.7661 9.96925 12.5547 8.99999 12.5547Z"
+                                                fill="#72787F" />
+                                            <path
+                                                d="M17.9243 9.13138C17.1489 7.59544 15.92 6.29427 14.3696 5.36682L16.2729 3.46353C16.5475 3.18896 16.5475 2.74377 16.2729 2.46917C15.9983 2.1946 15.5532 2.1946 15.2785 2.46917L13.0457 4.70205C11.9934 4.2665 10.8638 4.00451 9.7031 3.9291V0.742188C9.7031 0.353852 9.38831 0.0390625 8.99998 0.0390625C8.61164 0.0390625 8.29685 0.353852 8.29685 0.742188V3.92907C7.13617 4.00448 6.0066 4.26646 4.95423 4.70201L2.72143 2.46913C2.44682 2.19453 2.0016 2.19453 1.72703 2.46913C1.4525 2.7437 1.4525 3.18889 1.72707 3.46349L3.63032 5.36678C2.08 6.29424 0.851081 7.59541 0.0756048 9.13135C-0.0994029 9.47802 0.0397455 9.90088 0.386386 10.0759C0.732921 10.251 1.15596 10.1119 1.33093 9.76518C2.63515 7.182 5.54166 5.3125 9.00001 5.3125C12.461 5.3125 15.366 7.18425 16.6691 9.76521C16.8444 10.1125 17.2675 10.2507 17.6136 10.076C17.9603 9.90092 18.0994 9.47802 17.9243 9.13138Z"
+                                                fill="#72787F" />
+                                        </svg>
+                                    </div>
+                                </div>
+                                <div class="col-span-12">
+                                    <div (click)="forgotPassword()" class="text-forgotpassword rubik font-semibold fs-16-px not-italic cursor-pointer">Forgot Password?</div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="bg-save px-5 py-5 ">
+                            <button class="custom-btn btn-blue rubik font-medium not-italic sfs-14-px px-5 py-2 ml-auto focus:outline-none" (click)="savePassword()">Save</button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

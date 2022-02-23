@@ -1,0 +1,51 @@
+@mixin loop($start:1, $max:5, $interval:1, $prefix:"", $suffix:"", $prop:"", $unit:"px", $imp:"!important"){
+    $int: $start * $interval;
+    @while $int <= $max {
+        #{$prefix}#{$int}#{$suffix} {
+            #{$prop}: #{$int}#{$unit} #{$imp};
+        }
+        $start: $start + 1;
+        $int: $start * $interval;
+    }
+}
+
+
+
+@include loop(8, 50, 1, ".fs-", "-px", "font-size", "px", "!important");
+@include loop(1, 900, 100, ".fw-", "", "font-weight", "", "!important");
+@include loop(1, 50, 1, ".lh-", "-px", "line-height", "px", "!important");
+@include loop(1, 50, 1, ".rounded-", "-px", "border-radius", "px", "!important");
+@include loop(1, 1000, 1, ".h-", "-px", "height", "px", "!important");
+@include loop(0, 1500, 1, ".w-", "-px", "width", "px", "!important");
+@include loop(1, 100, 1, ".h-", "-per", "height", "%", "!important");
+@include loop(0, 180, 1, ".w-", "-per", "width", "%", "");
+@include loop(0, 100, 1, ".mw-", "-per", "max-width", "%", "");
+@include loop(0, 1000, 5, ".maxw-", "-px", "max-width", "px", "");
+@include loop(0, 1300, 10, ".minw-", "-px", "min-width", "px", "");
+@include loop(0, 1000, 10, ".minh-", "-px", "min-height", "px", "!important");
+@include loop(0, 1000, 20, ".maxh-", "-px", "max-height", "px", "!important");
+@include loop(0, 100, 1, ".pg-", "", "padding", "px", "!important");
+@include loop(0, 100, 1, ".pgt-", "", "padding-top", "px", "!important");
+@include loop(0, 100, 1, ".pr-", "-px", "padding-right", "px", "!important");
+@include loop(0, 100, 1, ".pgl-", "", "padding-left", "px", "!important");
+@include loop(0, 100, 1, ".pgb-", "", "padding-bottom", "px", "!important");
+@include loop(-100, 100, 1, ".mg-", "", "margin", "px", "!important");
+@include loop(-100, 100, 1, ".mgt-", "", "margin-top", "px", "!important");
+@include loop(-100, 100, 1, ".mgr-", "", "margin-right", "px", "!important");
+@include loop(-100, 100, 1, ".mgl-", "", "margin-left", "px", "!important");
+@include loop(-100, 100, 1, ".mgb-", "", "margin-bottom", "px", "!important");
+
+@include loop(0, 100, 1, ".btr-", "", "border-top-right", "px", "!important");
+@include loop(0, 100, 1, ".btl-", "", "border-top-left", "px", "!important");
+@include loop(0, 100, 1, ".bbl-", "", "border-bottom-left", "px", "!important");
+@include loop(0, 100, 1, ".bbr-", "", "border-bottom-right", "px", "!important");
+
+@include loop(-500, 500, 1, ".t-", "", "top", "px", "!important");
+@include loop(-500, 500, 1, ".b-", "", "bottom", "px", "!important");
+@include loop(-500, 500, 1, ".r-", "", "right", "px", "!important");
+@include loop(-500, 500, 1, ".l-", "", "left", "px", "!important");
+@include loop(-500, 500, 1, ".zindex-", "", "z-index", "", "!important");
+
+.pad-r{
+    padding-right: 40px !important;
+}

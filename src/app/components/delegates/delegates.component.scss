@@ -1,0 +1,86 @@
+.pos-ribbon {
+    right: -8px;
+    top: 13px;
+}
+
+.nation-ribbon {
+    padding: 3px 16px;
+    background: #e7e7e7;
+    border-top-left-radius: 9999px;
+    border-bottom-left-radius: 9999px;
+    box-shadow: 2px 9px 8px -3px #aaaaaa
+}
+
+.card-showing {
+    background-color: #e5e4e1;
+}
+
+.camera-btn {
+    position: absolute;
+    top: 55px;
+    left: 37px;
+}
+
+.inside-banner {
+    transform: translate(20px, -50px);
+}
+
+.text-name {
+    transform: translate(-260px, 52px);
+}
+
+@media only screen and (max-width: 768px) {
+    .inside-banner-tab {
+        transform: translate(10px, -28px);
+    }
+    .camera-tab {
+        position: absolute;
+        top: 30px;
+        left: 21px;
+    }
+    .camera-svg {
+        width: 17px;
+        height: 19px;
+    }
+    .text-name-tab {
+        transform: translate(-115px, 30px) !important;
+        font-size: 12px;
+    }
+    .fs-14 {
+        font-size: 14px;
+    }
+}
+
+@media only screen and (max-width: 1024px) {
+    .lt-1024 {
+        transform: translate(-140px, 52px);
+    }
+}
+
+::ng-deep {
+    @media only screen and (min-width: 768px) {
+        .view.nsm-dialog {
+            max-width: 50% !important;
+        }
+    }
+    .mat-slide-toggle-thumb {
+        height: 24px !important;
+        width: 24px !important;
+        border-radius: 50% !important;
+        margin-left: 2px !important;
+    }
+    .mat-slide-toggle-bar {
+        position: relative !important;
+        width: 44px !important;
+        height: 20px !important;
+        flex-shrink: 0 !important;
+        border-radius: 8px !important;
+        margin-right: 40px !important;
+    }
+    .mat-slide-toggle.mat-checked .mat-slide-toggle-bar {
+        background-color: rgb(58 109 255);
+    }
+    .mat-slide-toggle.mat-checked .mat-slide-toggle-thumb {
+        background-color: #ffffff;
+    }
+}

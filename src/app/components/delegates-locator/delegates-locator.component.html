@@ -1,0 +1,115 @@
+<div class="w-screen absolute z-50" style="background: #FFFFFF;">
+    <app-header-dashboard></app-header-dashboard>
+</div>
+<div class="w-screen absolute" style="margin-top: 70px; z-index: 20;">
+    <app-archive-header></app-archive-header>
+</div>
+<div class="relative">
+    <img src="assets/images/bg-delegateLocator.png" class="absolute top-16 left-2">
+    <img src="assets/images/bg-delegateLocator1.png" class="absolute top-24 right-2">
+</div>
+
+
+<div class="mt-28 px-80">
+    <div class="text-navy rubik font-semibold not-italic fs-32-px text-center">
+        Delagates Locator
+    </div>
+    <div class="relative flex items-center justify-center mt-5" [formGroup]="searchForm" (keyup)="searchDelegateLocator()">
+        <input type="text" class="custom-input pl-search h-50-px w-full bg-search-input" placeholder="Search a delegate or company" formControlName="search" (keyup)="searchKey($event)">
+        <span class="material-icons text-gray fs-75-px mb-3 absolute top-3 left-3">
+            search
+        </span>
+    </div>
+</div>
+
+<div class="py-5 px-20">
+    <ng-container *ngIf="isEmpty && !isLoading">
+        <div class="flex items-center justify-center mt-10">
+            <img src="assets/empty_states/delegate_locator.png" class="h-20 w-20">
+        </div>
+        <div class="text-darkblue rubik not-italic fs-16-px font-medium text-center mt-8" *ngIf="!searchForm.value.search">
+            <p>Type the name of a delegate to know which table</p> 
+            <p>they're currently having a meeting.</p>
+        </div>
+        <div class="text-darkblue rubik not-italic fs-16-px font-medium text-center mt-8" *ngIf="searchForm.value.search">
+            <p>Delegate not found</p> 
+            <p>No search result, agenda or timeslot</p>
+            </div>
+    </ng-container>
+
+    <ng-container *ngIf="!isEmpty && !isLoading">
+        <ng-container *ngIf="delegate_locator">
+            <div class="grid grid-cols-12 gap-5 mt-10 px-10">
+                <div  class="bg-white rounded-md border w-full border-gray-300 col-span-4 px-5 py-5" *ngFor="let item of delegate_locator">
+                    <div class="grid grid-cols-12" *ngIf="item.meeting_schedule">
+                        <div class="col-span-2">
+                            <img src="{{item.profile_photo_url}}" class="h-10 w-10 rounded-full">
+                        </div> 
+                        <div class="col-span-10">
+                            <div class="text-navy font-semibold rubik not-italic fs-14-px capitalize" [innerHTML]="item.name | safe:'html'"></div>
+                            <div class="text-navy font-medium rubik not-italic fs-14-px capitalize" [innerHTML]="item.d_fullname | safe:'html'"></div>
+                        </div>
+                        <div class="col-span-12 mt-5">
+                            <div class="flex">
+                                <div class="text-navy font-medium rubik not-italic fs-14-px">
+                                    <span class="text-navy font-semibold rubik not-italic fs-14-px capitalize" [innerHTML]="item.d_fullname | safe:'html'"></span> is currently having a meeting on 
+                                    <span *ngIf="item.meeting_schedule.table_type == 3" class="chip table text-white rubik not-italic px-3 ml-1 fs-14-px" style="display: inline-block;">Table {{item.meeting_schedule.table_table_no}}</span>
+                                    <span *ngIf="item.meeting_schedule.table_type == 2" class="chip table text-white rubik not-italic px-3 ml-1 fs-14-px" style="display: inline-block;">Booth {{item.meeting_schedule.table_table_no}}</span>
+                                    <span *ngIf="item.meeting_schedule.table_type == 1" class="chip table text-white rubik not-italic px-3 ml-1 fs-14-px" style="display: inline-block;">VIP {{item.meeting_schedule.table_table_no}}</span>
+                                </div> 
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="grid grid-cols-12" *ngIf="!item.meeting_schedule && !item.blocked">
+                        <div class="col-span-2">
+                            <img src="{{item.profile_photo_url}}" class="h-10 w-10 rounded-full">
+                        </div> 
+                        <div class="col-span-10">
+                            <div class="text-navy font-semibold rubik not-italic fs-14-px capitalize" [innerHTML]="item.name | safe:'html'"></div>
+                            <div class="text-navy font-medium rubik not-italic fs-14-px capitalize" [innerHTML]="item.d_fullname | safe:'html'"></div>
+                        </div>
+                        <div class="col-span-12 mt-5">
+                            <div class="flex">
+                                <span class="text-navy font-medium rubik not-italic fs-14-px">
+                                    <span class="text-navy font-semibold rubik not-italic fs-14-px capitalize" [innerHTML]="item.d_fullname | safe:'html'"></span> doesn't have any meeting right now. 
+                                </span> 
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="grid grid-cols-12" *ngIf="item.blocked">
+                        <div class="col-span-2">
+                            <img src="{{item.profile_photo_url}}" class="h-10 w-10 rounded-full">
+                        </div> 
+                        <div class="col-span-10">
+                            <div class="text-navy font-semibold rubik not-italic fs-14-px capitalize" [innerHTML]="item.name | safe:'html'"></div>
+                            <div class="text-navy font-medium rubik not-italic fs-14-px capitalize" [innerHTML]="item.d_fullname | safe:'html'"></div>
+                        </div>
+                        <div class="col-span-12 mt-5">
+                            <div class="flex">
+                                <span class="text-navy font-medium rubik not-italic fs-14-px">
+                                    <span class="text-navy font-semibold rubik not-italic fs-14-px capitalize" [innerHTML]="item.d_fullname | safe:'html'"></span>  blocked current timeslot.
+                                </span> 
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </ng-container>
+    </ng-container>
+
+    <ng-container *ngIf="isLoading">
+        <div class="grid grid-cols-12 gap-5 px-10 py-10">
+            <div class="col-span-12 lg:col-span-4" *ngFor="let item of [1,2,3]">
+                <div class="w-full-px h-200-px">
+                    <app-loader [border_radius_class]="'rounded-lg'" [additional_class]=""></app-loader>
+                </div>
+            </div>
+        </div>
+    </ng-container>
+    
+</div>
+
+
+

@@ -1,0 +1,22 @@
+.magnifying{
+    top: 17px;
+    right: 20px;
+}
+.bg-header{
+    background: #EEEEEE;
+}
+.selected{
+    border: 2px #1D4FA5 solid ;
+    background: #ECF1F9;
+}
+.show-check{
+    visibility: visible !important;
+}
+::ng-deep{
+    .cdk-overlay-container{
+        z-index: 999999 !important;
+    }
+    .white-loader.mat-progress-spinner circle{
+        stroke: #FFF !important;
+    }
+}

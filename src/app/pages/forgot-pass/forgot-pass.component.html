@@ -1,0 +1,68 @@
+<div class="w-screen h-screen login-bg px-2 relative" [ngStyle]="{'background-image': 'url(' + bg_img_path + ')'}">
+    <img src="assets/images/bg-login-topleft.png" class="absolute top-5 left-5">
+    <img src="assets/images/bg-login-topright.png" class="absolute top-0 right-0">
+    <img src="assets/images/bg-login-bottomleft.png" class="absolute bottom-0 left-0">
+    <img src="assets/images/bg-login-bottomright.png" class="absolute bottom-0 right-0">
+    <div *ngIf="user_email" class="absolute t-100 l-200 flex items-center cursor-pointer" (click)="gotoUserProfile()">
+        <i class="fas fa-chevron-left cursor-pointer text-4xl"></i> 
+        <span class="ml-4"> Go back to User Profile </span>
+    </div>
+
+    <div class="flex items-center justify-center w-full h-full">
+        <div class="w-448-px h-360-px">
+            <div class="flex flex-col justify-start items-center rubik">
+                <form [formGroup]="forgot_form">
+                    <div class="fs-32-px font-semibold default-text-color text-center w-full">
+                        Forgot Password
+                    </div>
+                    <div class="flex justify-center text-gray-500 text-center my-8">
+                        Please enter the email you registered in Face2Face Scheduler and we’ll send you a link
+                        to reset your password.
+                    </div>
+                    <div class="w-full">
+                        <!-- <input type="text" class="custom-input w-full mb-8" placeholder="Email address" formControlName="email"> -->
+                        <div class="mb-8">
+                            <input type="text" formControlName="email" class="custom-input w-full"
+                                maxlength="70"
+                                [ngClass]="{'error  pr-30-px': forgot_form.controls.email.touched && !forgot_form.controls.email.valid}"
+                                autocomplete="off" placeholder="Email address">
+                            <ng-container *ngIf="forgot_form.controls.email.touched">
+                                <div class="text-red-700 mb-0 fs-14-px absolute pt-1"
+                                    *ngIf="forgot_form.controls.email.hasError('required')">Email is required
+                                </div>
+                                <div class="text-red-700 mb-0 fs-14-px absolute pt-1"
+                                    *ngIf="forgot_form.controls.email.hasError('pattern')">Email must be in
+                                    valid format</div>
+                            </ng-container>
+                        </div>
+                        <button class="py-3 flex justify-center custom-btn w-full mb-5 focus:outline-none {{ !forgot_form.valid || !forgot_form.controls.email.valid  ? 'btn-disabled' : 'btn-blue' }}" [disabled]="!forgot_form.valid || !forgot_form.controls.email.valid" (click)="submit()"
+                        >
+                            Send password reset link
+                        </button>
+                        <div *ngIf="!user_email" class="default-text-color w-full flex justify-center">
+                            Remembered your password?&nbsp;
+                            <span class="font-semibold hover:text-blue-800 cursor-pointer" (click)="backToLogin()">
+                                Login
+                            </span>
+                        </div>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+
+    <div *ngIf="!user_email" class="grid grid-cols-12 px-10 py-5 bg-white absolute b-0 r-0 w-full">
+        <div class="lg:col-span-6 col-span-12 md:text-center">
+            <div class="text-main-gray rubik font-normal not-italic fs-14-px">2021 Copyright @ Face2Face Scheduler all rights reserved</div>
+        </div>
+        <div class="lg:col-span-2 col-span-12 md:text-center">
+            <div class="text-footer rubik font-normal not-italic fs-14-px cursor-pointer" routerLink="/f2fAboutScheduler">About Face2face</div>
+        </div>
+        <div class="lg:col-span-2 col-span-12 md:text-center">
+            <div class="text-footer rubik font-normal not-italic fs-14-px cursor-pointer" routerLink="/terms-condition">Terms of Services</div>
+        </div>
+        <div class="lg:col-span-2 col-span-12 md:text-center">
+            <div class="text-footer rubik font-normal not-italic fs-14-px cursor-pointer" routerLink="/privacy-policy">Privacy Policy</div>
+        </div>
+    </div>
+</div>

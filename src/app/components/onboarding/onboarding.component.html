@@ -1,0 +1,704 @@
+<ngx-spinner [name]="env.loaderSpinner" [fullScreen]="true" type="ball-clip-rotate-multiple" size="medium">
+    <p class="text-white"> {{env.loaderText}} </p>
+</ngx-spinner>
+<div>
+    <div class="h-full bg-white flex justify-center">
+        <div class="container">
+            <mat-horizontal-stepper #stepper>
+                <!-------------- 1st ---------------->
+                <mat-step isEditable="true">
+                    <form [formGroup]="password_form">
+                        <ng-container *ngIf="show_changepass">
+                            <div class=" w-full flex justify-center">
+                                <div class="minw-280-px maxw-500-px">
+                                    <div class="basic-text-color text-center lh-50-px font-semibold rubik fs-32-px mt-10 mb-16">
+                                        First, let’s change your password for your next login.
+                                    </div>
+                                    <div class="rubik relative">
+                                        <label for="email" class="default-text-color mb-1">New Password</label>
+                                        <input class="w-full text-lg custom-input mt-2" (change)="checkIfSame()" formControlName="new_password" type="{{ change_password_type }}" maxlength="70" [ngClass]="{'error  pr-30-px': password_form.controls.new_password.touched && !password_form.controls.new_password.valid}">
+                                        <ng-container *ngIf="password_form.controls.new_password.touched">
+                                            <div class="text-red-700 mb-0 fs-14-px " *ngIf="password_form.controls.new_password.hasError('required')">Password is required
+                                            </div>
+                                            <div class="text-red-700 mb-0 fs-14-px " *ngIf="password_form.controls.new_password.hasError('minlength')">Password must contain atlest 8 characters</div>
+                                        </ng-container>
+                                        <div class="absolute top-14 right-3 h-14-px flex items-center">
+                                            <svg *ngIf="!show" (click)="showPassword(true)" class="cursor-pointer eye-icon"
+                                            width="18" height="10" viewBox="0 0 18 10" fill="none"
+                                            xmlns="http://www.w3.org/2000/svg">
+                                                <path
+                                                    d="M17.9244 1.23362C17.1489 2.7145 15.92 3.96902 14.3696 4.86323L16.2729 6.69829C16.5475 6.96302 16.5475 7.39225 16.2729 7.65701C15.9983 7.92174 15.5532 7.92174 15.2785 7.65701L13.0457 5.50417C11.9934 5.92411 10.8638 6.1767 9.7031 6.24941V9.32208C9.7031 9.6965 9.38831 10 8.99998 10C8.61164 10 8.29685 9.6965 8.29685 9.32208V6.24944C7.13617 6.17674 6.0066 5.92414 4.95424 5.50421L2.72143 7.65704C2.44682 7.9218 2.0016 7.9218 1.72703 7.65704C1.4525 7.39231 1.4525 6.96309 1.72707 6.69833L3.63032 4.86327C2.08 3.96906 0.851081 2.71453 0.0756048 1.23365C-0.0994029 0.899405 0.0397455 0.491703 0.386386 0.322935C0.732921 0.154167 1.15596 0.288295 1.33093 0.622542C2.63515 3.11312 5.54166 4.9156 9.00001 4.9156C12.461 4.9156 15.366 3.11095 16.6691 0.622509C16.8444 0.287718 17.2675 0.154406 17.6136 0.322903C17.9603 0.491671 18.0994 0.899405 17.9244 1.23362Z"
+                                                    fill="#838383" />
+                                            </svg>
+                                            <svg *ngIf="show" (click)="showPassword(false)" class="cursor-pointer eye-icon"
+                                            width="18" height="14" viewBox="0 0 18 14" fill="none"
+                                            xmlns="http://www.w3.org/2000/svg">
+                                                <path
+                                                    d="M8.99999 7.63281C7.25536 7.63281 5.836 9.05221 5.836 10.7969C5.836 12.5415 7.25536 13.9609 8.99999 13.9609C10.7446 13.9609 12.164 12.5415 12.164 10.7969C12.164 9.05221 10.7446 7.63281 8.99999 7.63281ZM8.99999 12.5547C8.03073 12.5547 7.24221 11.7661 7.24221 10.7969C7.24221 9.82762 8.03073 9.03906 8.99999 9.03906C9.96925 9.03906 10.7578 9.82762 10.7578 10.7969C10.7578 11.7661 9.96925 12.5547 8.99999 12.5547Z"
+                                                    fill="#72787F" />
+                                                <path
+                                                    d="M17.9243 9.13138C17.1489 7.59544 15.92 6.29427 14.3696 5.36682L16.2729 3.46353C16.5475 3.18896 16.5475 2.74377 16.2729 2.46917C15.9983 2.1946 15.5532 2.1946 15.2785 2.46917L13.0457 4.70205C11.9934 4.2665 10.8638 4.00451 9.7031 3.9291V0.742188C9.7031 0.353852 9.38831 0.0390625 8.99998 0.0390625C8.61164 0.0390625 8.29685 0.353852 8.29685 0.742188V3.92907C7.13617 4.00448 6.0066 4.26646 4.95423 4.70201L2.72143 2.46913C2.44682 2.19453 2.0016 2.19453 1.72703 2.46913C1.4525 2.7437 1.4525 3.18889 1.72707 3.46349L3.63032 5.36678C2.08 6.29424 0.851081 7.59541 0.0756048 9.13135C-0.0994029 9.47802 0.0397455 9.90088 0.386386 10.0759C0.732921 10.251 1.15596 10.1119 1.33093 9.76518C2.63515 7.182 5.54166 5.3125 9.00001 5.3125C12.461 5.3125 15.366 7.18425 16.6691 9.76521C16.8444 10.1125 17.2675 10.2507 17.6136 10.076C17.9603 9.90092 18.0994 9.47802 17.9243 9.13138Z"
+                                                    fill="#72787F" />
+                                            </svg>
+                                        </div>
+                                    </div>
+                                    <div class="rubik my-5 relative">
+                                        <label for="email" class="default-text-color mb-1">Confirm Password</label>
+                                        <input class="w-full text-lg custom-input mt-2" (change)="checkIfSame()" formControlName="confirm_password" type="{{ confirm_password_type }}" maxlength="70" [ngClass]="{'error  pr-30-px': password_form.controls.confirm_password.touched && !password_form.controls.confirm_password.valid || (!same && password_form.controls.confirm_password.touched )}">
+                                        <ng-container *ngIf="password_form.controls.confirm_password.touched">
+                                            <div class="text-red-700 mb-0 fs-14-px " *ngIf="password_form.controls.confirm_password.hasError('required')">Password is required
+                                            </div>
+                                            <div class="text-red-700 mb-0 fs-14-px " *ngIf="password_form.controls.confirm_password.hasError('minlength')">Password must contain atlest 8 characters</div>
+                                            <div class="text-red-700 mb-0 fs-14-px " *ngIf="!same">Please make sure your pssword is match</div>
+                                        </ng-container>
+                                        <div class="absolute top-14 right-3 h-14-px flex items-center">
+                                            <svg *ngIf="!show_confirm" (click)="showConfirmPassword(true)" class="cursor-pointer eye-icon"
+                                            width="18" height="10" viewBox="0 0 18 10" fill="none"
+                                            xmlns="http://www.w3.org/2000/svg">
+                                                <path
+                                                    d="M17.9244 1.23362C17.1489 2.7145 15.92 3.96902 14.3696 4.86323L16.2729 6.69829C16.5475 6.96302 16.5475 7.39225 16.2729 7.65701C15.9983 7.92174 15.5532 7.92174 15.2785 7.65701L13.0457 5.50417C11.9934 5.92411 10.8638 6.1767 9.7031 6.24941V9.32208C9.7031 9.6965 9.38831 10 8.99998 10C8.61164 10 8.29685 9.6965 8.29685 9.32208V6.24944C7.13617 6.17674 6.0066 5.92414 4.95424 5.50421L2.72143 7.65704C2.44682 7.9218 2.0016 7.9218 1.72703 7.65704C1.4525 7.39231 1.4525 6.96309 1.72707 6.69833L3.63032 4.86327C2.08 3.96906 0.851081 2.71453 0.0756048 1.23365C-0.0994029 0.899405 0.0397455 0.491703 0.386386 0.322935C0.732921 0.154167 1.15596 0.288295 1.33093 0.622542C2.63515 3.11312 5.54166 4.9156 9.00001 4.9156C12.461 4.9156 15.366 3.11095 16.6691 0.622509C16.8444 0.287718 17.2675 0.154406 17.6136 0.322903C17.9603 0.491671 18.0994 0.899405 17.9244 1.23362Z"
+                                                    fill="#838383" />
+                                            </svg>
+                                            <svg *ngIf="show_confirm" (click)="showConfirmPassword(false)" class="cursor-pointer eye-icon"
+                                            width="18" height="14" viewBox="0 0 18 14" fill="none"
+                                            xmlns="http://www.w3.org/2000/svg">
+                                                <path
+                                                    d="M8.99999 7.63281C7.25536 7.63281 5.836 9.05221 5.836 10.7969C5.836 12.5415 7.25536 13.9609 8.99999 13.9609C10.7446 13.9609 12.164 12.5415 12.164 10.7969C12.164 9.05221 10.7446 7.63281 8.99999 7.63281ZM8.99999 12.5547C8.03073 12.5547 7.24221 11.7661 7.24221 10.7969C7.24221 9.82762 8.03073 9.03906 8.99999 9.03906C9.96925 9.03906 10.7578 9.82762 10.7578 10.7969C10.7578 11.7661 9.96925 12.5547 8.99999 12.5547Z"
+                                                    fill="#72787F" />
+                                                <path
+                                                    d="M17.9243 9.13138C17.1489 7.59544 15.92 6.29427 14.3696 5.36682L16.2729 3.46353C16.5475 3.18896 16.5475 2.74377 16.2729 2.46917C15.9983 2.1946 15.5532 2.1946 15.2785 2.46917L13.0457 4.70205C11.9934 4.2665 10.8638 4.00451 9.7031 3.9291V0.742188C9.7031 0.353852 9.38831 0.0390625 8.99998 0.0390625C8.61164 0.0390625 8.29685 0.353852 8.29685 0.742188V3.92907C7.13617 4.00448 6.0066 4.26646 4.95423 4.70201L2.72143 2.46913C2.44682 2.19453 2.0016 2.19453 1.72703 2.46913C1.4525 2.7437 1.4525 3.18889 1.72707 3.46349L3.63032 5.36678C2.08 6.29424 0.851081 7.59541 0.0756048 9.13135C-0.0994029 9.47802 0.0397455 9.90088 0.386386 10.0759C0.732921 10.251 1.15596 10.1119 1.33093 9.76518C2.63515 7.182 5.54166 5.3125 9.00001 5.3125C12.461 5.3125 15.366 7.18425 16.6691 9.76521C16.8444 10.1125 17.2675 10.2507 17.6136 10.076C17.9603 9.90092 18.0994 9.47802 17.9243 9.13138Z"
+                                                    fill="#72787F" />
+                                            </svg>
+                                        </div>
+                                    </div>
+                                    <div class="rubik w-full flex justify-between mt-10">
+                                        <button class="flex items-center text-gray-600 focus:outline-none" (click)="skipPassword()">
+                                            <span class="material-icons">
+                                                chevron_right
+                                            </span>
+                                            <span>
+                                                Skip
+                                            </span>
+                                        </button>
+                                        <button class="custom-btn px-6 py-3 focus:outline-none {{ !password_form.valid || !password_form.controls.new_password.valid || !password_form.controls.confirm_password.valid || !same ? 'btn-disabled' : 'btn-blue' }}" 
+                                        [disabled]="!password_form.valid || !password_form.controls.new_password.valid || !password_form.controls.confirm_password.valid || !same"
+                                        (click)="checkPassword()">Change Password</button>
+                                    </div>
+                                </div>
+                            </div>
+                        </ng-container>
+                    </form>
+                </mat-step>
+                <!-------------- 2nd ---------------->
+                <mat-step  isEditable="true">
+                    <form [formGroup]="basic_detail_form">
+                        <div class=" w-full flex justify-center">
+                            <div class="minw-280-px maxw-500-px">
+                                <div class="basic-text-color text-center lh-50-px font-semibold rubik fs-32-px my-10 mgl--80 mgr--80">
+                                    We already added all the info you gave, you just need to double check.
+                                </div>
+                                <input #profilePic type="file" class="hidden" (change)="changeProfilePic($event)" accept="image/jpeg, image/png"/>
+                                <div class="border border-gray-300 rounded-lg mt-10">
+                                    <div class="cover-card" [ngStyle]="{'background-image': 'url(' + img_path + ')'}">
+                                    </div>
+                                    <div class="relative">
+                                        <img *ngIf="!isProfileImageLoaded && !user.profile_photo_url && !temp_profile_pic" src="{{profile_img_path}}" class="rounded-full trans-t object-cover" >
+                                        <img *ngIf="isProfileImageLoaded && !profileUploadWrongFile" src="{{croppedprofilePhoto}}" class="rounded-full trans-t object-cover" >
+                                        <img *ngIf="!isProfileImageLoaded && user.profile_photo_url || temp_profile_pic" src="{{temp_profile_pic ? temp_profile_pic : user.profile_photo_url}}" class="rounded-full trans-t object-cover" >
+                                        <svg width="30" height="30" viewBox="0 0 30 30" fill="none" xmlns="http://www.w3.org/2000/svg" class="absolute cam cursor-pointer" (click)="cropProfilePic(profilePic)">
+                                            <circle cx="15" cy="15" r="15" fill="url(#paint0_linear)"/>
+                                            <path fill-rule="evenodd" clip-rule="evenodd" d="M21.6665 9.16667H19.0248L17.4998 7.5H12.4998L10.9748 9.16667H8.33317C7.4165 9.16667 6.6665 9.91667 6.6665 10.8333V20.8333C6.6665 21.75 7.4165 22.5 8.33317 22.5H21.6665C22.5832 22.5 23.3332 21.75 23.3332 20.8333V10.8333C23.3332 9.91667 22.5832 9.16667 21.6665 9.16667ZM14.9998 11.6667C12.6998 11.6667 10.8332 13.5333 10.8332 15.8333C10.8332 18.1333 12.6998 20 14.9998 20C17.2998 20 19.1665 18.1333 19.1665 15.8333C19.1665 13.5333 17.2998 11.6667 14.9998 11.6667ZM12.4998 15.8333C12.4998 17.2083 13.6248 18.3333 14.9998 18.3333C16.3748 18.3333 17.4998 17.2083 17.4998 15.8333C17.4998 14.4583 16.3748 13.3333 14.9998 13.3333C13.6248 13.3333 12.4998 14.4583 12.4998 15.8333Z" fill="white"/>
+                                            <defs>
+                                                <linearGradient id="paint0_linear" x1="15.7722" y1="29.9601" x2="12.7524" y2="2.95597" gradientUnits="userSpaceOnUse">
+                                                    <stop stop-color="#678B05"/>
+                                                    <stop offset="1" stop-color="#87AF1B"/>
+                                                </linearGradient>
+                                            </defs>
+                                        </svg>
+                                        <div class="w-full flex flex-col items-center rubik mgt--40">
+                                            <span class="basic-text-color text-lg font-semibold mb-1">{{ user.fullname }}</span>
+                                            <div class="flex items-center relative">
+                                                <div class="my-1 text-gray-500 text-sm" *ngIf="!showInputJobTitle">{{ user.job_title }}</div>
+                                                <span *ngIf="showInputJobTitle">
+                                                    <input type="text" class="focus:outline-none border border-gray-400 rounded-md px-3 py-2" formControlName="job_title">
+                                                </span> 
+                                                <div class="logo-blue fs-14-px flex items-center font-normal text-sm absolute -right-20 cursor-pointer" (click)="editfield('job_title', user.job_title)" *ngIf="!showInputJobTitle">
+                                                    <svg width="20" height="20" viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg" >
+                                                        <path fill-rule="evenodd" clip-rule="evenodd" d="M14.7157 2.5C14.5074 2.5 14.2907 2.58333 14.1324 2.74167L12.6074 4.26667L15.7324 7.39167L17.2574 5.86667C17.5824 5.54167 17.5824 5.01667 17.2574 4.69167L15.3074 2.74167C15.1407 2.575 14.9324 2.5 14.7157 2.5ZM11.7157 7.51667L12.4824 8.28333L4.93236 15.8333H4.16569V15.0667L11.7157 7.51667ZM2.49902 14.375L11.7157 5.15833L14.8407 8.28333L5.62402 17.5H2.49902V14.375Z" fill="#3B67B2"/>
+                                                    </svg>
+                                                    <span class="ml-2"> Edit </span>
+                                                </div>
+                                                <div class="logo-blue fs-14-px flex items-center font-normal text-sm absolute -right-20 cursor-pointer" (click)="saveEditField('job_title', basic_detail_form.controls.job_title.value)" *ngIf="showInputJobTitle">
+                                                    <svg width="16" height="12" viewBox="0 0 16 12" fill="none" xmlns="http://www.w3.org/2000/svg" class="mr-2">
+                                                        <path d="M5.32923 9.22914L1.85423 5.75414L0.670898 6.92914L5.32923 11.5875L15.3292 1.58748L14.1542 0.412476L5.32923 9.22914Z" fill="#3B67B2"/>
+                                                    </svg>
+                                                    <span class="ml-2"> Save </span>
+                                                </div>
+                                            </div>
+                                            <div class="text-gray-500 text-sm mb-1"> {{ user.company.name }} </div>
+                                        </div>  
+                                    </div>
+                                    <div class="w-full py-3 px-12">
+                                        <div class="flex justify-between items-center default-text-color w-full my-3">
+                                            <div class="flex flex-col space-y-3">
+                                                <div class="text-sm ">
+                                                    Email
+                                                </div>
+                                                <div class="font-semibold text-base">
+                                                    {{ user.email }}
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="flex justify-between items-center default-text-color w-full my-5">
+                                            <div class="flex flex-col space-y-3 w-full">
+                                                <div class="flex justify-items-center justify-between">
+                                                    <div class="text-sm ">
+                                                        Mobile
+                                                    </div>
+                                                    <div class="logo-blue fs-14-px flex items-center cursor-pointer" (click)="editfield('mobile', basic_detail_form.controls.mobile.value)" *ngIf="!showInputMobile">
+                                                        <svg width="20" height="20" viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg" >
+                                                            <path fill-rule="evenodd" clip-rule="evenodd" d="M14.7157 2.5C14.5074 2.5 14.2907 2.58333 14.1324 2.74167L12.6074 4.26667L15.7324 7.39167L17.2574 5.86667C17.5824 5.54167 17.5824 5.01667 17.2574 4.69167L15.3074 2.74167C15.1407 2.575 14.9324 2.5 14.7157 2.5ZM11.7157 7.51667L12.4824 8.28333L4.93236 15.8333H4.16569V15.0667L11.7157 7.51667ZM2.49902 14.375L11.7157 5.15833L14.8407 8.28333L5.62402 17.5H2.49902V14.375Z" fill="#3B67B2"/>
+                                                        </svg>
+                                                        <span class="ml-2"> {{ user.mobile ? 'Edit' : 'Add' }} </span>
+                                                    </div>
+                                                    <div class="logo-blue fs-14-px flex items-center cursor-pointer" (click)="saveEditField('mobile', basic_detail_form.controls.mobile.value)" *ngIf="showInputMobile">
+                                                        <svg width="16" height="12" viewBox="0 0 16 12" fill="none" xmlns="http://www.w3.org/2000/svg" class="mr-2">
+                                                            <path d="M5.32923 9.22914L1.85423 5.75414L0.670898 6.92914L5.32923 11.5875L15.3292 1.58748L14.1542 0.412476L5.32923 9.22914Z" fill="#3B67B2"/>
+                                                        </svg>
+                                                        <span class="ml-2"> Save </span>
+                                                    </div>
+                                                </div>
+                                                <div class="font-semibold text-base" *ngIf="!showInputMobile">
+                                                    {{ user.mobile }}
+                                                </div>
+                                                <span *ngIf="showInputMobile">
+                                                    <input 
+                                                        type="text" 
+                                                        onkeydown="return event.keyCode !== 69 && event.keyCode !== 190" 
+                                                        class="focus:outline-none border border-gray-400 rounded-md px-3 py-2 w-80" 
+                                                        formControlName="mobile"
+                                                        (keypress)="keyPressNumbers($event)"
+                                                    >
+                                                </span>
+                                            </div>
+                                        </div>
+                                        <div class="flex flex-col space-y-2 my-6">
+                                            <div class="flex justify-items-center justify-between">
+                                                <div>
+                                                    Social Links
+                                                </div>
+                                                <div class="logo-blue fs-14-px flex items-center cursor-pointer" (click)="openSocialLinks()">
+                                                    <svg width="20" height="20" viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg" >
+                                                        <path fill-rule="evenodd" clip-rule="evenodd" d="M14.7157 2.5C14.5074 2.5 14.2907 2.58333 14.1324 2.74167L12.6074 4.26667L15.7324 7.39167L17.2574 5.86667C17.5824 5.54167 17.5824 5.01667 17.2574 4.69167L15.3074 2.74167C15.1407 2.575 14.9324 2.5 14.7157 2.5ZM11.7157 7.51667L12.4824 8.28333L4.93236 15.8333H4.16569V15.0667L11.7157 7.51667ZM2.49902 14.375L11.7157 5.15833L14.8407 8.28333L5.62402 17.5H2.49902V14.375Z" fill="#3B67B2"/>
+                                                    </svg>
+                                                    <span class="ml-2"> Edit </span>
+                                                </div>
+                                            </div>
+                                            <div *ngIf="user.social_media_links_detail && user.social_media_links_detail.facebook" class="flex items-center my-1">
+                                                <div class="social-media-icon fb mgr-5">
+                                                    <i class="fab fa-facebook-f text-white"></i>
+                                                </div>
+                                                <span class="basic-default-color w-full break-words"> {{user.social_media_links_detail.facebook}} </span>
+                                            </div>
+                                            <div *ngIf="user.social_media_links_detail && user.social_media_links_detail.kakao" class="flex items-center my-1">
+                                                <div class="social-media-icon kt mgr-5">
+                                                    <i class="fas fa-comment"></i> 
+                                                </div>
+                                                <span class="basic-default-color w-full break-words"> {{user.social_media_links_detail.kakao}} </span>
+                                            </div>
+                                            <div *ngIf="user.social_media_links_detail && user.social_media_links_detail.linkedin" class="flex items-center my-1">
+                                                <div class="social-media-icon ln mgr-5">
+                                                    <i class="fab fa-linkedin-in text-white"></i>
+                                                </div>
+                                                <span class="basic-default-color w-full break-words"> {{user.social_media_links_detail.linkedin}} </span>
+                                            </div>
+                                            <div *ngIf="user.social_media_links_detail && user.social_media_links_detail.skype" class="flex items-center my-1">
+                                                <div class="social-media-icon sk mgr-5">
+                                                    <i class="fab fa-skype text-white"></i>
+                                                </div>
+                                                <span class="basic-default-color"> {{user.social_media_links_detail.skype}} </span>
+                                            </div>
+                                            <div *ngIf="user.social_media_links_detail && user.social_media_links_detail.twitter" class="flex items-center my-1">
+                                                <div class="social-media-icon tw mgr-5">
+                                                    <i class="fab fa-twitter text-white"></i>
+                                                </div>
+                                                <span class="basic-default-color w-full break-words"> {{user.social_media_links_detail.twitter}} </span>
+                                            </div>
+                                            <div *ngIf="user.social_media_links_detail && user.social_media_links_detail.wechat" class="flex items-center my-1">
+                                                <div class="social-media-icon wc mgr-5">
+                                                    <i class="fab fa-weixin text-white"></i>
+                                                </div>
+                                                <span class="basic-default-color w-full break-words"> {{user.social_media_links_detail.wechat}} </span>
+                                            </div>
+                                            <div *ngIf="user.social_media_links_detail && user.social_media_links_detail.whatsapp" class="flex items-center my-1">
+                                                <div class="social-media-icon wa mgr-5">
+                                                    <i class="fab fa-whatsapp text-white"></i>
+                                                </div>
+                                                <span class="basic-default-color w-full break-words"> {{user.social_media_links_detail.whatsapp}} </span>
+                                            </div>
+                                            <div *ngIf="user.social_media_links_detail && user.social_media_links_detail.zoom" class="flex items-center my-1">
+                                                <div class="social-media-icon zm mgr-5">
+                                                    <i class="fas fa-video text-white"></i>
+                                                </div>
+                                                <span class="basic-default-color w-full break-words"> {{user.social_media_links_detail.zoom}} </span>
+                                            </div>
+                                            <div *ngIf="
+                                                !user.social_media_links_detail ||
+                                                (
+                                                    !user.social_media_links_detail.facebook && 
+                                                    !user.social_media_links_detail.kakao && 
+                                                    !user.social_media_links_detail.linkedln && 
+                                                    !user.social_media_links_detail.skype && 
+                                                    !user.social_media_links_detail.twitter && 
+                                                    !user.social_media_links_detail.wechat && 
+                                                    !user.social_media_links_detail.whatsapp && 
+                                                    !user.social_media_links_detail.zoom
+                                                )" class="flex items-center my-1">
+                                                <span class="basic-default-color"> No social media yet </span>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="w-full h-50-px rubik default-text-color flex items-center space-x-4" style="background: #eeeeee;">
+                                        <div class="flex items-center" style="transform: translateX(50px);">
+                                            <label class="switch">
+                                                <input type="checkbox" (change)="changePrivacy(user_privacy)" [(ngModel)]="user_privacy" [ngModelOptions]="{standalone: true}">
+                                                <span class="slider round"></span>
+                                            </label>
+                                        </div>
+                                        <div class=" px-12 text-sm">
+                                            Let other delegates view my profile
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="w-full flex justify-end mt-10">
+                                    <!-- <button class="pr-6 py-3 text-gray-500 flex items-center focus:outline-none" (click)="prevStepper()">
+                                        <span class="material-icons mr-3">
+                                            arrow_back
+                                        </span>
+                                        Back
+                                    </button> -->
+                                    <button class="custom-btn  px-6 py-3 logo-blue flex items-center focus:outline-none {{ !showInputJobTitle && !showInputMobile ? 'btn-back' : 'btn-disabled'  }}" (click)="nextStepper()" [disabled]="showInputJobTitle && showInputMobile">
+                                        <span class="material-icons mr-3">
+                                            arrow_forward
+                                        </span>
+                                        Next
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+                    </form>
+                </mat-step>
+                <!-------------- 3rd ---------------->
+                <mat-step  isEditable="true">
+                    <div class=" w-full flex justify-center">
+                        <div class="minw-280-px maxw-500-px">
+                            <div class="basic-text-color text-center lh-50-px font-semibold rubik fs-32-px my-10 mgl--80 mgr--80">
+                                Upload your business card in your profile
+                            </div>
+                            <div class="text-sm basic-text-color mb-2">
+                                Photo of your business card
+                            </div>
+                            <div [ngClass]="{ 'id-bg': !isProfileImageLoadedCard && !user.businesscard_url }">
+                                <input #businessCard type="file" class="hidden" (change)="uploadBusinessCard($event)" accept="image/jpeg, image/png"/>
+                                <div class="h-full flex flex-col items-center justify-center cursor-pointer" (click)="businessCard.click()">
+                                    <!-- (drop)="onIdDrop($event)" (dragover)="onDragOver($event)" -->
+                                    <ng-container *ngIf="!isProfileImageLoadedCard && !user.businesscard_url">
+                                        <img src="assets/images/id.png" class="object-cover h-100-px" alt="">
+                                        <div class="text-gray-500 text-base">
+                                            <span class="text-blue-600 font-semibold hover:text-blue-800">Upload a file</span> 
+                                            <!-- or drag and drop -->
+                                        </div>
+                                        <div class="text-gray-500 text-base">
+                                            PNG, JPG, GIF up to 10MB
+                                        </div>
+                                    </ng-container>
+                                    <ng-container *ngIf="isProfileImageLoadedCard && !profileUploadWrongFileCard">
+                                        <img [src]="croppedprofilePhotoCard" class="w-500 h-300" alt="" style="background-size: cover;">
+                                    </ng-container>
+                                    <ng-container *ngIf="!isProfileImageLoadedCard && user.businesscard_url">
+                                        <img [src]="user.businesscard_url" class="w-500 h-300" alt="" style="background-size: cover;">
+                                    </ng-container>
+                                </div>
+                                <div *ngIf="(isProfileImageLoadedCard && !profileUploadWrongFileCard) || (!isProfileImageLoaded && user.businesscard_url)" class="grid grid-flow-col gap-6 mt-5">
+                                    <div (click)="businessCard.click()" class="flex items-center justify-center my-1 cursor-pointer">
+                                        <div class="mgr-5">
+                                            <i class="fas fa-redo-alt primary-color"></i>
+                                        </div>
+                                        <span class="primary-color"> Change </span>
+                                    </div>
+                                    <!-- <div (click)="removeBusinessCard()" class="flex items-center justify-center my-1 cursor-pointer">
+                                        <div class="mgr-5">
+                                            <i class="fas fa-times danger-color"></i>
+                                        </div>
+                                        <span class="danger-color"> Remove </span>
+                                    </div> -->
+                                </div>
+                            </div>
+                            <div class="w-full flex justify-between mt-10">
+                                <button class="pr-6 py-3 text-gray-500 flex items-center focus:outline-none" (click)="prevStepper()">
+                                    <span class="material-icons mr-3">
+                                        arrow_back
+                                    </span>
+                                    Back
+                                </button>
+                                <button class="custom-btn btn-back px-6 py-3 logo-blue flex items-center focus:outline-none" (click)="nextStepper()">
+                                    <span class="material-icons mr-3">
+                                        arrow_forward
+                                    </span>
+                                    Next
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                </mat-step>
+                <!-------------- 4th ---------------->
+                <mat-step  isEditable="true">
+                    <div class=" w-full flex justify-center">
+                        <div class="w-800-px">
+                            <div class="basic-text-color text-center lh-50-px font-semibold rubik fs-32-px my-10 mgl--80 mgr--80">      
+                                Let’s now update your preferences
+                            </div>
+                            <div class="grid grid-cols-12 gap-2 mb-10">
+                                <div class="col-span-12 font-medium text-darkblue mb-2">
+                                    Select the services you’re interested in
+                                </div>
+                                <ng-container *ngIf="services">
+                                    <div class="col-span-12 md:col-span-6 logo-blue" *ngFor="let item of services.datas">
+                                        <label class="flex flex-row items-center text-sm mb-1 mt-1">
+                                            <mat-checkbox 
+                                                (ngModelChange)="selectServices(item, $event)" 
+                                                [(ngModel)]="item.checked" 
+                                                [ngModelOptions]="{standalone: true}"
+                                            ></mat-checkbox>  
+                                            <span class="text-sm w-full ml-3 text-darkblue font-medium">{{ item.name }}</span>
+                                        </label>
+                                    </div>
+                                </ng-container>
+                            </div>
+
+                            <div class="grid grid-cols-12 gap-2 mb-10">
+                                <div class="col-span-12 font-medium text-darkblue mb-2">
+                                    Select the specializations you’re interested in
+                                </div>
+                                <ng-container *ngIf="specializations">
+                                    <div class="col-span-12 md:col-span-6 logo-blue" *ngFor="let item of specializations.datas">
+                                        <label class="flex flex-row items-center text-sm mb-1 mt-1">
+                                            <mat-checkbox 
+                                                (ngModelChange)="selectSpecialization(item, $event)" 
+                                                [(ngModel)]="item.checked" 
+                                                [ngModelOptions]="{standalone: true}"
+                                            ></mat-checkbox>                      
+                                            <span class="text-sm w-full ml-3 text-darkblue font-medium">{{ item.name }}</span>
+                                        </label>
+                                    </div>
+                                </ng-container>
+                            </div>
+                            
+                            <div class="grid grid-cols-12 gap-2">
+                                <div class="col-span-12 font-medium text-darkblue mb-2">
+                                    Countries I'm not prepared to meet <span class="font-normal text-darkblue"> (this will not show up in your profile) </span>
+                                    <div class="flex items-center relative w-full mt-1">
+                                        <input 
+                                            type="text" 
+                                            class="custom-input w-2/4 bg-gray-card rounded-lg h-48-px my-2" 
+                                            [(ngModel)]="search_key_countries" 
+                                            (keydown.enter)="searchCountries(search_key_countries)" 
+                                            (ngModelChange)="this.subscribeSearch.next($event)"
+                                            placeholder="Search" 
+                                            style="padding-left: 35px;"
+                                        >
+                                        <span class="material-icons text-gray-400 fs-75-px mb-3 absolute left-2 top-5">
+                                            search
+                                        </span>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="grid grid-cols-12 gap-2 mb-10 h-250-px overflow-y-auto">
+                                <ng-container *ngIf="isLoaded && (contries && contries.total_count)">
+                                    <div class="col-span-12 md:col-span-4 logo-blue" *ngFor="let item of contries.datas">
+                                        <label class="flex flex-row items-center text-sm mb-1 mt-1">
+                                            <mat-checkbox 
+                                                (ngModelChange)="selectCountries(item, $event)" 
+                                                [(ngModel)]="item.checked" 
+                                                [ngModelOptions]="{standalone: true}"
+                                            ></mat-checkbox>                        
+                                            <span class="text-sm w-full ml-3 text-darkblue font-medium">{{ item.nicename }}</span>
+                                        </label>
+                                    </div>
+                                </ng-container>
+                                <ng-container *ngIf="!isLoaded">
+                                    <div class="col-span-12 md:col-span-4 logo-blue" *ngFor="let skeleton of env.skeleton_loader">
+                                        <ngx-skeleton-loader 
+                                            [theme]="{width: '100%', height: '30px', margin: 0}"> 
+                                        </ngx-skeleton-loader>
+                                    </div>
+                                </ng-container>
+                                <ng-container *ngIf="isLoaded && (contries && contries.total_count == 0)">
+                                    <div class="col-span-12 md:col-span-12 logo-blue">
+                                        <label class="flex flex-row items-center mb-1 mt-1">
+                                            No results found. Please check all words are spelled correctly, or try another keywords.
+                                        </label>
+                                    </div>
+                                </ng-container>
+                            </div>
+        
+                            <div class="w-full flex justify-between mt-10">
+                                <button class="pr-6 py-3 text-gray-500 flex items-center focus:outline-none" (click)="prevStepper()">
+                                    <span class="material-icons mr-3">
+                                        arrow_back
+                                    </span>
+                                    Back
+                                </button>
+                                <button class="custom-btn btn-back px-6 py-3 logo-blue flex items-center focus:outline-none" (click)="nextStepper()">
+                                    <span class="material-icons mr-3">
+                                        arrow_forward
+                                    </span>
+                                    Next
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                </mat-step>
+                <!-------------- 5th ---------------->
+                <mat-step  isEditable="true">
+                    <div class=" w-full flex justify-center">
+                        <div class="w-800-px">
+                            <div class="basic-text-color text-center lh-50-px font-semibold rubik fs-32-px my-10 mgl--80 mgr--80">
+                                What operational softwares you use?
+                            </div>
+                            <div class="grid grid-cols-12 gap-2">
+                                <div class="col-span-12 font-medium text-darkblue mb-2">
+                                    Check all operational softwares you use:
+                                </div>
+                                <div class="col-span-12 md:col-span-6 logo-blue">
+                                    <label class="flex flex-row items-center text-sm mb-1 mt-1">
+                                        <mat-checkbox [checked]="select_all_software" (change)="selectAllSoftwares($event)"></mat-checkbox>                          
+                                        <span *ngIf="!select_all_software" class="text-sm w-full ml-3 text-darkblue font-medium">Select all</span>
+                                        <span *ngIf="select_all_software" class="text-sm w-full ml-3 text-darkblue font-medium">Unselect all</span>
+                                    </label>
+                                </div>
+                                <div class="col-span-12 md:col-span-6">
+                                </div>
+                                <ng-container *ngIf="softwares">
+                                    <div class="col-span-12 md:col-span-6 logo-blue" *ngFor="let item of softwares.datas">
+                                        <label class="flex flex-row items-center text-sm mb-1 mt-1">
+                                            <mat-checkbox (ngModelChange)="selectSoftwares(item, $event)" [(ngModel)]="item.checked" [ngModelOptions]="{standalone: true}"></mat-checkbox>                          
+                                            <span class="text-sm w-full ml-3 text-darkblue font-medium">{{ item.name }}</span>
+                                        </label>
+                                    </div>
+                                </ng-container>
+                            </div>
+                            <div class="w-full flex justify-between mt-20">
+                                <button class="pr-6 py-3 text-gray-500 flex items-center focus:outline-none" (click)="prevStepper()">
+                                    <span class="material-icons mr-3">
+                                        arrow_back
+                                    </span>
+                                    Back
+                                </button>
+                                <button class="custom-btn btn-back px-6 py-3 logo-blue flex items-center focus:outline-none" (click)="nextStepper()">
+                                    <span class="material-icons mr-3">
+                                        arrow_forward
+                                    </span>
+                                    Next
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                </mat-step>
+                <!-------------- 6th ---------------->
+                <mat-step isEditable="true">
+                    <div class=" w-full flex justify-center">
+                        <div class="minw-280-px maxw-500-px">
+                            <div class="basic-text-color text-center lh-50-px font-semibold rubik fs-32-px my-10 mgl--40 mgr--40">
+                                Lastly, please check if these info of your company are correct.
+                            </div>
+                            <div class="border border-gray-300 rounded-lg px-5 py-9 relative">
+                                <img src="assets/images/onboarding-card.svg" class="absolute top-0 right-0" alt="">
+                                <div class="grid grid-cols-12 ">
+                                    <div class="col-span-12">
+                                        <div *ngIf="user.company" class="default-text-color fs-18-px font-medium leading-8">
+                                            {{user.company.name}}
+                                        </div>
+                                        <div *ngIf="user.company && user.company.description" class="text-gray-500 w-11/12 mt-1 break-words">
+                                            {{user.company.description}}
+                                        </div>
+                                        <div *ngIf="user.company && !user.company.description" class="text-gray-500 w-11/12 mt-1">
+                                            No description yet
+                                        </div>
+                                    </div>
+                                    <div class="col-span-6 mt-6">
+                                        <div class="flex flex-col default-text-color rubik items-start">
+                                            <div class="text-sm">Sector</div>
+                                            <div *ngIf="user.company && user.company.pref_sector_name" class="font-semibold text-base"> {{user.company.pref_sector_name}} </div>
+                                            <div *ngIf="user.company && !user.company.pref_sector_name" class="font-semibold text-base"> No sector yet </div>
+                                        </div>
+                                    </div>
+                                    <div *ngIf="user.company && user.company.member_since" class="col-span-6 mt-6">
+                                        <div class="flex flex-col default-text-color rubik items-start">
+                                            <div class="text-sm">Member since</div>
+                                            <div class="font-semibold text-base"> {{user.company.member_since}} </div>
+                                        </div>
+                                    </div>
+                                    <div class="col-span-12">
+                                        <hr class="my-4">
+                                    </div>
+                                    <div class="col-span-6">
+                                        <div class="flex flex-col default-text-color rubik items-start">
+                                            <div class="text-sm">Network</div>
+                                            <div *ngIf="user.company && user.company.pref_network_name" class="font-semibold text-base"> {{user.company.pref_network_name}} </div>
+                                            <div *ngIf="user.company && !user.company.pref_network_name" class="font-semibold text-base"> No network yet </div>
+                                        </div>
+                                    </div>
+                                    <div class="col-span-6">
+                                        <div class="flex flex-col default-text-color rubik items-start">
+                                            <div class="text-sm">Membership Status</div>
+                                            <div *ngIf="user.company && user.company.membershipstatus" class="font-semibold text-base"> {{user.company.membershipstatus}} </div>
+                                            <div *ngIf="user.company && !user.company.membershipstatus" class="font-semibold text-base"> No membership status yet </div>
+                                        </div>
+                                    </div>
+                                    <div class="col-span-12">
+                                        <hr class="my-4">
+                                    </div>
+                                    <div class="col-span-6">
+                                        <div class="flex flex-col default-text-color rubik items-start">
+                                            <div class="text-sm">Country</div>
+                                            <div class="flex items-center" *ngIf="user.company_country && user.company_country.nicename">
+                                                <img *ngIf="user.company_country && user.company_country.iso" src="assets/flags/{{user.company_country.iso}}.png" class="h-4 w-4 mr-1">
+                                                <span class="font-semibold text-base"> {{user.company_country.nicename}} </span>
+                                            </div>
+                                            <div *ngIf="!user.company_country && !user.company_country.nicename" 
+                                                class="font-semibold text-base">
+                                                No country yet
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="col-span-6">
+                                        <div class="flex flex-col default-text-color rubik items-start">
+                                            <div class="text-sm">Zip Code</div>
+                                            <div *ngIf="user.company && user.company.zipcode" 
+                                                class="font-semibold text-base">
+                                                {{user.company.zipcode}}
+                                            </div>
+                                            <div *ngIf="user.company && !user.company.zipcode" 
+                                                class="font-semibold text-base">
+                                                No zipcode yet
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="col-span-12 mt-4">
+                                        <div class="flex flex-col default-text-color rubik items-start">
+                                            <div class="text-sm">Address</div>
+                                            <div *ngIf="user.company && user.company.address" 
+                                                class="font-semibold text-base">
+                                                {{user.company.address}}
+                                            </div>
+                                            <div *ngIf="user.company && !user.company.address" 
+                                                class="font-semibold text-base">
+                                                No address yet
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="col-span-12">
+                                        <hr class="my-4">
+                                    </div>
+                                    <div class="col-span-6">
+                                        <div class="flex flex-col default-text-color rubik items-start">
+                                            <div class="text-sm">Telephone</div>
+                                            <div  *ngIf="user.company.social_media_links_detail && user.company.social_media_links_detail.phoneNumber" 
+                                                class="font-semibold text-base">
+                                                {{user.company.social_media_links_detail.phoneNumber}}
+                                            </div>
+                                            <div *ngIf="!user.company.social_media_links_detail || !user.company.social_media_links_detail.phoneNumber"
+                                                class="font-semibold text-base">
+                                                No telephone yet
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="col-span-12 default-text-color mt-3">
+                                        <div>
+                                            Social Links
+                                        </div>
+                                        <div *ngIf="user.company.social_media_links_detail && user.company.social_media_links_detail.facebook" class="flex items-center my-1">
+                                            <div class="social-media-icon fb mgr-5">
+                                                <i class="fab fa-facebook-f text-white"></i>
+                                            </div>
+                                            <span class="basic-default-color"> {{user.company.social_media_links_detail.facebook}} </span>
+                                        </div>
+                                        <div *ngIf="user.company.social_media_links_detail && user.company.social_media_links_detail.kakao" class="flex items-center my-1">
+                                            <div class="social-media-icon kt mgr-5">
+                                                <i class="fas fa-comment"></i> 
+                                            </div>
+                                            <span class="basic-default-color"> {{user.company.social_media_links_detail.kakao}} </span>
+                                        </div>
+                                        <div *ngIf="user.company.social_media_links_detail && user.company.social_media_links_detail.linkedin" class="flex items-center my-1">
+                                            <div class="social-media-icon ln mgr-5">
+                                                <i class="fab fa-linkedin-in text-white"></i>
+                                            </div>
+                                            <span class="basic-default-color"> {{user.company.social_media_links_detail.linkedin}} </span>
+                                        </div>
+                                        <div *ngIf="user.company.social_media_links_detail && user.company.social_media_links_detail.skype" class="flex items-center my-1">
+                                            <div class="social-media-icon sk mgr-5">
+                                                <i class="fab fa-skype text-white"></i>
+                                            </div>
+                                            <span class="basic-default-color"> {{user.company.social_media_links_detail.skype}} </span>
+                                        </div>
+                                        <div *ngIf="user.company.social_media_links_detail && user.company.social_media_links_detail.twitter" class="flex items-center my-1">
+                                            <div class="social-media-icon tw mgr-5">
+                                                <i class="fab fa-twitter text-white"></i>
+                                            </div>
+                                            <span class="basic-default-color"> {{user.company.social_media_links_detail.twitter}} </span>
+                                        </div>
+                                        <div *ngIf="user.company.social_media_links_detail && user.company.social_media_links_detail.wechat" class="flex items-center my-1">
+                                            <div class="social-media-icon wc mgr-5">
+                                                <i class="fab fa-weixin text-white"></i>
+                                            </div>
+                                            <span class="basic-default-color"> {{user.company.social_media_links_detail.wechat}} </span>
+                                        </div>
+                                        <div *ngIf="user.company.social_media_links_detail && user.company.social_media_links_detail.whatsapp" class="flex items-center my-1">
+                                            <div class="social-media-icon wa mgr-5">
+                                                <i class="fab fa-whatsapp text-white"></i>
+                                            </div>
+                                            <span class="basic-default-color"> {{user.company.social_media_links_detail.whatsapp}} </span>
+                                        </div>
+                                        <div *ngIf="user.company.social_media_links_detail && user.company.social_media_links_detail.zoom" class="flex items-center my-1">
+                                            <div class="social-media-icon zm mgr-5">
+                                                <i class="fas fa-video text-white"></i>
+                                            </div>
+                                            <span class="basic-default-color"> {{user.company.social_media_links_detail.zoom}} </span>
+                                        </div>
+                                            
+                                        <div *ngIf="
+                                            !user.company.social_media_links_detail ||
+                                            (
+                                                !user.company.social_media_links_detail.facebook && 
+                                                !user.company.social_media_links_detail.kakao && 
+                                                !user.company.social_media_links_detail.linkedln && 
+                                                !user.company.social_media_links_detail.skype && 
+                                                !user.company.social_media_links_detail.twitter && 
+                                                !user.company.social_media_links_detail.wechat && 
+                                                !user.company.social_media_links_detail.whatsapp && 
+                                                !user.company.social_media_links_detail.zoom
+                                            )" class="flex items-center my-1">
+                                            <span class="basic-default-color"> No social media yet </span>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="w-full flex justify-between mt-10">
+                                <button class="pr-6 py-3 text-gray-500 flex items-center focus:outline-none" (click)="prevStepper()">
+                                    <span class="material-icons mr-3">
+                                        arrow_back
+                                    </span>
+                                    Back
+                                </button>
+                                <button class="custom-btn btn-blue px-6 py-3 logo-blue flex items-center focus:outline-none" (click)="gotoEvent()">
+                                    Finish onboarding
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                </mat-step>
+            </mat-horizontal-stepper>
+        </div>
+    </div>
+</div>

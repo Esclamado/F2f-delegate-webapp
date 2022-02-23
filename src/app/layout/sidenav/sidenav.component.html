@@ -1,0 +1,151 @@
+<!-- (mouseleave)="showImage($event,false)" (mouseenter)="showImage($event,true)" -->
+<aside class="flex-shrink-0  bg-white border-r dark:border-blue-800 dark:bg-darker block">
+    <div class="flex flex-col h-full">
+        <nav aria-label="Main" class="flex-1 py-4 space-y-2 overflow-y-hidden hover:overflow-y-auto">
+            <div class="px-5 flex flex-row items-center h-8">
+                <div class="text-sm font-light tracking-wide text-gray-500">
+                    <img *ngIf="expanded && showText" src="assets/images/f2f.svg" class="h-14 w-15 ">
+                    <img *ngIf="!showText" src="assets/images/logo.jpg" class="h-10 w-10 ">
+                </div>
+            </div>
+            <ul class="flex flex-col py-4 space-y-1">
+                <li>
+                    <a routerLinkActive="active" routerLink="/admin/dashboard" (click)="setActiveNav('users')" class=" relative flex flex-row items-center h-11 focus:outline-none text-gray-600 hover:text-gray-800 border-l-4 border-transparent hover:border-indigo-500 pr-6 dark:text-light hover:bg-blue-100 dark:hover:bg-blue-600">
+                        <span class="inline-flex justify-center items-center ml-4">
+                            <svg class="w-5 h-5" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20"
+                                fill="currentColor">
+                                <path
+                                    d="M10.707 2.293a1 1 0 00-1.414 0l-7 7a1 1 0 001.414 1.414L4 10.414V17a1 1 0 001 1h2a1 1 0 001-1v-2a1 1 0 011-1h2a1 1 0 011 1v2a1 1 0 001 1h2a1 1 0 001-1v-6.586l.293.293a1 1 0 001.414-1.414l-7-7z" />
+                            </svg>
+                        </span>
+                        <span class="ml-2 text-sm tracking-wide truncate" *ngIf="showText">Dashboard</span>
+
+                        <span class="ml-auto" aria-hidden="true" *ngIf="showText">
+                            <svg class="w-4 h-4 transition-transform transform"
+                                [ngClass]="{ 'rotate-180': activeNavigation == 'users' }"
+                                xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24"
+                                stroke="currentColor">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                    d="M19 9l-7 7-7-7"></path>
+                            </svg>
+                        </span>
+                    </a>
+                    <div role="menu" x-show="open" class="mt-2 space-y-2 px-7" aria-label="Authentication" [ngStyle]="{'display': activeNavigation == 'users' ? 'block':'none'}">
+                        <a role="menuitem" class="block p-2 text-sm text-gray-400 transition-colors duration-200 rounded-md dark:text-gray-400 dark:hover:text-light hover:text-gray-700">
+                            No Show Reports
+                        </a>
+                        <a role="menuitem" class="block p-2 text-sm text-gray-400 transition-colors duration-200 rounded-md dark:hover:text-light hover:text-gray-700">
+                            Cancellation Request
+                        </a>
+                        <a role="menuitem" class="block p-2 text-sm text-gray-400 transition-colors duration-200 rounded-md dark:hover:text-light hover:text-gray-700">
+                            Feedbacks
+                        </a>
+                        <a role="menuitem" class="block p-2 text-sm text-gray-400 transition-colors duration-200 rounded-md dark:hover:text-light hover:text-gray-700">
+                            Event Statistics
+                        </a>
+                    </div>
+                </li>
+                <li>
+                    <a routerLinkActive="active" routerLink="/admin/companies" class="relative flex flex-row items-center h-11 focus:outline-none text-gray-600 active:text-gray-800 hover:text-gray-800 border-l-4 border-transparent hover:border-indigo-500 pr-6 dark:text-light hover:bg-blue-100 dark:hover:bg-blue-600">
+                        <span class="inline-flex justify-center items-center ml-4">
+                            <svg class="w-5 h-5" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20"
+                                fill="currentColor">
+                                <path fill-rule="evenodd"
+                                    d="M10.496 2.132a1 1 0 00-.992 0l-7 4A1 1 0 003 8v7a1 1 0 100 2h14a1 1 0 100-2V8a1 1 0 00.496-1.868l-7-4zM6 9a1 1 0 00-1 1v3a1 1 0 102 0v-3a1 1 0 00-1-1zm3 1a1 1 0 012 0v3a1 1 0 11-2 0v-3zm5-1a1 1 0 00-1 1v3a1 1 0 102 0v-3a1 1 0 00-1-1z"
+                                    clip-rule="evenodd" />
+                            </svg>
+                        </span>
+                        <span class="ml-2 text-sm tracking-wide truncate" *ngIf="showText">Companies</span>
+                    </a>
+                </li>
+                <li>
+                    <a routerLinkActive="active" routerLink="/admin/delegates" class="relative flex flex-row items-center h-11 focus:outline-none text-gray-600 hover:text-gray-800 border-l-4 border-transparent hover:border-indigo-500 pr-6 dark:text-light hover:bg-blue-100 dark:hover:bg-blue-600">
+                        <span class="inline-flex justify-center items-center ml-4">
+                            <svg class="w-5 h-5" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20"
+                                fill="currentColor">
+                                <path
+                                    d="M13 6a3 3 0 11-6 0 3 3 0 016 0zM18 8a2 2 0 11-4 0 2 2 0 014 0zM14 15a4 4 0 00-8 0v3h8v-3zM6 8a2 2 0 11-4 0 2 2 0 014 0zM16 18v-3a5.972 5.972 0 00-.75-2.906A3.005 3.005 0 0119 15v3h-3zM4.75 12.094A5.973 5.973 0 004 15v3H1v-3a3 3 0 013.75-2.906z" />
+                            </svg>
+                        </span>
+                        <span class="ml-2 text-sm tracking-wide truncate" *ngIf="showText">Delegates</span>
+                    </a>
+                </li>
+                <li>
+                    <a [routerLink]="['/admin/speakers']" class="relative flex flex-row items-center h-11 focus:outline-none text-gray-600 hover:text-gray-800 border-l-4 border-transparent hover:border-indigo-500 pr-6 dark:text-light hover:bg-blue-100 dark:hover:bg-blue-600">
+                        <span class="inline-flex justify-center items-center ml-4">
+                            <svg class="w-5 h-5" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20"
+                                fill="currentColor">
+                                <path fill-rule="evenodd" d="M10 9a3 3 0 100-6 3 3 0 000 6zm-7 9a7 7 0 1114 0H3z"
+                                    clip-rule="evenodd" />
+                            </svg>
+                        </span>
+                        <span class="ml-2 text-sm tracking-wide truncate" *ngIf="showText">Speakers</span>
+                    </a>
+                </li>
+                <li>
+                    <a href="#" class="relative flex flex-row items-center h-11 focus:outline-none text-gray-600 hover:text-gray-800 border-l-4 border-transparent hover:border-indigo-500 pr-6 dark:text-light hover:bg-blue-100 dark:hover:bg-blue-600">
+                        <span class="inline-flex justify-center items-center ml-4">
+                            <svg class="w-5 h-5" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20"
+                                fill="currentColor">
+                                <path
+                                    d="M7 3a1 1 0 000 2h6a1 1 0 100-2H7zM4 7a1 1 0 011-1h10a1 1 0 110 2H5a1 1 0 01-1-1zM2 11a2 2 0 012-2h12a2 2 0 012 2v4a2 2 0 01-2 2H4a2 2 0 01-2-2v-4z" />
+                            </svg>
+                        </span>
+                        <span class="ml-2 text-sm tracking-wide truncate word-break" *ngIf="showText">Meeting Schedules
+                            & Agenda</span>
+                    </a>
+                </li>
+                <li>
+                    <a routerLink="/admin/settings" class="relative flex flex-row items-center h-11 focus:outline-none text-gray-600 hover:text-gray-800 border-l-4 border-transparent hover:border-indigo-500 pr-6 dark:text-light hover:bg-blue-100 dark:hover:bg-blue-600">
+                        <span class="inline-flex justify-center items-center ml-4">
+                            <svg class="w-5 h-5" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20"
+                                fill="currentColor">
+                                <path
+                                    d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z" />
+                            </svg>
+                        </span>
+                        <span class="ml-2 text-sm tracking-wide truncate" *ngIf="showText">Sponsors</span>
+                    </a>
+                </li>
+                <li>
+                    <a href="#" class="relative flex flex-row items-center h-11 focus:outline-none text-gray-600 hover:text-gray-800 border-l-4 border-transparent hover:border-indigo-500 pr-6 dark:text-light hover:bg-blue-100 dark:hover:bg-blue-600">
+                        <span class="inline-flex justify-center items-center ml-4">
+                            <svg class="w-5 h-5" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20"
+                                fill="currentColor">
+                                <path fill-rule="evenodd"
+                                    d="M18 10a8 8 0 11-16 0 8 8 0 0116 0zm-8-3a1 1 0 00-.867.5 1 1 0 11-1.731-1A3 3 0 0113 8a3.001 3.001 0 01-2 2.83V11a1 1 0 11-2 0v-1a1 1 0 011-1 1 1 0 100-2zm0 8a1 1 0 100-2 1 1 0 000 2z"
+                                    clip-rule="evenodd" />
+                            </svg>
+                        </span>
+                        <span class="ml-2 text-sm tracking-wide truncate" *ngIf="showText">FAQs</span>
+                    </a>
+                </li>
+                <li>
+                    <a href="#" class="relative flex flex-row items-center h-11 focus:outline-none text-gray-600 hover:text-gray-800 border-l-4 border-transparent hover:border-indigo-500 pr-6 dark:text-light hover:bg-blue-100 dark:hover:bg-blue-600">
+                        <span class="inline-flex justify-center items-center ml-4">
+                            <svg class="w-5 h-5" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20"
+                                fill="currentColor">
+                                <path
+                                    d="M8 9a3 3 0 100-6 3 3 0 000 6zM8 11a6 6 0 016 6H2a6 6 0 016-6zM16 7a1 1 0 10-2 0v1h-1a1 1 0 100 2h1v1a1 1 0 102 0v-1h1a1 1 0 100-2h-1V7z" />
+                            </svg>
+                        </span>
+                        <span class="ml-2 text-sm tracking-wide truncate" *ngIf="showText">Event Managers</span>
+                    </a>
+                </li>
+                <li>
+                    <a href="#" class="relative flex flex-row items-center h-11 focus:outline-none text-gray-600 hover:text-gray-800 border-l-4 border-transparent hover:border-indigo-500 pr-6 dark:text-light hover:bg-blue-100 dark:hover:bg-blue-600">
+                        <span class="inline-flex justify-center items-center ml-4">
+                            <svg class="w-5 h-5" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20"
+                                fill="currentColor">
+                                <path
+                                    d="M2 6a2 2 0 012-2h6a2 2 0 012 2v8a2 2 0 01-2 2H4a2 2 0 01-2-2V6zM14.553 7.106A1 1 0 0014 8v4a1 1 0 00.553.894l2 1A1 1 0 0018 13V7a1 1 0 00-1.447-.894l-2 1z" />
+                            </svg>
+                        </span>
+                        <span class="ml-2 text-sm tracking-wide truncate" *ngIf="showText">Zoom Accounts</span>
+                    </a>
+                </li>
+
+            </ul>
+        </nav>
+    </div>
+</aside>

@@ -1,0 +1,32 @@
+.pl-search{
+    padding-left: 40px;
+}
+
+$default-text-color: #05172e;
+.chip {
+    border-radius: 15px;
+
+    p.chip-label {
+        font-size: 11px
+    }
+
+    &.table {
+        background-color: #666666;
+
+        p {
+            color: #ffffff;
+        }
+    }
+
+    &.table-vip {
+        background-color: #face17;
+
+        p {
+            color: $default-text-color;
+        }
+    }
+    &.table-booth {
+        color: #fff;
+        background-image: linear-gradient(90deg, #a42d80 0%, #8c1668 100%);
+    }
+}

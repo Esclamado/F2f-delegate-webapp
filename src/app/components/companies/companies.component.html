@@ -1,0 +1,164 @@
+<div class="overflow-x-auto custom-scroll h-full" (scroll)="onScroll($event)">
+    <div class="mx-auto p-10 w-table">
+        <div class="flex items-center justify-between">
+            <div class="fs-28-px barlow-condensed-bold default-text-color mb-5 normal-case font-semibold ">Companies</div>
+            <div class="flex items-center justify-end space-x-3">
+                <button class="ml-auto mar-0 custom-btn btn-blue px-4 py-2 focus:outline-none" routerLink="/admin/add-edit">Add Company</button>
+                <button class="ml-auto mar-0 custom-btn btn-green px-4 py-2 focus:outline-none" (click)="viewPhoto()">View photo</button>
+            </div>
+        </div>
+        <div>
+        </div>
+
+        <div class="bg-white rounded-lg p-5 mt-5">
+            <div class="flex justify-between">
+                <div class=" flex items-center">
+                    <input type="text" class="custom-input w-300-px" placeholder="Search">
+                    <span class="material-icons default-text-color fs-75-px mb-3" style="transform: translate(-30px, 6px);">
+                        search
+                    </span>
+                </div>
+                <div class="flex items-center space-x-3">
+                    <span class="text-base text-gray-700 p-3 pl-0">Filter by:</span>
+                    <div #t2="matMenuTrigger" #select2 [matMenuTriggerFor]="status_select" class="border border-gray-400 rounded-md py-3 pl-0 pr-3 minw-250-px flex justify-between items-center h-55-px cursor-pointer">
+                        <span class="barlow text-black text-base font-lg p-5">Status: <strong>{{ type_value ? type_value : 'All' }}</strong></span>
+                        <i class="fas fa-caret-down"></i>
+                    </div>
+                    <mat-menu class="w-full sports-menu" #status_select="matMenu">
+                        <button mat-menu-item class="tracking-wide focus:outline-none barlow hover:text-teal-800 hover:bg-teal-300 w-235-px" (click)="clickedStatus(null)">
+                            <strong>All</strong> 
+                        </button>
+                        <div class="w-full barlow relative flex items-center justify-end text-base" *ngFor="let item of status">
+                            <button mat-menu-item class="tracking-wide focus:outline-none barlow hover:text-teal-800 hover:bg-teal-300 w-235-px" (click)="clickedStatus(item.name)">
+                                <strong>{{ item.name | titlecase }}</strong> 
+                            </button>
+                        </div>
+                    </mat-menu>
+                </div>
+            </div>
+            <div class="data-table mt-12 barlow text-base">
+                <table class="w-full">
+                    <thead>
+                        <tr>
+                            <ng-container *ngFor="let th of ths; let i = index">
+                                <th class="text-left barlow">
+                                    {{ th.label }}
+                                </th>
+                            </ng-container>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <ng-container *ngIf="!isLoading">
+                            <!-- <tr class="cursor-pointer focus:outline-none hover:bg-gray-card" *ngFor="let item of list" routerLink="/admin/view-company"> -->
+                            <tr class="cursor-pointer focus:outline-none hover:bg-gray-card" *ngFor="let item of list">
+                                <td routerLink="/admin/view-company" class="focus:outline-none">{{ item.Id }}</td>
+                                <td routerLink="/admin/view-company" class="focus:outline-none">{{ item.name }}</td>
+                                <td routerLink="/admin/view-company" class="focus:outline-none">{{ item.created_at | date: 'MMMM dd, yyyy' }}</td>
+                                <td routerLink="/admin/view-company" class="focus:outline-none">{{ item.status }}</td>
+                                <td>
+                                    <div class="flex items-center">
+                                        <button (click)="editConfirmModal()" class="focus:outline-none rounded py-1 px-4 text-white flex bg-green-300 hover:bg-green-700 ...">
+                                            <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15.232 5.232l3.536 3.536m-2.036-5.036a2.5 2.5 0 113.536 3.536L6.5 21.036H3v-3.572L16.732 3.732z" />
+                                            </svg>
+                                            <span class="ml-2">Edit</span> 
+                                        </button>
+                                        <button (click)="deleteConfirmModal()" class="focus:outline-none rounded ml-5 py-1 px-4 flex text-white bg-red-500 hover:bg-red-700 ...">
+                                            <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16" />
+                                            </svg>
+                                            <span class="ml-2">Delete</span> 
+                                        </button>
+                                    </div>
+                                </td>
+                            </tr>
+                        </ng-container>
+
+                        <ng-container *ngIf="isLoading">
+                            <ng-container *ngFor="let item of [1,2,3,4]">
+                                <tr>
+                                    <td>
+                                        <div class="w-full h-15-px">
+                                            <app-loader [border_radius_class]="'rounded-lg'" [additional_class]="">
+                                            </app-loader>
+                                        </div>
+                                    </td>
+                                    <td>
+                                        <div class="w-full h-15-px">
+                                            <app-loader [border_radius_class]="'rounded-lg'" [additional_class]="">
+                                            </app-loader>
+                                        </div>
+                                    </td>
+                                    <td>
+                                        <div class="w-full h-15-px">
+                                            <app-loader [border_radius_class]="'rounded-lg'" [additional_class]="">
+                                            </app-loader>
+                                        </div>
+                                    </td>
+                                    <td>
+                                        <div class="w-full h-15-px">
+                                            <app-loader [border_radius_class]="'rounded-lg'" [additional_class]="">
+                                            </app-loader>
+                                        </div>
+                                    </td>
+                                    <td>
+                                        <div class="w-full h-15-px">
+                                            <app-loader [border_radius_class]="'rounded-lg'" [additional_class]="">
+                                            </app-loader>
+                                        </div>
+                                    </td>
+                                </tr>
+                            </ng-container>
+                        </ng-container>
+                    </tbody>
+                </table>
+            </div>
+
+            <ng-container>
+                <div class="flex justify-between">
+                    <div class="flex items-center space-x-1 mt-6">
+                        <span class="text-base text-gray-700 p-1 pl-0">Showing</span>
+                        <div #t2="matMenuTrigger" #select2 [matMenuTriggerFor]="limit_select" class="border border-gray-400 rounded-md py-1 pl-0 pr-1 flex justify-between items-center h-50-px cursor-pointer">
+                            <span class="barlow text-black text-base font-lg p-5">{{ limit_value ? limit_value : '5' }}</span>
+                            <i class="fas fa-caret-down"></i>
+                        </div>
+                        <mat-menu class="w-full sports-menu" #limit_select="matMenu">
+                            <button mat-menu-item class="tracking-wide focus:outline-none barlow hover:text-teal-800 hover:bg-teal-300 " (click)="clickedLimit(null)">
+                                <strong>5</strong>
+                            </button>
+                            <div class="w-full barlow relative flex items-center justify-end text-base" *ngFor="let limit_row of limit">
+                                <button mat-menu-item class="tracking-wide focus:outline-none barlow hover:text-teal-800 hover:bg-teal-300 " (click)="clickedLimit(limit_row.limit)">
+                                    <strong>{{ limit_row.limit }}</strong> 
+                                </button>
+                            </div>
+                        </mat-menu>
+                        <span>of {{total}} entries</span>
+                    </div>
+
+                    <div class="pr-3 flex items-center justify-center table-pagination barlow mt-6" style="text-align: right;">
+                        <button class="page-btn barlow-bold" style="white-space: nowrap;">
+                            Previous 
+                        </button>
+                        <button class="page-btn ">
+                            <i class="px-2 fa fa-angle-double-left mr-2 angle-icon "></i>
+                        </button>
+                        <span class="rounded-circle table-pagination page cursor-pointer">1</span>
+                        <span>...</span>
+                        <span class="rounded-circle table-pagination page cursor-pointer">2</span>
+                        <span class="rounded-circle table-pagination page cursor-pointer active-page">3</span>
+                        <span class="rounded-circle table-pagination page cursor-pointer">4</span>
+                        <span class="rounded-circle table-pagination page cursor-pointer">5</span>
+                        <span>...</span>
+                        <span class="rounded-circle table-pagination page cursor-pointer">6</span>
+
+                        <button class="page-btn " style="white-space: nowrap;">
+                            <i class="px-2 fa fa-angle-double-right ml-2 angle-icon"></i>
+                        </button>
+                        <button class="hover:text-gray-800 page-btn barlow-bold">Next</button>
+                    </div>
+                </div>
+
+            </ng-container>
+        </div>
+    </div>
+</div>

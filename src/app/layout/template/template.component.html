@@ -1,0 +1,37 @@
+<div #scheduleContainer class="h-screen w-screen overflow-hidden">
+    <div class="w-screen absolute z-50">
+        <app-header *ngIf="router.url != '/onboarding'"></app-header>
+        <ng-container *ngIf="router.url == '/onboarding'">
+            <div class="flex flex-grow items-center justify-between px-20 shadow-bottom header-bg relative h-60-px">
+                <div class="flex items-center space-x-5 h-full w-full relative">
+                    <img src="assets/images/f2f-main.png">
+                    <div class="links h-full mgl-30 ">
+                        <div class="flex items-center space-x-3 h-full">
+                            <div class="h-full flex items-center py-3">
+                                <span class="h-full flex items-center justify-center w-full"> Onboarding</span>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="flex justify-between absolute r-20">
+                        <span (click)="logout()" class="text-gray-500 cursor-pointer">Logout</span> 
+                    </div>
+                </div>
+            </div> 
+            <mat-progress-bar mode="determinate" [value]="env.progressbarValue ? env.progressbarValue : '0'"></mat-progress-bar>   
+        </ng-container> 
+        <!-- <app-header-dashboard></app-header-dashboard> -->
+    </div>
+    <div class="w-screen flex flex-col h-grid h-grid main-content overflow-y-auto custom-scroll overflow-x-hidden" (scroll)="onScroll($event)" >
+        <div class="flex-grow w-full px-4 md:px-6 xl:px-0 "
+            [ngClass]="{'default-bg-color': router.url != '/onboarding'}"
+        >
+            <router-outlet></router-outlet>
+        </div>
+        <div class="h-61-px">
+            <app-footer></app-footer>
+        </div>
+    </div>
+</div>
+<div class="absolute bottom-1 right-7" *ngIf="show && initializeSub()" (click)="goToTop()" id="toTopbtn">
+    <app-scroll-top ></app-scroll-top>
+</div>

@@ -1,0 +1,193 @@
+::ng-deep {
+    .mat-horizontal-stepper-header-container {
+        display: none !important;   
+    }
+    .mat-checkbox-frame{
+        border:#afb3b8 1px solid !important;
+        background-color: #ECEEF1 !important;   
+        border-radius: 2px;
+    }
+    .mat-checkbox-layout { 
+      background: none !important;
+    }
+    .mat-checkbox-checked.mat-accent .mat-checkbox-background {
+        background-color: #6F940c;
+    }
+    .mat-checkbox-checked:not(.mat-checkbox-disabled).mat-accent .mat-ripple-element, .mat-checkbox:active:not(.mat-checkbox-disabled).mat-accent .mat-ripple-element {
+        background:#6F940c;
+    }
+    .mat-progress-bar {
+        height: 6px !important;
+        border-radius: 0px !important;
+    }
+    .mat-progress-bar-fill::after {
+        background-color: #6B900F;
+    }
+}
+.cover-card{
+    width: 100%;
+    height: 78px;
+    background-size: contain;
+    background-position: center;
+    background-repeat: no-repeat;
+}
+.id-bg{
+    background: url('/assets/images/id_bg.png');
+    width: 100%;
+    height: 300px;
+    background-size: contain;
+    background-position: center;
+    background-repeat: no-repeat;
+}
+.trans-t{
+    transform: translate(203px, -51px);
+    width: 101px !important;
+    height: 101px !important;
+}
+.cam{
+    top: 15px;
+    right: 197px;
+}
+/* toggle */
+.switch {
+    position: relative;
+    display: inline-block;
+    width: 32px;
+    height: 10px;
+  }
+  
+  /* Hide default HTML checkbox */
+  .switch input {
+    opacity: 0;
+    width: 0;
+    height: 0;
+  }
+  
+  /* The slider */
+  .slider {
+    position: absolute;
+    cursor: pointer;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background-color: #ccc;
+    -webkit-transition: .4s;
+    transition: .4s;
+  }
+  
+  .slider:before {
+    position: absolute;
+    content: "";
+    height: 18px;
+    width: 18px;
+    left: 0px;
+    bottom: -4px;
+    background-color: white;
+    -webkit-transition: .4s;
+    transition: .4s;
+    border: 1px solid #CCCCCC;
+  }
+  
+  input:checked + .slider {
+    background-color: #1D4FA5;
+  }
+  
+  input:focus + .slider {
+    box-shadow: 0 0 1px #1D4FA5;
+  }
+  
+  input:checked + .slider:before {
+    -webkit-transform: translateX(15px);
+    -ms-transform: translateX(15px);
+    transform: translateX(15px);
+  }
+  
+  /* Rounded sliders */
+  .slider.round {
+    border-radius: 34px;
+  }
+  
+  .slider.round:before {
+    border-radius: 50%;    
+    box-shadow: 0px 2px 7px 1px #888888
+  }
+  /* toggle */
+
+
+::ng-deep {
+    .mat-menu-content {
+        padding: 0px !important;
+        background: none !important;
+        // width: 450px;
+        // min-width: 450px;
+    }
+    .custom-menu-container {
+        right: 18px;
+        transform: rotate(45deg) translateX(-7px);
+    }
+}
+
+.header-bg {
+  background-color: #05172d;
+}
+
+.active-link{
+  border-radius: 10px;
+  background: #1E2E42;
+}
+
+.checkbox {
+  position: absolute;
+  cursor: pointer;
+  top: 0;
+  right: 0;
+  bottom: 0;
+  -webkit-transition: 0.4s;
+  transition: 0.4s;
+  width: 16px;
+  height: 16px;
+  background: #e8edf6;
+  border: 1px solid #cccccc;
+  box-sizing: border-box;
+  border-radius: 2px;
+}
+
+.checkbox-selected {
+  position: absolute;
+  cursor: pointer;
+  top: 0;
+  right: 0;
+  bottom: 0;
+  -webkit-transition: 0.4s;
+  transition: 0.4s;
+  width: 16px;
+  height: 16px;
+  background: #e8edf6;
+  border: 1px solid #cccccc;
+  box-sizing: border-box;
+  border-radius: 2px;
+  &:before{
+      display: flex;
+      -webkit-box-align: center;
+      align-items: center;
+      justify-content: center;
+      content: '\2713\0020';
+      cursor: pointer;
+      color: #fff;
+      background: linear-gradient(90deg, #688b06 0%, #88af1b 100%);
+      -webkit-transform: translateX(19px);
+      transform: translateX(19px);
+      position: absolute;
+      left: -19px;
+      bottom: 0;
+      width: 100%;
+      height: 100%;
+  }
+}
+
+
+input::-ms-reveal,
+input::-ms-clear {
+display: none;
+}

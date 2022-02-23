@@ -1,0 +1,85 @@
+<div class="overflow-x-auto custom-scroll h-full">
+    <div class="mx-auto p-10">
+        <div class="flex justify-between">
+            <div class="flex items-center">
+                <div class="fs-28-px barlow-condensed-bold default-text-color mb-5 normal-case font-semibold ">Delegates / Add-delegates</div>
+            </div>
+            <div class="flex items-center space-y-3">
+                <button routerLink="/admin/delegates" class="text-white focus:outline-none ml-auto flex rounded px-3 py-2 bg-gray-400 hover:bg-gray-700 ...">
+                    <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" viewBox="0 0 20 20" fill="currentColor">
+                        <path fill-rule="evenodd" d="M7.707 14.707a1 1 0 01-1.414 0l-4-4a1 1 0 010-1.414l4-4a1 1 0 011.414 1.414L5.414 9H17a1 1 0 110 2H5.414l2.293 2.293a1 1 0 010 1.414z" clip-rule="evenodd" />
+                    </svg>
+                  <span class="ml-2 focus:outline-none">Back</span>  
+                </button>
+            </div>
+        </div>
+
+        <div class="bg-white rounded-lg p-5 mt-5">
+            <mat-tab-group>
+                <mat-tab label="Delegates form">
+                    <form [formGroup]="delegatesForm">
+                        <div class="grid grid-cols-12 mt-5">
+                            <div class="col-span-12">
+                                <div class="flex flex-col lg:flex-row lg:items-center items-start mb-4">
+                                    <div class="mr-3 mb-3">
+                                        <ng-container *ngIf="!croppedImage">
+                                            <svg width="240" height="173" viewBox="0 0 257 173" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                                <path d="M0 7.86364V2.94886H1V1H3.04736V0H8.12642V1H14.2213V0H19.3003V1H25.3952V0H30.4743V1H36.5691V0H41.6482V1H47.743V0H52.8221V1H58.917V0H63.996V1H70.0909V0H75.1699V1H81.2648V0H86.3439V1H92.4387V0H97.5178V1H103.613V0H108.692V1H114.787V0H119.866V1H125.96V0H131.04V1H137.134V0H142.213V1H148.308V0H153.387V1H159.482V0H164.561V1H170.656V0H175.735V1H181.83V0H186.909V1H193.004V0H198.083V1H204.178V0H209.257V1H215.352V0H220.431V1H226.526V0H231.605V1H237.7V0H242.779V1H248.874V0H253.953V1H256V2.94887H257V7.86365H256V13.7614H257V18.6761H256V24.5739H257V29.4886H256V35.3864H257V40.3012H256V46.1989H257V51.1136H256V57.0114H257V61.9261H256V67.8239H257V72.7386H256V78.6364H257V83.5511H256V89.4489H257V94.3636H256V100.261H257V105.176H256V111.074H257V115.989H256V121.886H257V126.801H256V132.699H257V137.614H256V143.511H257V148.426H256V154.324H257V159.239H256V165.136H257V170.051H256V172H253.953V173H248.874V172H242.779V173H237.7V172H231.605V173H226.526V172H220.431V173H215.352V172H209.257V173H204.178V172H198.083V173H193.004V172H186.909V173H181.83V172H175.735V173H170.656V172H164.561V173H159.482V172H153.387V173H148.308V172H142.213V173H137.134V172H131.04V173H125.96V172H119.866V173H114.787V172H108.692V173H103.613V172H97.5178V173H92.4387V172H86.3439V173H81.2648V172H75.17V173H70.0909V172H63.996V173H58.917V172H52.8221V173H47.7431V172H41.6482V173H36.5692V172H30.4743V173H25.3953V172H19.3004V173H14.2213V172H8.12648V173H3.04743V172H1V170.051H0V165.136H1V159.239H0V154.324H1V148.426H0V143.511H1V137.614H0V132.699H1V126.801H0V121.886H1V115.989H0V111.074H1V105.176H0V100.261H1V94.3636H0V89.4489H1V83.5511H0V78.6364H1V72.7386H0V67.8239H1V61.9261H0V57.0114H1V51.1136H0V46.1989H1V40.3011H0V35.3864H1V29.4886H0V24.5739H1V18.6761H0V13.7614H1V7.86364H0Z" fill="white" stroke="#C2CBD7" stroke-width="2" stroke-dasharray="6 5"/>
+                                                <path d="M143.478 92.3869C143.131 92.039 142.708 91.8652 142.212 91.8652H134.257C133.996 92.5606 133.558 93.1319 132.943 93.5789C132.328 94.026 131.642 94.2497 130.885 94.2497H126.115C125.358 94.2497 124.671 94.0259 124.057 93.5789C123.442 93.1319 123.004 92.5607 122.743 91.8652H114.788C114.292 91.8652 113.869 92.039 113.522 92.3869C113.174 92.7343 113 93.1566 113 93.6535V99.615C113 100.112 113.174 100.534 113.522 100.882C113.869 101.229 114.292 101.403 114.788 101.403H142.212C142.708 101.403 143.131 101.229 143.478 100.882C143.826 100.534 144 100.112 144 99.615V93.6535C144 93.1566 143.826 92.7348 143.478 92.3869ZM136.493 98.6649C136.256 98.9009 135.977 99.0191 135.654 99.0191C135.331 99.0191 135.052 98.9009 134.815 98.6649C134.58 98.4291 134.462 98.1495 134.462 97.8266C134.462 97.5036 134.58 97.2239 134.815 96.9883C135.052 96.7525 135.331 96.6341 135.654 96.6341C135.977 96.6341 136.256 96.7525 136.493 96.9883C136.728 97.2238 136.846 97.5036 136.846 97.8266C136.846 98.1495 136.728 98.4291 136.493 98.6649ZM141.261 98.6649C141.026 98.9009 140.746 99.0191 140.423 99.0191C140.1 99.0191 139.821 98.9009 139.585 98.6649C139.349 98.4291 139.231 98.1495 139.231 97.8266C139.231 97.5036 139.349 97.2239 139.585 96.9883C139.821 96.7525 140.1 96.6341 140.423 96.6341C140.746 96.6341 141.026 96.7525 141.261 96.9883C141.497 97.2238 141.616 97.5036 141.616 97.8266C141.616 98.1495 141.498 98.4291 141.261 98.6649Z" fill="#A6A6B1"/>
+                                                <path d="M120.154 82.3268H124.923V90.6731C124.923 90.996 125.041 91.2756 125.277 91.5114C125.513 91.7472 125.792 91.8656 126.115 91.8656H130.885C131.208 91.8656 131.487 91.7473 131.723 91.5114C131.959 91.2756 132.077 90.9961 132.077 90.6731V82.3268H136.846C137.368 82.3268 137.734 82.0782 137.945 81.5816C138.157 81.0973 138.069 80.6687 137.685 80.296L129.338 71.9498C129.114 71.7137 128.835 71.5957 128.5 71.5957C128.165 71.5957 127.885 71.7137 127.662 71.9498L119.315 80.296C118.93 80.6687 118.843 81.097 119.054 81.5816C119.266 82.0785 119.632 82.3268 120.154 82.3268Z" fill="#A6A6B1"/>
+                                            </svg>
+                                        </ng-container>
+                                        <ng-container *ngIf="croppedImage">
+                                            <img class="rounded-full w-40" [src]="croppedImage" />
+                                        </ng-container>
+                                    </div>
+
+                                    <div>
+                                        <input class="hidden" #image type="file" (change)="fileChangeEvent($event)" />
+                                        <button class="w-200-px custom-btn btn-main-pink px-6 py-3 focus:outline-none" (click)="openModal(image)">
+                                            <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M7 16a4 4 0 01-.88-7.903A5 5 0 1115.9 6L16 6a5 5 0 011 9.9M15 13l-3-3m0 0l-3 3m3-3v12" />
+                                            </svg>
+                                           <span class="ml-2">Upload Image</span>
+                                        </button>
+                                    </div>
+                                </div>
+
+                                <div class="border mb-2 w-56 py-3 px-3 border-gray-400 rounded-md cursor-pointer flex items-center">
+                                    <input #inputPicker (focus)="delegatesForm.controls.date.markAsUntouched();picker.open();" (click)="delegatesForm.controls.date.markAsUntouched();picker.open();" readonly [matDatepicker]="picker" placeholder="Select a date" class="appearance-none rounded w-fullleading-tight relative border-0 cursor-pointer focus:outline-none"
+                                        formControlName="date" autocomplete="off">
+                                    <mat-datepicker (closed)="inputPicker.blur();" #picker></mat-datepicker>
+                                    <span class="material-icons" (click)="inputPicker.click();">
+                                        expand_more
+                                    </span>
+                                </div>
+
+                                <div class="mb-2">
+                                    <label for="email" class="default-text-color">Sample</label>
+                                    <input type="number" class="custom-input w-full text-lg mt-2" maxlength="70">
+                                </div>
+                                <div>
+                                    <label for="email" class="default-text-color">Sample 1</label>
+                                    <input type="number" class="custom-input w-full text-lg mt-2" maxlength="70">
+                                </div>
+                            </div>
+                        </div>
+                    </form>
+                </mat-tab>
+                <mat-tab label="Delegates form 2">
+                    <div class="mt-5">{{sampleData}}</div>
+                </mat-tab>
+                <mat-tab label="Delegates form 3">
+                    <div class="mt-5">{{sampleData1}}</div>
+                </mat-tab>
+            </mat-tab-group>
+        </div>
+    </div>
+</div>
+
+
+<ngx-smart-modal #cropperModal identifier="cropperModal" [dismissable]="false" [closable]="false">
+    <image-cropper [imageChangedEvent]="imageChangedEvent" [maintainAspectRatio]="true" [aspectRatio]="4 / 3" format="png" (imageCropped)="imageCropped($event)" (imageLoaded)="imageLoaded($event)" (cropperReady)="cropperReady()" (loadImageFailed)="loadImageFailed()">
+    </image-cropper>
+    <button (click)="closeCropperModal()" class="flex ml-auto focus:outline-none py-2 px-5 text-white rounded bg-green-500 hover:bg-green-700">Done</button>
+</ngx-smart-modal>

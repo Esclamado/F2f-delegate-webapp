@@ -1,0 +1,198 @@
+<div class="w-screen absolute z-50" style="background: #F3F5F6;">
+    <app-header-dashboard></app-header-dashboard>
+</div>
+<div class="w-screen absolute" style="margin-top: 70px; z-index: 20;">
+    <app-archive-header></app-archive-header>
+</div>
+
+<div class="container mx-auto py-32 h-full">
+    <div class="grid grid-cols-12 gap-5">
+        <div class="col-span-12 lg:col-span-5">
+            <div class="bg-white rounded-lg shadow-sm border border-gray-300">
+                <img src="{{event.event_icon_url ? event.event_icon_url : 'assets/empty_states/no_event_profile.png'}}" class="object-cover rounded-t-lg h-237-px w-full mb-2" alt="">
+                <div class="flex flex-col space-y-4 px-4 pb-2 mt-5 mb-2">
+                    <div class="rubik basic-text-color text-base font-semibold">
+                        {{ event.name }}
+                    </div>
+                    <div class="flex flex-col lg:flex-row  items-center">
+                        <div class="flex items-center space-x-3 mr-5">
+                            <svg width="16" height="18" viewBox="0 0 16 18" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                <path fill-rule="evenodd" clip-rule="evenodd" d="M14 2.25H13.25V0.75H11.75V2.25H4.25V0.75H2.75V2.25H2C1.175 2.25 0.5 2.925 0.5 3.75V15.75C0.5 16.575 1.175 17.25 2 17.25H14C14.825 17.25 15.5 16.575 15.5 15.75V3.75C15.5 2.925 14.825 2.25 14 2.25ZM14 15.75H2V7.5H14V15.75ZM2 6H14V3.75H2V6Z" fill="#6E6E6E"/>
+                            </svg>
+                            <div class="text-gray-500 text-sm">{{ event.event_date }}</div>   
+                        </div>
+                        <div class="flex items-center space-x-3 ">
+                            <svg width="16" height="16" viewBox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                <path fill-rule="evenodd" clip-rule="evenodd" d="M8 0.5C3.875 0.5 0.5 3.875 0.5 8C0.5 12.125 3.875 15.5 8 15.5C12.125 15.5 15.5 12.125 15.5 8C15.5 3.875 12.125 0.5 8 0.5ZM8 14C4.6925 14 2 11.3075 2 8C2 4.6925 4.6925 2 8 2C11.3075 2 14 4.6925 14 8C14 11.3075 11.3075 14 8 14ZM7.25 4.25H8.375V8.15L11.75 10.175L11.15 11.15L7.25 8.75V4.25Z" fill="#6E6E6E"/>
+                            </svg>
+                            <span class="text-gray-500 text-sm "> 
+                                <span class="uppercase"> {{ event.start_time }} - {{ event.end_time }} </span>
+                            </span>   
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="leave-feedback-container bg-white shadow-sm rounded-md relative border border-gray-300 mt-8">
+                <div class="flex items-center p-5">
+                    <img class="-mt-6" src="assets/svg/feedback-icon.svg">
+                    <div class="ml-7">
+                        <div class="text-navy rubik font-semibold not-italic fs-16-px">Leave us a feedback</div>
+                        <div class="text-darkblue rubik font-normal not-italic fs-14-px mt-1">Your feedback helps us improve our <br> events and mobile app, thank you!</div>
+                        <div (click)="openFeedBackModal()" class="text-blue rubik font-normal not-italic fs-14-px flex items-center cursor-pointer mt-2">Share us your experience <span class="ml-5"><img src="assets/icon/arrow-blue-right-icon.png"></span></div>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+        <div class="col-span-12 lg:col-span-7">
+            <div class="bg-white rounded-lg shadow-sm border border-gray-300 minh-120-px relative pl-5 pr-3 pb-4">
+                <img src="assets/svg/bg-cocktail.svg" class="absolute right-0" alt="">
+                <div class="grid grid-cols-12 gap-3 mt-4">
+                    <div class="col-span-2">
+                        <div class="h-full w-full flex items-center justify-center">
+                            <img src="assets/svg/cocktail.svg" width="80px" height="80px" alt="">
+                        </div>
+                    </div>
+                    <div class="col-span-7">
+                        <div class="flex flex-col space-y-3">
+                            <div class="text-base rubik font-semibold basic-text-color">
+                                Post event summary
+                            </div>
+                            <div class="text-base rubik basic-text-color">
+                                {{ event && event.summary  ? event.summary : "We are very thankful for making this event a record-breaker. See you all again year."}}
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-span-3">
+                        <div class="w-full h-full flex justify-end items-end">
+                            <div *ngIf="event.summary_link" (click)="gotoExternalBrowser(event.summary_link)" class="items-center flex cursor-pointer">
+                                <span class="rubik mr-3 " style="color: #3B67B2;">View our post </span> 
+                                <svg width="8" height="12" viewBox="0 0 8 12" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                    <path d="M0.294983 10.59L4.87498 6L0.294983 1.41L1.70498 0L7.70498 6L1.70498 12L0.294983 10.59Z" fill="#3B67B2"/>
+                                </svg> 
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="rounded-lg shadow-sm border border-gray-300 minh-250-px mt-5" style="background: #ffffff;" *ngIf="event.summary_youtube_link">
+                <div class="px-4 py-3 flex items-center space-x-3">
+                    <svg width="23" height="24" viewBox="0 0 23 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                        <g clip-path="url(#clip0)">
+                        <path fill-rule="evenodd" clip-rule="evenodd" d="M4.59906 10.1473C4.55608 9.78881 4.42843 9.44583 4.2268 9.14707L21.9061 3.28419L20.9785 0.523326C20.9118 0.329829 20.772 0.1706 20.5894 0.0801059C20.4069 -0.0103885 20.1962 -0.0248249 20.0031 0.0399273L0.771688 6.41707C0.676095 6.44802 0.587553 6.49772 0.511197 6.56335C0.434842 6.62898 0.372191 6.70923 0.32687 6.7994C0.281549 6.88956 0.254459 6.98787 0.247174 7.08865C0.239889 7.18943 0.252551 7.29067 0.284427 7.38649L0.739316 8.7399C0.472395 8.98402 0.267475 9.28894 0.14171 9.62911C0.0159443 9.96928 -0.0270077 10.3348 0.0164492 10.6951C0.0599061 11.0555 0.188509 11.4001 0.39149 11.7001C0.594472 12.0001 0.865925 12.2468 1.18313 12.4196V23.2342C1.18448 23.4387 1.26644 23.6342 1.41099 23.7779C1.55554 23.9216 1.75087 24.0016 1.95406 24.0005H22.2281C22.4313 24.0016 22.6266 23.9216 22.7712 23.7779C22.9158 23.6342 22.9977 23.4387 22.9991 23.2342V10.1473H4.59906ZM15.8665 2.31478L18.2074 1.54333L17.6443 3.80447L15.3034 4.58105L15.8665 2.31478ZM10.0833 4.23304L12.4242 3.45647L11.8611 5.71761L9.52021 6.49419L10.0833 4.23304ZM2.30672 11.5907C2.07772 11.5879 1.85468 11.5169 1.66566 11.3868C1.47663 11.2567 1.33007 11.0733 1.24441 10.8596C1.15875 10.6459 1.13781 10.4114 1.18424 10.1857C1.23066 9.96009 1.34236 9.75332 1.50531 9.59139C1.66825 9.42946 1.87515 9.31962 2.09997 9.27571C2.32479 9.2318 2.55749 9.25578 2.76881 9.34461C2.98013 9.43345 3.16061 9.58317 3.28756 9.77497C3.41452 9.96676 3.48226 10.192 3.48228 10.4225C3.47891 10.7335 3.35341 11.0305 3.13316 11.2488C2.91292 11.467 2.61583 11.5887 2.30672 11.5873V11.5907ZM4.30091 6.15047L6.6418 5.37478L6.07873 7.62907L3.73784 8.40565L4.30091 6.15047ZM6.60091 12.7359H4.13054L5.38617 10.7645H7.85654L6.60091 12.7359ZM11.4846 10.7645H13.9549L12.7002 12.7359H10.2298L11.4846 10.7645ZM10.8789 20.2736V15.0862L15.0402 17.6816L10.8789 20.2736ZM18.7935 12.7308H16.3231L17.5787 10.7593H20.0491L18.7935 12.7308Z" fill="#05172D"/>
+                        </g>
+                        <defs>
+                        <clipPath id="clip0">
+                        <rect width="23" height="24" fill="white"/>
+                        </clipPath>
+                        </defs>
+                    </svg>
+                    <div class="text-xl font-medium" style="color: #05172D;">Watch our aftermovie</div>  
+                </div>
+                <ng-container *ngIf="final_url">
+                    <div [innerHTML]="final_url"></div>
+                </ng-container>
+            </div>
+
+            <div class="bg-white rounded-lg shadow-sm border border-gray-300 mt-5">
+                <div class="p-4">
+                    <label class="text-gray-500">Description</label>
+                    <div [innerHTML]="event.description" class="default-text-color">
+
+                    </div>
+                </div>
+                <div class="h-45-px px-4 flex items-center space-x-3" style="background: #EEEEEE;">
+                    <svg width="20" height="17" viewBox="0 0 20 17" fill="none" xmlns="http://www.w3.org/2000/svg">
+                        <path d="M12.0691 2.97328C12.9939 3.55309 13.6423 4.53424 13.7604 5.67314C14.1375 5.84935 14.5561 5.95069 14.9999 5.95069C16.62 5.95069 17.9331 4.63757 17.9331 3.01771C17.9331 1.39759 16.62 0.0844727 14.9999 0.0844727C13.3952 0.0849718 12.0936 1.37463 12.0691 2.97328ZM10.1475 8.97902C11.7676 8.97902 13.0807 7.66565 13.0807 6.04579C13.0807 4.42592 11.7674 3.1128 10.1475 3.1128C8.52764 3.1128 7.21378 4.42617 7.21378 6.04603C7.21378 7.6659 8.52764 8.97902 10.1475 8.97902ZM11.3917 9.17894H8.90278C6.8319 9.17894 5.14714 10.864 5.14714 12.9348V15.9786L5.15487 16.0263L5.36453 16.092C7.34082 16.7095 9.05778 16.9154 10.471 16.9154C13.2312 16.9154 14.8312 16.1284 14.9297 16.0782L15.1257 15.9791H15.1466V12.9348C15.1474 10.864 13.4626 9.17894 11.3917 9.17894ZM16.2446 6.15086H13.7749C13.7482 7.13901 13.3263 8.02881 12.6592 8.66877C14.4999 9.21613 15.8468 10.9231 15.8468 12.9393V13.8773C18.2853 13.788 19.6905 13.0968 19.7831 13.0504L19.979 12.9511H20V9.90626C20 7.83563 18.3152 6.15086 16.2446 6.15086ZM5.00062 5.95119C5.57444 5.95119 6.10832 5.78371 6.56059 5.49842C6.70436 4.5607 7.20704 3.74128 7.92512 3.18319C7.92812 3.12828 7.93336 3.07386 7.93336 3.01846C7.93336 1.39834 6.61999 0.0852214 5.00062 0.0852214C3.38026 0.0852214 2.06739 1.39834 2.06739 3.01846C2.06739 4.63782 3.38026 5.95119 5.00062 5.95119ZM7.63484 8.66877C6.97092 8.03206 6.55061 7.147 6.51991 6.16484C6.4283 6.1581 6.3377 6.15086 6.24435 6.15086H3.75565C1.68476 6.15086 0 7.83563 0 9.90626V12.9506L0.00773743 12.9975L0.217397 13.0636C1.80282 13.5586 3.21777 13.7867 4.44677 13.8586V12.9393C4.44727 10.9231 5.79359 9.21663 7.63484 8.66877Z" fill="#05172D"/>
+                    </svg>
+                    <div class="basic-text-color font-semibold">
+                        Speakers
+                    </div>
+                </div>
+                <div class="p-4">
+                    <ng-container *ngIf="speaker && !isRequestingSpeaker">
+                        <div class="grid grid-cols-12 gap-3 maxh-300-px custom-scroll" (scroll)="onScroll()">
+                            <ng-container *ngFor="let item of speaker.datas">
+                                <div class="col-span-1">
+                                    <img [src]="item.photo_url ? item.photo_url : ''" class="object-cover rounded-full w-40-px h-40-px" alt="">
+                                </div>
+                                <div class="col-span-11">
+                                    <div class="flex flex-col">
+                                        <div class="default-text-color font-semibold">{{ item.company }}</div>
+                                        <div class="default-text-color">{{ item.fullname }}</div>
+                                        <div class="text-gray-500">{{ item.position }}</div>
+                                    </div>
+                                </div>
+                            </ng-container>
+                        </div>
+                    </ng-container>
+                    <ng-container *ngIf="isRequestingSpeaker">
+                        <div class="grid grid-cols-12 gap-3 maxh-300-px custom-scroll">
+                            <ng-container *ngFor="let item of [1,2,3]">
+                                <div class="col-span-1">
+                                    <div class="w-40-px h-40-px rounded-full">
+                                        <app-loader [border_radius_class]="'rounded-lg'" [additional_class]=""></app-loader>
+                                    </div>
+                                </div>
+                                <div class="col-span-11">
+                                    <div class="flex flex-col space-y-2">
+                                        <div class="default-text-color font-semibold w-150-px h-15-px">
+                                            <app-loader [border_radius_class]="'rounded-lg'" [additional_class]=""></app-loader>
+                                        </div>
+                                        <div class="default-text-color w-160-px h-15-px">
+                                            <app-loader [border_radius_class]="'rounded-lg'" [additional_class]=""></app-loader>
+                                        </div>
+                                        <div class="text-gray-500 w-1800-px h-15-px">
+                                            <app-loader [border_radius_class]="'rounded-lg'" [additional_class]=""></app-loader>
+                                        </div>
+                                    </div>
+                                </div>
+                            </ng-container>
+                        </div>
+                    </ng-container>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+
+<!-- feedbackModal -->
+<ngx-smart-modal #feedbackModal identifier="feedbackModal" customClass="nsm-centered" [dismissable]="false" [closable]="false">
+    <div class="bg-white w-350-px rounded-lg relative">
+        <div>
+            <button (click)="closeFeedBackModal()">
+                <svg  class="bg-close absolute top-5 right-5 z-50" width="14" height="14" viewBox="0 0 14 14" fill="none" xmlns="http://www.w3.org/2000/svg">
+                    <path d="M14 1.41L12.59 0L7 5.59L1.41 0L0  1.41L5.59 7L0 12.59L1.41 14L7 8.41L12.59 14L14 12.59L8.41 7L14 1.41Z" fill="#6E6E6E"/>
+                </svg>
+            </button>
+            <img src="assets/images/bg-feedback.png" class="absolute top-0 right-0">
+            <img src="assets/images/bg-feedback1.png" class="absolute top-0 left-0">
+            <div class="flex justify-center">
+                <img src="assets/images/Feedback.png">
+            </div>
+            <div  class="text-navy rubik font-semibold not-italic fs-16-px px-8 mt-8">  Leave us a feedback
+                <div class="text-darkblue rubik font-normal not-italic fs-16-px">Your feedback helps us improve our <br> events and mobile app, thank you!</div>
+            </div>
+            <form [formGroup]="feedBackForm">
+                <div class="px-8 mt-5">
+                    <div class="text-navy rubik font-normal not-italic fs-14-px">How was your experience with F2F been?</div>
+                    <textarea cols="30" rows="5" placeholder="Type here ..." class="custom-input w-full mt-2" formControlName="message" minlength="3" maxlength="200"  name="title" id="title" ></textarea>
+                    <div *ngIf="feedBackForm.controls.message.value" class="counter text-main-gray rubik font-normal not-italic fs-12-px flex justify-end">
+                        {{ feedBackForm.controls.message.value.length }}/200
+                    </div>
+                    <div class="flex justify-end space-x-5 py-5">
+                        <button (click)="closeFeedBackModal()" class="text-main-gray rubik font-semibold not-italic fs-14-px">Cancel</button>
+                        <button [disabled]="!feedBackForm.controls.message.value" [ngClass]="{'btn-gray': !feedBackForm.controls.message.value, 'btn-green-light': feedBackForm.controls.message.value}" (click)="savefeedBack()" class="focus:outline-none custom-btn rubik font-medium not-italic fs-14-px px-4 py-2">
+                            <img src="assets/icon/send-icon.png"> 
+                            <span class="ml-2">Send feedback</span>
+                        </button>
+                    </div>
+                </div>
+            </form>
+        </div>
+    </div>
+</ngx-smart-modal>

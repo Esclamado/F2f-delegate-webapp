@@ -1,0 +1,79 @@
+.bg-lightpurple {
+    background-color: #E1E9F4;
+}
+
+.bg-network {
+    background-color: #EEEEEE;
+}
+
+.bg-skype{
+    background-color: #399bff !important;
+    border-radius: 33px;
+}
+
+.bg-zoom{
+    background-color: #0b73dc !important;
+    border-radius: 33px;
+}  
+
+.scroll {
+    overflow-y: scroll;
+    max-height: 210px;
+}
+
+.bg-alternate {
+    background-color: #F9FAFB;
+}
+
+.bg-white {
+    background-color: #ffffff;
+}
+
+.txt-days{
+    color: #1E2631;
+}
+
+.txt-date{
+    color:  #094F8C;
+}
+
+.bg-table{
+    background-color: #6E6E6E;
+}
+.text-666{
+    color: #666666;
+}
+
+::ng-deep {
+    .mat-tab-label-active {
+        background-color: #ffffff;
+        border-bottom: 4px solid linear-gradient(242.89deg, #1D4FA5 20.64%, #094F8C 92.02%);
+    }
+    .mat-tab-label {
+        margin-right: 10px;
+        border: 1px solid #E0E3E7;
+        border-radius: 5px 5px 0px 0px;
+        color: #020303;
+        border: 1px solid rgb(181, 176, 176);
+    }
+    .mat-tab-group.mat-primary .mat-ink-bar,
+    .mat-tab-nav-bar.mat-primary .mat-ink-bar {
+        border-bottom: 4px solid #0C73FE;
+    }
+    .mat-tab-body-content {
+        background-color: #EEEEEE;
+        overflow-y: hidden !important;
+        
+    }
+    .mat-tab-body {
+        border: 1px solid rgb(181, 176, 176);
+        border-radius: 5px;
+    }
+}
+pre {
+    white-space: pre-wrap;       /* Since CSS 2.1 */
+    white-space: -moz-pre-wrap;  /* Mozilla, since 1999 */
+    white-space: -pre-wrap;      /* Opera 4-6 */
+    white-space: -o-pre-wrap;    /* Opera 7 */
+    word-wrap: break-word;       /* Internet Explorer 5.5+ */
+}

@@ -1,0 +1,39 @@
+.type-badge{
+    padding: 3px 10px;
+    border-radius: 9999px;
+    &.virtual{
+        background: #1D4FA5;
+        color: white;
+    }
+    &.physical{
+        background: #87AF1B;
+        color: white;
+    }
+}
+.Border{
+    &.b-blue{
+        border: 2px solid #1B4FA3;
+    }
+    &.b-gray{
+        border: 1px solid #cccccc;
+    }
+}
+
+.pagination {
+    display: inline-block;
+    border: 1px solid gray;
+    border-radius: 3px;
+  }
+  
+  .pagination button {
+    color: black;
+    float: left;
+    padding: 8px 16px;
+    text-decoration: none;
+
+    &.active{
+        background-color: white;
+        color: #3B67B2;
+        border-bottom: 2px solid #3B67B2;
+    }
+  }

@@ -1,0 +1,242 @@
+<ngx-smart-modal #scheduleMeeting identifier="scheduleMeeting" [closable]="false" customClass="nsm-centered" (onOpen)="onInitianRequest()">
+    <ng-container>
+        <div class="bg-white py-3 rounded-lg w-539-px rubik">
+            <div class="flex justify-between items-center px-4">
+                <div class="text-base defaulte-text-color fw-600 fs-14-px">
+                    Schedule a meeting
+                </div>
+                <svg class="cursor-pointer" width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" (click)="reset()">
+                    <path d="M19 6.41L17.59 5L12 10.59L6.41 5L5 6.41L10.59 12L5 17.59L6.41 19L12 13.41L17.59 19L19 17.59L13.41 12L19 6.41Z" fill="#ADADAD" />
+                </svg>
+            </div>
+            <hr class="w-full my-3">
+            <div class="grid grid-cols-12 gap-3 px-6">
+
+                <!-- Start of Default Meeting Schedule Date -->
+                <ng-container *ngIf="!enableSelectTimeSlot">
+                    <div class="col-span-10">
+                        <div class="w-full flex flex-col items-start space-y-2">
+                            <div *ngIf="selected_date" class="flex items-center default-text-color fw-600 fs-14-px">
+                                <svg class="mr-3" width="16" height="18" viewBox="0 0 16 18" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                    <path fill-rule="evenodd" clip-rule="evenodd" d="M14 2.25H13.25V0.75H11.75V2.25H4.25V0.75H2.75V2.25H2C1.175 2.25 0.5 2.925 0.5 3.75V15.75C0.5 16.575 1.175 17.25 2 17.25H14C14.825 17.25 15.5 16.575 15.5 15.75V3.75C15.5 2.925 14.825 2.25 14 2.25ZM14 15.75H2V7.5H14V15.75ZM2 6H14V3.75H2V6Z" fill="#6E6E6E" />
+                                </svg>
+                                {{ env.getDays3(selected_date.date) }}, {{ selected_date.date | date: 'MMMM dd, yyyy' }}
+                            </div>
+                            <div *ngIf="selected_time" class="flex items-center default-text-color fs-14-px">
+                                <svg class="mr-3" width="16" height="16" viewBox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                    <path fill-rule="evenodd" clip-rule="evenodd" d="M8 0.5C3.875 0.5 0.5 3.875 0.5 8C0.5 12.125 3.875 15.5 8 15.5C12.125 15.5 15.5 12.125 15.5 8C15.5 3.875 12.125 0.5 8 0.5ZM8 14C4.6925 14 2 11.3075 2 8C2 4.6925 4.6925 2 8 2C11.3075 2 14 4.6925 14 8C14 11.3075 11.3075 14 8 14ZM7.25 4.25H8.375V8.15L11.75 10.175L11.15 11.15L7.25 8.75V4.25Z" fill="#6E6E6E" />
+                                </svg>
+                                {{selected_time.start_time}} - {{selected_time.end_time_orig}} 
+                                <!-- Start of Timezone if Virtual -->
+                                <span *ngIf="event.type == '2' && d1_timezone">
+                                    &nbsp;{{d1_timezone}}
+                                </span>
+                                <!-- End of Timezone if Virtual -->
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-span-2 flex items-center justify-end">
+                        <div class="w-full flex items-center justify-end space-y-4">
+                            <div style="color: #3B67B2;" class="flex items-center cursor-pointer" (click)="enableTimeSlot(true)">
+                                <svg class="mr-1" width="16" height="16" viewBox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                    <path fill-rule="evenodd" clip-rule="evenodd" d="M12.7157 0.5C12.5074 0.5 12.2907 0.583333 12.1324 0.741667L10.6074 2.26667L13.7324 5.39167L15.2574 3.86667C15.5824 3.54167 15.5824 3.01667 15.2574 2.69167L13.3074 0.741667C13.1407 0.575 12.9324 0.5 12.7157 0.5ZM9.71569 5.51667L10.4824 6.28333L2.93236 13.8333H2.16569V13.0667L9.71569 5.51667ZM0.499023 12.375L9.71569 3.15833L12.8407 6.28333L3.62402 15.5H0.499023V12.375Z" fill="#3B67B2" />
+                                </svg>
+                                Edit
+                            </div>
+                        </div>
+                    </div>
+                </ng-container>
+                <!-- End of Default Meeting Schedule Date -->
+
+                <!-- Start of Edit Meeting Schedule Date -->
+                <ng-container *ngIf="enableSelectTimeSlot">
+                    <div class="col-span-10">
+                        <div *ngIf="selected_date" class="flex items-center">
+                            <div class="flex items-center space-x-3" >
+                                <div #t1="matMenuTrigger" #select1 [matMenuTriggerFor]="date_select" 
+                                    class="border border-gray-400 rounded-md flex justify-between items-center p-2 cursor-pointer minw-200-px h-38-px">
+                                    <span class="barlow text-black text-sm font-lg">
+                                        {{ env.getDays3(selected_date.date) }}, {{ selected_date.date | date: 'MMMM dd, yyyy' }}
+                                    </span>
+                                    <i class="fas fa-caret-down"></i>
+                                </div>
+                                <mat-menu class="w-full edit-menu custom-scroll" #date_select="matMenu" >
+                                    <div class="w-full barlow relative flex items-center justify-end text-base" *ngFor="let sched of schedules">
+                                        <ng-container>
+                                            <button mat-menu-item (click)="selectDate(sched)"
+                                                class="tracking-wide focus:outline-none barlow hover:text-teal-800 hover:bg-teal-300 w-200-px">
+                                                {{ env.getDays3(sched.date) }}, {{ sched.date | date: 'MMMM dd, yyyy' }}
+                                            </button>
+                                        </ng-container>
+                                    </div>
+                                </mat-menu>
+                            </div>
+                            <div class="flex items-center space-x-3">
+                                <div #t2="matMenuTrigger" #select2 [matMenuTriggerFor]="time_select" 
+                                    class="border border-gray-400 rounded-md flex justify-between items-center p-2 cursor-pointer minw-200-px h-38-px">
+                                    <span *ngIf="selected_time" class="barlow text-black text-sm font-lg">
+                                        {{selected_time.start_time}} - {{selected_time.end_time_orig}}
+                                    </span>
+                                    <i class="fas fa-caret-down"></i>
+                                </div>
+                                <mat-menu class="w-full edit-menu custom-scroll" #time_select="matMenu">
+                                    <ng-container>
+                                        <div *ngFor="let timeslot of available_timeslot" 
+                                            class="w-full barlow relative flex items-center justify-end text-base">
+                                            <button *ngIf="available_timeslot.length >= 1" mat-menu-item (click)="selectTime(timeslot)"
+                                                class="tracking-wide focus:outline-none barlow hover:text-teal-800 hover:bg-teal-300 w-235-px">
+                                                {{timeslot.start_time}} - {{timeslot.end_time_orig}}
+                                            </button>
+                                        </div>
+                                        <div *ngIf="available_timeslot.length == 0" 
+                                            class="w-full barlow relative flex items-center justify-end text-base px-5 py-4">
+                                            No timeslot available
+                                        </div>
+                                    </ng-container>
+                                </mat-menu>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-span-2 flex items-center justify-end">
+                        <div class="w-full flex items-center justify-end space-y-4">
+                            <div style="color: #3B67B2;" class="flex items-center cursor-pointer" (click)="enableTimeSlot(false)">
+                                <svg class="mr-1" width="20" height="20" viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                    <path d="M7.32923 13.2288L3.85423 9.75378L2.6709 10.9288L7.32923 15.5871L17.3292 5.58711L16.1542 4.41211L7.32923 13.2288Z" fill="#3B67B2" />
+                                </svg>
+                                Save
+                            </div>
+                        </div>
+                    </div>
+                </ng-container>
+                <!-- End of Edit Meeting Schedule Date -->
+            </div>
+            <hr class="w-full my-3">
+
+            <!-- Start of Search Available Delegate -->
+            <div class="px-6 relative mb-3">
+                <input 
+                    type="text" 
+                    [(ngModel)]="available_delegate_search" 
+                    class="custom-input pl-search h-50-px w-full bg-EEEEEE"
+                    style="padding-left: 37px;"
+                    placeholder="Search"
+                    (keydown.enter)="searchAvailableDelegate(available_delegate_search)" 
+                    (ngModelChange)="this.subscribeSearch.next($event)"
+                >
+                <span class="material-icons text-gray-400 fs-75-px mb-3 absolute l-32 t-15">
+                    search
+                </span>
+            </div>
+            <!-- End of Search Available Delegate -->
+
+            <!-- Start of available delegate data -->
+            <ng-container *ngIf="available_delegate && available_delegate_total_count > 0">
+                <div class="px-6 mb-5">
+                    <div class="border border-gray-400 rounded-lg mt-5">
+                        <div class="default-text-color bg-gray font-semibold px-4 py-2 bg-header rounded-t-lg">
+                            {{ available_delegate_total_count }} available delegate<span *ngIf="available_delegate_total_count > 1">s</span> in time you selected
+                       </div>
+                       <div class="maxh-300-px overflow-y-scroll pb-4 custom-scroll" (scroll)="onScroll($event)">
+                            <ng-container *ngFor="let delegate of available_delegate; let i = index">
+                                <ng-container *ngIf="delegate.id != user.id">
+                                    <div (click)="selectDelegate(delegate)" 
+                                        class="b-b-gray cursor-pointer" 
+                                        [ngClass]="{'selected bg-schedule': selected_delegate && selected_delegate.id == delegate.id}"
+                                    >
+                                        <div class="px-5 py-3">
+                                            <div class="grid grid-cols-12 relative">
+                                                <div class="col-span-11 flex">
+                                                    <img *ngIf="!delegate.profile_photo" src="assets/empty_states/profile_avatar_{{delegate.profile_photo}}.png" class="h-10 w-10 mr-4 rounded-full">
+                                                    <img *ngIf="delegate.profile_photo" src="{{delegate.profile_photo}}" class="h-10 w-10 mr-4 rounded-full">
+                                                    <!-- <img src="{{delegate.profile_photo_url ? delegate.profile_photo_url : 'assets/empty_states/profile_avatar2.png'}}" class="h-10 w-10 mr-4 rounded-full"> -->
+                                                    <div>
+                                                        <div class="text-gray900 rubik font-semibold not-italic fs-14-px">
+                                                            {{delegate.job_title}}
+                                                        </div>
+                                                        <div class="text-gray900 rubik font-medium not-italic fs-14-px">
+                                                            {{delegate.fullname}}
+                                                        </div>
+                                                        <div class="flex items-center text-gray rubik font-normal fs-14-px">
+                                                            <img src="assets/flags/{{delegate.company_country_flag}}.png" class="h-4 w-4">
+                                                            <span class="ml-2">{{delegate.company_country}}</span>
+                                                        </div>
+                                                        <!-- Start of Timezone if Virtual -->
+                                                        <div class="flex items-center" *ngIf="event.type == '2' && d2_timezone && selected_delegate && selected_delegate.id == delegate.id">
+                                                            <svg class="mr-2" width="16" height="15" viewBox="0 0 16 15" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                                                <path fill-rule="evenodd" clip-rule="evenodd" d="M8 0C3.875 0 0.5 3.375 0.5 7.5C0.5 11.625 3.875 15 8 15C12.125 15 15.5 11.625 15.5 7.5C15.5 3.375 12.125 0 8 0ZM8 13.5C4.6925 13.5 2 10.8075 2 7.5C2 4.1925 4.6925 1.5 8 1.5C11.3075 1.5 14 4.1925 14 7.5C14 10.8075 11.3075 13.5 8 13.5ZM7.25 3.75H8.375V7.65L11.75 9.675L11.15 10.65L7.25 8.25V3.75Z" fill="#6E6E6E"/>
+                                                            </svg>
+                                                            <span class="fs-14-px text-gray-400">{{d2_timezone}}</span>
+                                                        </div>
+                                                        <!-- End of Timezone if Virtual -->
+                                                    </div>
+                                                </div>
+                                                <div class="col-span-1 relative">
+                                                    <svg [ngClass]="{'show-check': selected_delegate && selected_delegate.id == delegate.id}"
+                                                        class="absolute top-0 right-0 invisible" width="18" height="18" viewBox="0 0 18 18" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                                        <path d="M18 9C18 13.9706 13.9706 18 9 18C4.02942 18 0 13.9706 0 9C0 4.02942 4.02942 0 9 0C13.9706 0 18 4.02942 18 9ZM7.95898 13.7654L14.6364 7.08801C14.8631 6.86127 14.8631 6.49361 14.6364 6.26687L13.8153 5.44573C13.5885 5.21895 13.2209 5.21895 12.9941 5.44573L7.54839 10.8914L5.00592 8.34892C4.77918 8.12217 4.41152 8.12217 4.18475 8.34892L3.3636 9.17006C3.13686 9.3968 3.13686 9.76445 3.3636 9.9912L7.1378 13.7654C7.36458 13.9922 7.7322 13.9922 7.95898 13.7654V13.7654Z" fill="#1D4FA5"/> <defs> <linearGradient id="paint0_linear" x1="11.9672" y1="-0.809733" x2="-3.42343" y2="7.06918" gradientUnits="userSpaceOnUse"> <stop stop-color="#1D4FA5"/> <stop offset="1" stop-color="#094F8C"/> </linearGradient> </defs>
+                                                    </svg>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </ng-container>
+                            </ng-container>
+                        </div>
+                    </div>
+                </div>
+            </ng-container>
+            <!-- End of available delegate data -->
+
+            <!-- Start of Empty states search -->
+            <div *ngIf="available_delegate && available_delegate_total_count == 0" class="maxh-300-px pt-6 pb-6">
+                <div class="h-full w-full flex items-center justify-center my-4">
+                    <img src="assets/empty_states/no_delegates.png" class="h-80-px object-cover" alt="">
+                </div>
+                <div *ngIf="!available_delegate_search" class="w-full rubik text-main-gray rubik font-medium fs-16-px text-center">
+                    No available delegate
+                </div>
+                <div *ngIf="available_delegate_search" class="w-full rubik text-main-gray rubik font-medium fs-16-px text-center">
+                    Delegates not found
+                </div>
+            </div>
+            <!-- End of Empty states search -->
+
+            <!-- Start of Skeleton loader search -->
+            <div *ngIf="!available_delegate_isLoaded" class="maxh-300-px pb-4">
+                <div class="border-2 border-gray-300 rounded-md mt-5">
+                    <div class="px-5 py-3 flex justify-between">
+                        <div class="flex items-center">
+                            <div class="w-50-px h-50-px rounded-full">
+                                <app-loader [border_radius_class]="'rounded-full'" [additional_class]=""></app-loader>
+                            </div>
+                            <div class="flex flex-col pl-3">
+                                <div class="w-350-px h-15-px">
+                                    <app-loader [border_radius_class]="'rounded-lg'" [additional_class]=""></app-loader>
+                                </div>
+                                <div class="w-350-px h-15-px mt-2">
+                                    <app-loader [border_radius_class]="'rounded-lg'" [additional_class]=""></app-loader>
+                                </div>
+                                <div class="flex items-center mt-1">
+                                    <div class="w-18-px h-18-px rounded-full">
+                                        <app-loader [border_radius_class]="'rounded-full'" [additional_class]=""></app-loader>
+                                    </div>
+                                    <div class="w-325-px h-15-px my-1 ml-2">
+                                        <app-loader [border_radius_class]="'rounded-lg'" [additional_class]=""></app-loader>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <!-- End of Skeleton loader search -->
+
+            <div class="w-full px-6 pb-2">
+                <button class="custom-btn w-full py-3 text-white focus:outline-none {{ selected_time && selected_delegate && !enableSelectTimeSlot ? 'btn-blue' : 'btn-disabled'}}" (click)="scheduleAMeeting()" [disabled]="!selected_time || enableSelectTimeSlot || !selected_delegate"
+                    >
+                    Schedule a meeting
+                </button>
+            </div>
+        </div>
+    </ng-container>
+</ngx-smart-modal>

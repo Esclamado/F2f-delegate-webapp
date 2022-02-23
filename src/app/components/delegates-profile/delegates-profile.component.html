@@ -1,0 +1,925 @@
+<div class="w-screen absolute z-50" style="background: #FFFFFF;">
+    <app-header-dashboard></app-header-dashboard>
+</div>
+<div class="w-screen absolute" style="margin-top: 70px; z-index: 20;">
+    <app-archive-header></app-archive-header>
+</div>
+<div class="h-full">
+    <div class="px-20 py-28">
+        <button class="mb-10 border-2 border-gray-400 rounded-md flex items-center px-3 py-1 focus:outline-none text-main-gray back" (click)="goBack()">
+            <img src="assets/icon/arrow-back-icon.png"> <span class="ml-2 rubik not-italic fs-14-px font-medium">Back</span>
+        </button>
+        <div class="grid grid-cols-12 gap-5">
+            <div class="lg:col-span-4 col-span-12" *ngIf="!isProfileLoading && delegate">
+                <div class="bg-white shadow-md rounded-md border border-gray-400">
+                    <img src="assets/images/bg-profile.png" class="w-full h-110-px">
+                    <div class="relative w-full flex justify-center profile-pic">
+                        <img src="{{delegate.profile_photo_url ? delegate.profile_photo_url  : 'assets/images/empty-photo.jpg'}}" class="prof-img h-100-px w-100-px border-5 border-white rounded-full absolute -top-14">
+                        <div class="mt-16 mb-5 text-center">
+                            <div class="text-darkblue rubik semibold not-italic fs-20-px">{{delegate.fullname}}</div>
+                            <div class="text-main-gray rubik font-normal not-italic fs-14-px">
+                                <p>{{delegate.job_title}}</p>
+                                <p class="px-5">{{delegate.company.name}}</p>
+                            </div>
+                        </div>
+                    </div>
+                    <hr class="w-full">
+                    <div class="px-5 py-3">
+                        <div class="grid grid-cols-12 gap-5">
+                            <div class="col-span-3">
+                                <img class="m-auto" src="assets/images/handshake.png">
+                            </div>
+                            <div class="col-span-9 flex items-center justify-center">
+                                <div class="flex flex-col">
+                                    <span *ngIf="event.set_meeting && !delegate.meeting_schedule" class="text-navy rubik font-normal not-italic fs-14-px">
+                                        You don’t have a scheduled meeting with this person.
+                                    </span>
+                                    <span *ngIf="delegate.meeting_schedule" class="text-navy rubik font-normal not-italic fs-14-px">
+                                        You already have a scheduled meeting with this person
+                                    </span>
+                                    <div class="flex items-center space-x-2 space-y-1">
+                                       <div>
+                                            <button *ngIf="!event.archive_in && event.type == '1' && !delegate.meeting_schedule" class="focus:outline-none custom-btn btn-bg-green rubik fs-12-px not-italic font-medium px-4 py-1 mt-2" (click)="scheduleDelegateMeeting(delegate)">
+                                                <img src="assets/icon/handshake-icon.png"> <span class="ml-2 ">Schedule a meeting</span>
+                                            </button>
+                                            <div class="flex justify-between space-x-2 mt-2">
+                                                <button class="custom-btn btn-blue rubik fs-12-px not-italic font-medium px-4 py-1" (click)="openMessaging()">
+                                                    <img src="assets/icon/chat-icon.png"> <span class="ml-2 ">Message</span>
+                                                </button>
+                                                <button *ngIf="!selectedDelegateProfile.event_notes" (click)="addNewNote(delegate)" class="focus:outline-none border-2 border-gray-400 text-main-gray rubik not-italic fs-12-px font-semibold  rounded-md  px-4 py-1 flex items-center">
+                                                    <img src="assets/icon/addnote-icon.png"> <span class="ml-2">Add note</span>
+                                                </button>
+                                                <button *ngIf="selectedDelegateProfile.event_notes" (click)="viewNewNote(selectedDelegateProfile)" class="focus:outline-none border-2 border-gray-400 text-main-gray rubik not-italic fs-12-px font-semibold  rounded-md  px-4 py-1 flex items-center">
+                                                    <img src="assets/icon/addnote-icon.png"> <span class="ml-2">View Note</span>
+                                                </button>
+                                            </div>
+                                       </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <hr class="w-full">
+                    <div *ngIf="delegate && delegate.user_privacy == 'yes'" class="px-5 py-5">
+                        <div class="text-main-gray rubik font-normal not-italic fs-12-px py-4">
+                            Mobile
+                            <ng-container>
+                                <p class="text-navy rubik font-normal not-italic fs-14-px"> {{delegate.mobile ? delegate.mobile : 'No mobile shared'}} </p>
+                            </ng-container>
+                        </div>
+
+                        <div class="text-main-gray rubik font-normal not-italic fs-12-px">
+                            <div class="flex justify-between">
+                                Social Links
+                            </div>
+                            <div *ngIf="delegate.social_media_links_detail && delegate.social_media_links_detail.facebook" class="flex items-center my-2">
+                                <div class="social-media-icon fb mgr-5">
+                                    <i class="fab fa-facebook-f text-white"></i>
+                                </div>
+                                <span class="basic-default-color"> {{delegate.social_media_links_detail.facebook}} </span>
+                            </div>
+                            <div *ngIf="delegate.social_media_links_detail && delegate.social_media_links_detail.kakao" class="flex items-center my-2">
+                                <div class="social-media-icon kt mgr-5">
+                                    <i class="fas fa-comment"></i> 
+                                </div>
+                                <span class="basic-default-color"> {{delegate.social_media_links_detail.kakao}} </span>
+                            </div>
+                            <div *ngIf="delegate.social_media_links_detail && delegate.social_media_links_detail.linkedin" class="flex items-center my-2">
+                                <div class="social-media-icon ln mgr-5">
+                                    <i class="fab fa-linkedin-in text-white"></i>
+                                </div>
+                                <span class="basic-default-color"> {{delegate.social_media_links_detail.linkedin}} </span>
+                            </div>
+                            <div *ngIf="delegate.social_media_links_detail && delegate.social_media_links_detail.skype" class="flex items-center my-2">
+                                <div class="social-media-icon sk mgr-5">
+                                    <i class="fab fa-skype text-white"></i>
+                                </div>
+                                <span class="basic-default-color"> {{delegate.social_media_links_detail.skype}} </span>
+                            </div>
+                            <div *ngIf="delegate.social_media_links_detail && delegate.social_media_links_detail.twitter" class="flex items-center my-2">
+                                <div class="social-media-icon tw mgr-5">
+                                    <i class="fab fa-twitter text-white"></i>
+                                </div>
+                                <span class="basic-default-color"> {{delegate.social_media_links_detail.twitter}} </span>
+                            </div>
+                            <div *ngIf="delegate.social_media_links_detail && delegate.social_media_links_detail.wechat" class="flex items-center my-2">
+                                <div class="social-media-icon wc mgr-5">
+                                    <i class="fab fa-weixin text-white"></i>
+                                </div>
+                                <span class="basic-default-color"> {{delegate.social_media_links_detail.wechat}} </span>
+                            </div>
+                            <div *ngIf="delegate.social_media_links_detail && delegate.social_media_links_detail.whatsapp" class="flex items-center my-2">
+                                <div class="social-media-icon wa mgr-5">
+                                    <i class="fab fa-whatsapp text-white"></i>
+                                </div>
+                                <span class="basic-default-color"> {{delegate.social_media_links_detail.whatsapp}} </span>
+                            </div>
+                            <div *ngIf="delegate.social_media_links_detail && delegate.social_media_links_detail.zoom" class="flex items-center my-2">
+                                <div class="social-media-icon zm mgr-5">
+                                    <i class="fas fa-video text-white"></i>
+                                </div>
+                                <span class="basic-default-color"> {{delegate.social_media_links_detail.zoom}} </span>
+                            </div>
+                            <div *ngIf="
+                                !delegate.social_media_links_detail ||
+                                (
+                                    !delegate.social_media_links_detail.facebook && 
+                                    !delegate.social_media_links_detail.kakao && 
+                                    !delegate.social_media_links_detail.linkedln && 
+                                    !delegate.social_media_links_detail.skype && 
+                                    !delegate.social_media_links_detail.twitter && 
+                                    !delegate.social_media_links_detail.wechat && 
+                                    !delegate.social_media_links_detail.whatsapp && 
+                                    !delegate.social_media_links_detail.zoom
+                                )" class="flex items-center my-2">
+                                <span class="basic-default-color"> No social media yet </span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+              <!-- Skeleton -->
+            <ng-container *ngIf="isProfileLoading">
+                <div class="lg:col-span-4" >
+                    <div class="bg-white shadow-md h-700-px rounded-md border-2 border-gray-400">
+                        <img src="assets/images/bg-profile.png" class="w-full h-110-px">
+                        <div class="relative w-full flex justify-center profile-pic">
+                            <div class="prof-img h-90-px w-90-px rounded-full absolute -top-14">
+                                <app-loader [border_radius_class]="'rounded-full'" [additional_class]=""></app-loader>
+                            </div>  
+                            <div class="mt-16 mb-5 text-center">
+                                <div class="flex flex-col space-y-2">
+                                    <div class="h-15-px w-300-px  rounded-full">
+                                        <app-loader [border_radius_class]="'rounded-lg'" [additional_class]=""></app-loader>
+                                    </div>
+                                    <div class="h-15-px w-300-px  rounded-full">
+                                        <app-loader [border_radius_class]="'rounded-lg'" [additional_class]=""></app-loader>
+                                    </div>
+                                    <div class="h-15-px w-300-px  rounded-full">
+                                        <app-loader [border_radius_class]="'rounded-lg'" [additional_class]=""></app-loader>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <hr class="w-full">
+                        <div class="px-5 py-3">
+                            <div class="grid grid-cols-12 gap-5">
+                                <div class="col-span-3">
+                                    <img class="m-auto" src="assets/images/handshake.png">
+                                </div>
+                                <div class="col-span-9 flex items-center justify-center">
+                                    <div class="flex flex-col">
+                                        <span class="text-navy rubik font-normal not-italic fs-14-px">
+                                            You don’t have a scheduled meeting with this person.
+                                        </span>
+                                        <div class="flex items-center space-x-2 space-y-1">
+                                           <div>
+                                                <div class="h-25-px w-210-px rounded">
+                                                    <app-loader [border_radius_class]="'rounded-lg'" [additional_class]=""></app-loader>
+                                                </div>
+                                                <div class="flex justify-between space-x-2 mt-2">
+                                                    <div class="h-25-px w-100-px  rounded">
+                                                        <app-loader [border_radius_class]="'rounded-lg'" [additional_class]=""></app-loader>
+                                                    </div>
+                                                    <div class="h-25-px w-100-px  rounded">
+                                                        <app-loader [border_radius_class]="'rounded-lg'" [additional_class]=""></app-loader>
+                                                    </div>
+                                                </div>
+                                           </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <hr class="w-full">
+                        <div class="px-5 py-5">
+                            <div class="text-main-gray rubik font-normal not-italic fs-12-px py-4">
+                                Mobile
+                                <div class="h-15-px w-80-per rounded">
+                                    <app-loader [border_radius_class]="'rounded-lg'" [additional_class]=""></app-loader>
+                                </div>
+                            </div>
+    
+                            <div class="text-main-gray rubik font-normal not-italic fs-12-px">
+                                <div class="flex justify-between">
+                                    Social Links
+                                </div>
+                                <div *ngFor="let item of [1,2,3,4,5,6,7,8]" class="flex items-center my-2">
+                                    <div class="h-15-px w-10-per rounded">
+                                        <app-loader [border_radius_class]="'rounded-lg'" [additional_class]=""></app-loader>
+                                    </div>
+                                    <div class="h-15-px w-90-per rounded ml-2">
+                                        <app-loader [border_radius_class]="'rounded-lg'" [additional_class]=""></app-loader>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </ng-container>
+           
+            <div class="lg:col-span-8 col-span-12" >
+                <mat-tab-group *ngIf="!isProfileLoading && (delegate && delegate.user_privacy == 'yes')">
+                    <mat-tab label="Profile" >
+                        <div class="px-5 py-5 bg-white">
+                            <div class="text-gray900 rubik font-semibold not-italic fs-16-px">About this delegate</div>
+                            <div class="text-gray rubik font-normal not-italic fs-14-px">Personal details and preferences.</div>
+                        </div>
+                        <hr class="w-full">
+                        <div *ngIf="delegate">
+                            <div class="grid grid-cols-12 gap-5 px-5 py-4 bg-alternate">
+                                <div class="col-span-4">
+                                    <p class="text-main-gray rubik font-normal not-italic fs-14-px">Full Name</p>
+                                </div>
+                                <div class="col-span-8">
+                                    <p class="text-navy rubik font-normal not-italic fs-14-px">{{delegate.fullname}}</p>
+                                </div>
+                            </div>
+                            <div class="grid grid-cols-12 gap-5 px-5 py-4 bg-white">
+                                <div class="col-span-4">
+                                    <p class="text-main-gray rubik font-normal not-italic fs-14-px">Email Address</p>
+                                </div>
+                                <div class="col-span-8">
+                                    <p class="text-navy rubik font-normal not-italic fs-14-px">{{delegate.email}}</p>
+                                </div>
+                            </div>
+                            <div class="grid grid-cols-12 gap-5 px-5 py-4 bg-alternate">
+                                <div class="col-span-4">
+                                    <p class="text-main-gray rubik font-normal not-italic fs-14-px">City</p>
+                                </div>
+                                <div class="col-span-8">
+                                    <p class="text-navy rubik font-normal not-italic fs-14-px">{{delegate.address ? delegate.address : 'No city shared'}}</p>
+                                </div>
+                            </div>
+                            <div class="grid grid-cols-12 gap-5 px-5 py-4 bg-white">
+                                <div class="col-span-4">
+                                    <p class="text-main-gray rubik font-normal not-italic fs-14-px">Timezone</p>
+                                </div>
+                                <div class="col-span-8">
+                                    <p class="text-navy rubik font-normal not-italic fs-14-px">{{delegate.timezone ? delegate.timezone : 'No timezone shared'}}</p>
+                                </div>
+                            </div>
+                            <div class="grid grid-cols-12 gap-5 px-5 py-4 bg-alternate">
+                                <div class="col-span-4">
+                                    <p class="text-main-gray rubik font-normal not-italic fs-14-px">Operational Software</p>
+                                </div>
+                                <div class="col-span-8">
+                                    <div *ngIf="delegate.pref_software_ids_detail && delegate.pref_software_ids_detail.length > 0" class="flex flex-wrap">
+                                        <span class="text-darkblue rubik font-normal not-italic fs-14-px bg-lightpurple rounded-xl mx-1 my-1 px-2 py-1" 
+                                        *ngFor="let pref_software of delegate.pref_software_ids_detail">{{pref_software.name}}</span>
+                                    </div>
+                                    <p *ngIf="!delegate.pref_software_ids_detail || (delegate.pref_software_ids_detail && delegate.pref_software_ids_detail.length == 0)" 
+                                        class="text-navy rubik font-normal not-italic fs-14-px">
+                                        No operational software shared
+                                    </p>
+                                </div>
+                            </div>
+                            <div class="grid grid-cols-12 gap-5 px-5 py-4 bg-white">
+                                <div class="col-span-4">
+                                    <p class="text-main-gray rubik font-normal not-italic fs-14-px">Services interested in</p>
+                                </div>
+                                <div class="col-span-8">
+                                    <div *ngIf="delegate.pref_services_ids_detail && delegate.pref_services_ids_detail.length > 0" class="flex flex-wrap">
+                                        <span class="text-darkblue rubik font-normal not-italic fs-14-px bg-lightpurple rounded-xl mx-1 my-1 px-2 py-1" 
+                                        *ngFor="let pref_service of delegate.pref_services_ids_detail">{{pref_service.name}}</span>
+                                    </div>
+                                    <p *ngIf="!delegate.pref_services_ids_detail || (delegate.pref_services_ids_detail && delegate.pref_services_ids_detail.length == 0)" 
+                                        class="text-navy rubik font-normal not-italic fs-14-px">
+                                        No services shared
+                                    </p>
+                                </div>
+                            </div>
+                            <div class="grid grid-cols-12 gap-5 px-5 py-4 bg-alternate">
+                                <div class="col-span-4">
+                                    <p class="text-main-gray rubik font-normal not-italic fs-14-px">Specializations interested in</p>
+                                </div>
+                                <div class="col-span-8">
+                                    <div *ngIf="delegate.pref_specialization_ids_detail && delegate.pref_specialization_ids_detail.length > 0" class="flex flex-wrap">
+                                        <span class="text-darkblue rubik font-normal not-italic fs-14-px bg-lightpurple rounded-xl mx-1 my-1 px-2 py-1"
+                                        *ngFor="let pref_specializations of delegate.pref_specialization_ids_detail">{{pref_specializations.name}}</span>
+                                    </div>
+                                    <p *ngIf="!delegate.pref_specialization_ids_detail || (delegate.pref_specialization_ids_detail && delegate.pref_specialization_ids_detail.length == 0)" 
+                                        class="text-navy rubik font-normal not-italic fs-14-px">
+                                        No specialization shared
+                                    </p>
+                                </div>
+                            </div>
+                            <div class="grid grid-cols-12 gap-5 px-5 py-4 bg-white">
+                                <div class="col-span-4">
+                                    <p class="text-main-gray rubik font-normal not-italic fs-14-px">My business card</p>
+                                </div>
+                                <div class="col-span-8">
+                                    <img src="{{delegate.businesscard_url ? delegate.businesscard_url : 'assets/empty_states/bs_card_empty.png'}}" class="w-442-px h-242-px">
+                                </div>
+                            </div>
+                        </div>
+                    </mat-tab>
+                    
+                    <mat-tab label="Schedule" >
+                        <div class="px-5 py-5 bg-white w-full" *ngIf="delegate">
+                            <div class="text-gray900 rubik font-semibold not-italic fs-16-px"> {{delegate.fullname}}'s meeting schedule</div>
+                        </div>
+                        <hr class="w-full">
+                        <div *ngIf="delegate_schedule && !delegate_schedule_isEmpty" class="px-5 py-3 bg-white custom-scroll overflow-auto relative" #widgetsContent>
+                            <p class="text-gray900 rubik font-semibold fs-16-px">{{ delegate_schedule.start_date | date: 'MMMM y' }}</p> 
+                            <ng-container>
+                                <div class="flex justify-between mt-5">
+                                    <div class="flex items-start flex-col justify-start" *ngFor="let item of delegate_schedule_date">
+                                        <div class="txt-days rubik font-medium not-italic fs-14-px">
+                                            {{ getDaysMili(item.a_date_orig) }} {{item.a_date_orig | date: 'd'}}
+                                        </div>
+                                        <div class="border border-gray-300 w-240-px minh-450-px h-full">
+                                            <ng-container *ngIf="item.schedules.length > 0; else noScheduleEmpty">
+                                                <div class="my-3 space-y-2" *ngFor="let schedule_list of item.schedules">
+                                                    <div class="px-3">
+                                                        <p class="txt-date rubik font-semibold not-italic fs-14-px">{{schedule_list.ts_start_time_formated}} - {{schedule_list.ts_end_time_formated}}</p>
+                                                        <div class="text-main-gray rubik font-normal not-italic fs-14-pxi">
+                                                            Meeting at <span class="bg-table rounded-full fs-14-px text-white px-2 py-1">Table {{schedule_list.table_table_no}}</span>
+                                                        </div>
+                                                    </div>
+                                                    <hr class="w-full">
+                                                </div>   
+                                            </ng-container>         
+
+                                            <ng-template #noScheduleEmpty>
+                                                <div class="px-3 my-3 space-y-2">
+                                                    <div class="flex justify-center">
+                                                        <img src="assets/empty_states/no_delegates.svg">
+                                                    </div>
+                                                    <div class="mt-8 rubik text-666 font-semibold not-italic fs-14-px text-center">
+                                                        No schedule meetings
+                                                    </div>
+                                                </div>   
+                                                <hr class="w-full">
+                                            </ng-template>
+                                              
+                                            
+                                        </div>
+                                    </div>
+                                </div>
+                                <!-- <div class="absolute left-6 h-full flex items-center">
+                                    <button class="animation focus:outline-none bg-gray-100 shadow-md rounded-full  flex justify-center items-center w-40-px h-40-px hover:translate-y-1 transform hover:shadow-lg " (click)="scrollLeft()">
+                                        <span class="material-icons">
+                                            keyboard_arrow_left
+                                        </span>
+                                    </button>
+                                </div>
+
+                                <div class="absolute right-6 h-full flex items-center">
+                                    <button class="animation focus:outline-none bg-gray-100 shadow-md rounded-full  flex justify-center items-center w-40-px h-40-px hover:translate-y-1 transform hover:shadow-lg " (click)="scrollRight()" >
+                                        <span class="material-icons">
+                                            keyboard_arrow_right
+                                        </span>
+                                    </button>
+                                </div> -->
+                            </ng-container>
+                        </div>
+
+                        <ng-container *ngIf="!delegate_schedule_isLoaded">
+                            <div class="px-5 py-3 bg-white custom-scroll overflow-auto">
+                                <div class="w-200-px h-15-px">
+                                    <app-loader [border_radius_class]="'rounded-lg'" [additional_class]=""></app-loader>
+                                </div>
+                                <div class="flex justify-between mt-5">
+                                    <div class="flex items-start justify-start">
+                                        <div *ngFor="let item of [1,2,3,4]" class="border border-gray-300 w-240-px minh-450-px">
+                                            <ng-container *ngFor="let item of [1,2,3,4,5,6]">
+                                                <div class="w-full px-5 mt-5 h-15-px">
+                                                    <app-loader [border_radius_class]="'rounded-lg'" [additional_class]=""></app-loader>
+                                                </div>
+                                                <div class="px-5 py-2 mb-2 flex items-center">
+                                                    <div class="w-100-px h-15-px">
+                                                        <app-loader [border_radius_class]="'rounded-lg'" [additional_class]=""></app-loader>
+                                                    </div>
+                                                    <div class="w-100-px h-15-px ml-2">
+                                                        <app-loader [border_radius_class]="'rounded-lg'" [additional_class]=""></app-loader>
+                                                    </div>
+                                                </div>    
+                                                <hr class="w-full">
+                                            </ng-container>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </ng-container>
+
+                        <ng-container *ngIf="delegate_schedule && delegate_schedule_isEmpty">
+                            <div class="bg-white py-36">
+                                <div class="flex justify-center">
+                                    <img src="assets/empty_states/no_delegates.svg">
+                                </div>
+                                <div class="mt-5 rubik text-666 font-semibold not-italic fs-20-px text-center">
+                                    No Schedule meetings
+                                    <p class="fs-16-px font-medium">There is no scheduled meetings on this delegate yet.</p>
+                                </div>
+                            </div>
+                        </ng-container>
+                    </mat-tab>
+
+                    <mat-tab label="Company" *ngIf="delegate">
+                        <div class="px-5 py-5 bg-white">
+                            <div class="text-gray900 rubik font-semibold not-italic fs-16-px ">About the company</div>
+                            <div class="text-gray rubik font-normal not-italic fs-14-px">Details of their company</div>
+                        </div>
+                        <hr class="w-full">
+                        <div class="grid grid-cols-12 px-5 py-4 bg-alternate">
+                            <div class="col-span-4">
+                                <p class="text-main-gray rubik font-normal not-italic fs-14-px">Name</p>
+                            </div>
+                            <div class="col-span-8">
+                                <p class="text-navy rubik font-semibold not-italic fs-14-px">{{delegate.company.name ? delegate.company.name : 'No company name'}}</p>
+                            </div>
+                        </div>
+                        <div class="grid grid-cols-12 px-5 py-4 bg-white">
+                            <div class="col-span-4">
+                                <p class="text-main-gray rubik font-normal not-italic fs-14-px">Description</p>
+                            </div>
+                            <div class="col-span-8">
+                                <pre class="text-navy rubik font-normal not-italic fs-14-px">{{delegate.company.description ? delegate.company.description : 'No description'}}</pre>
+                            </div>
+                        </div>
+                        <div class="grid grid-cols-12 px-5 py-4 bg-alternate">
+                            <div class="col-span-4">
+                                <p class="text-main-gray rubik font-normal not-italic fs-14-px">Sector</p>
+                            </div>
+                            <div class="col-span-8">
+                                <p *ngIf="delegate.company && delegate.company.pref_sector_name" class="text-navy rubik font-normal not-italic fs-14-px">
+                                    {{ delegate.company.pref_sector_name }}
+                                </p>
+                                <p *ngIf="!delegate.company || !delegate.company.pref_sector_name" class="text-navy rubik font-normal not-italic fs-14-px">
+                                    No sector shared
+                                </p>
+                            </div>
+                        </div>
+                        <div *ngIf="delegate.company && delegate.company.member_since" class="grid grid-cols-12 px-5 py-4 bg-white">
+                            <div class="col-span-4">
+                                <p class="text-main-gray rubik font-normal not-italic fs-14-px">Member Since</p>
+                            </div>
+                            <div class="col-span-8">
+                                <p class="text-navy rubik font-normal not-italic fs-14-px">
+                                    {{ delegate.company.member_since }}
+                                </p>
+                            </div>
+                        </div>
+
+                        <div class="bg-network px-5 py-3">
+                            <div class="text-gray900 rubik font-semibold not-italic fs-16-px ">Network Information</div>
+                        </div>
+                        <div class="grid grid-cols-12 px-5 py-4 bg-alternate">
+                            <div class="col-span-4">
+                                <p class="text-main-gray rubik font-normal not-italic fs-14-px">Network</p>
+                            </div>
+                            <div class="col-span-8">
+                                <p *ngIf="delegate.company && delegate.company.pref_network_name" class="text-navy rubik font-normal not-italic fs-14-px">
+                                    {{ delegate.company.pref_network_name }}
+                                </p>
+                                <p *ngIf="!delegate.company || !delegate.company.pref_network_name" class="text-navy rubik font-normal not-italic fs-14-px">
+                                    No network shared
+                                </p>
+                            </div>
+                        </div>
+                        <div class="grid grid-cols-12 px-5 py-4 bg-white">
+                            <div class="col-span-4">
+                                <p class="text-main-gray rubik font-normal not-italic fs-14-px">Membership Status</p>
+                            </div>
+                            <div class="col-span-8">
+                                <p *ngIf="delegate.company && delegate.company.membershipstatus" class="text-navy rubik font-normal not-italic fs-14-px">
+                                    {{ delegate.company.membershipstatus }}
+                                </p>
+                                <p *ngIf="!delegate.company || !delegate.company.membershipstatus" class="text-navy rubik font-normal not-italic fs-14-px">
+                                    No membership status shared
+                                </p>
+                            </div>
+                        </div>
+
+                        <div class="bg-network px-5 py-3">
+                            <div class="text-gray900 rubik font-semibold not-italic fs-16-px ">Company Address</div>
+                        </div>
+
+                        <div class="grid grid-cols-12 bg-alternate px-5 py-4">
+                            <div class="col-span-4">
+                                <p class="text-main-gray rubik font-normal not-italic fs-14-px">Country</p>
+                            </div>
+                            <div class="col-span-8">
+                                <span *ngIf="delegate.company_country && delegate.company_country.nicename" class="text-darkblue rubik font-normal not-italic fs-14-px flex items-center px-2 rounded-xl bg-country w-max">
+                                    <img src="assets/flags/{{delegate.company_country.iso}}.png" class="h-3 w-3">
+                                    <span class="ml-1">{{delegate.company_country.nicename}}</span>
+                                </span>
+                                <p *ngIf="!delegate.company_country || !delegate.company_country.nicename" class="text-navy rubik font-normal not-italic fs-14-px"> No country shared </p>
+                            </div>
+                        </div>
+                        <div class="grid grid-cols-12 bg-white px-5 py-4">
+                            <div class="col-span-4">
+                                <p class="text-main-gray rubik font-normal not-italic fs-14-px">Zip Code</p>
+                            </div>
+                            <div class="col-span-8">
+                                <p *ngIf="delegate.company && delegate.company.zipcode" class="text-navy rubik font-normal not-italic fs-14-px">{{delegate.company.zipcode}}</p>
+                                <p *ngIf="!delegate.company || !delegate.company.zipcode" class="text-navy rubik font-normal not-italic fs-14-px"> No zipcode shared </p>
+                            </div>
+                        </div>
+                        <div class="grid grid-cols-12 bg-alternate px-5 py-4">
+                            <div class="col-span-4">
+                                <p class="text-main-gray rubik font-normal not-italic fs-14-px">Address</p>
+                            </div>
+                            <div class="col-span-8">
+                                <p *ngIf="delegate.company && delegate.company.address" class="text-navy rubik font-normal not-italic fs-14-px">{{delegate.company.address}}</p>
+                                <p *ngIf="!delegate.company || !delegate.company.address" class="text-navy rubik font-normal not-italic fs-14-px"> No address shared </p>
+                            </div>
+                        </div>
+
+
+                        <div class="bg-network px-5 py-3">
+                            <div class="text-gray900 rubik font-semibold not-italic fs-16-px ">Contact Information</div>
+                        </div>
+                        <div class="grid grid-cols-12 px-5 py-4 bg-alternate">
+                            <div class="col-span-4">
+                                <p class="text-main-gray rubik font-normal not-italic fs-14-px">Telephone</p>
+                            </div>
+                            <div class="col-span-8">
+                                <p *ngIf="delegate.company.social_media_links_detail && delegate.company.social_media_links_detail.phoneNumber" class="text-navy rubik font-normal not-italic fs-14-px"> {{delegate.company.social_media_links_detail.phoneNumber}} </p>
+                                <p *ngIf="!delegate.company.social_media_links_detail || !delegate.company.social_media_links_detail.phoneNumber" class="text-navy rubik font-normal not-italic fs-14-px"> No telephone shared </p>
+                            </div>
+                        </div>
+                        <div class="grid grid-cols-12 px-5 py-4 gap-5 bg-white">
+                            <div class="col-span-4">
+                                <p class="text-main-gray rubik font-normal not-italic fs-14-px">Social Links</p>
+                            </div>
+                            
+                            <div class="col-span-8">
+                                <div *ngIf="delegate.company.social_media_links_detail && delegate.company.social_media_links_detail.facebook" class="flex items-center my-1">
+                                    <div class="social-media-icon fb mgr-5">
+                                        <i class="fab fa-facebook-f text-white"></i>
+                                    </div>
+                                    <span class="text-navy rubik font-normal not-italic fs-14-px"> {{delegate.company.social_media_links_detail.facebook}} </span>
+                                </div>
+                                <div *ngIf="delegate.company.social_media_links_detail && delegate.company.social_media_links_detail.kakao" class="flex items-center my-1">
+                                    <div class="social-media-icon kt mgr-5">
+                                        <i class="fas fa-comment"></i> 
+                                    </div>
+                                    <span class="text-navy rubik font-normal not-italic fs-14-px"> {{delegate.company.social_media_links_detail.kakao}} </span>
+                                </div>
+                                <div *ngIf="delegate.company.social_media_links_detail && delegate.company.social_media_links_detail.linkedin" class="flex items-center my-1">
+                                    <div class="social-media-icon ln mgr-5">
+                                        <i class="fab fa-linkedin-in text-white"></i>
+                                    </div>
+                                    <span class="text-navy rubik font-normal not-italic fs-14-px"> {{delegate.company.social_media_links_detail.linkedin}} </span>
+                                </div>
+                                <div *ngIf="delegate.company.social_media_links_detail && delegate.company.social_media_links_detail.skype" class="flex items-center my-1">
+                                    <div class="social-media-icon sk mgr-5">
+                                        <i class="fab fa-skype text-white"></i>
+                                    </div>
+                                    <span class="text-navy rubik font-normal not-italic fs-14-px"> {{delegate.company.social_media_links_detail.skype}} </span>
+                                </div>
+                                <div *ngIf="delegate.company.social_media_links_detail && delegate.company.social_media_links_detail.twitter" class="flex items-center my-1">
+                                    <div class="social-media-icon tw mgr-5">
+                                        <i class="fab fa-twitter text-white"></i>
+                                    </div>
+                                    <span class="text-navy rubik font-normal not-italic fs-14-px"> {{delegate.company.social_media_links_detail.twitter}} </span>
+                                </div>
+                                <div *ngIf="delegate.company.social_media_links_detail && delegate.company.social_media_links_detail.wechat" class="flex items-center my-1">
+                                    <div class="social-media-icon wc mgr-5">
+                                        <i class="fab fa-weixin text-white"></i>
+                                    </div>
+                                    <span class="text-navy rubik font-normal not-italic fs-14-px"> {{delegate.company.social_media_links_detail.wechat}} </span>
+                                </div>
+                                <div *ngIf="delegate.company.social_media_links_detail && delegate.company.social_media_links_detail.whatsapp" class="flex items-center my-1">
+                                    <div class="social-media-icon wa mgr-5">
+                                        <i class="fab fa-whatsapp text-white"></i>
+                                    </div>
+                                    <span class="text-navy rubik font-normal not-italic fs-14-px"> {{delegate.company.social_media_links_detail.whatsapp}} </span>
+                                </div>
+                                <div *ngIf="delegate.company.social_media_links_detail && delegate.company.social_media_links_detail.zoom" class="flex items-center my-1">
+                                    <div class="social-media-icon zm mgr-5">
+                                        <i class="fas fa-video text-white"></i>
+                                    </div>
+                                    <span class="text-navy rubik font-normal not-italic fs-14-px"> {{delegate.company.social_media_links_detail.zoom}} </span>
+                                </div>
+                                    
+                                <div *ngIf="
+                                    !delegate.company.social_media_links_detail ||
+                                    (
+                                        !delegate.company.social_media_links_detail.facebook && 
+                                        !delegate.company.social_media_links_detail.kakao && 
+                                        !delegate.company.social_media_links_detail.linkedln && 
+                                        !delegate.company.social_media_links_detail.skype && 
+                                        !delegate.company.social_media_links_detail.twitter && 
+                                        !delegate.company.social_media_links_detail.wechat && 
+                                        !delegate.company.social_media_links_detail.whatsapp && 
+                                        !delegate.company.social_media_links_detail.zoom
+                                    )" class="flex items-center my-1">
+                                    <span class="text-navy rubik font-normal not-italic fs-14-px"> No social media yet </span>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="grid grid-cols-12 px-5 py-4 bg-alternate">
+                            <div class="col-span-4">
+                                <p class="text-main-gray rubik font-normal not-italic fs-14-px">Other delegates from <br> this company</p>
+                            </div>
+                            <div class="col-span-8 scroll custom-scroll" (scroll)="onScroll($event)">
+                                <div class="flex justify-between flex-col space-y-3">
+                                    <div class="flex items-center" *ngFor="let other_delegate of other_delegate_company">
+                                        <ng-container *ngIf="user.id != other_delegate.id">
+                                            <img src="{{other_delegate.profile_photo_url ? other_delegate.profile_photo_url : 'assets/images/empty-photo.jpg'}}" class="rounded-full h-40-px w-40-px">
+                                            <div class="text-gray900 rubik font-normal not-italic fs-14-px ml-3">
+                                                <p>{{other_delegate.fullname}}</p>
+                                                <p class="text-gray rubik font-normal not-italic fs-14-px">{{other_delegate.job_title}}</p>
+                                            </div>
+                                        </ng-container>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </mat-tab>
+                </mat-tab-group>   
+
+                <!-- Skeleton -->
+                <mat-tab-group *ngIf="isProfileLoading">
+                    <mat-tab label="Profile" >
+                        <div class="px-5 py-5 bg-white">
+                            <div class="text-gray900 rubik font-semibold not-italic fs-16-px">About this delegate</div>
+                            <div class="text-gray rubik font-normal not-italic fs-14-px">Personal details and preferences.</div>
+                        </div>
+                        <hr class="w-full">
+
+                        <ng-container *ngIf="isProfileLoading">
+                            <ng-container *ngFor="let item of [1]">
+                                <div class="grid grid-cols-12 gap-5 px-5 py-4 bg-alternate">
+                                    <div class="col-span-4">
+                                        <div class="w-200-px h-15-px">
+                                            <app-loader [border_radius_class]="'rounded-lg'" [additional_class]=""></app-loader>
+                                        </div>
+                                    </div>
+                                    <div class="col-span-8">
+                                        <div class="w-250-px h-15-px">
+                                            <app-loader [border_radius_class]="'rounded-lg'" [additional_class]=""></app-loader>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="grid grid-cols-12 gap-5 px-5 py-4 bg-white">
+                                    <div class="col-span-4">
+                                        <div class="w-200-px h-15-px">
+                                            <app-loader [border_radius_class]="'rounded-lg'" [additional_class]=""></app-loader>
+                                        </div>
+                                    </div>
+                                    <div class="col-span-8">
+                                        <div class="w-250-px h-15-px">
+                                            <app-loader [border_radius_class]="'rounded-lg'" [additional_class]=""></app-loader>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="grid grid-cols-12 gap-5 px-5 py-4 bg-alternate">
+                                    <div class="col-span-4">
+                                        <div class="w-200-px h-15-px">
+                                            <app-loader [border_radius_class]="'rounded-lg'" [additional_class]=""></app-loader>
+                                        </div>
+                                    </div>
+                                    <div class="col-span-8">
+                                        <div class="w-250-px h-15-px">
+                                            <app-loader [border_radius_class]="'rounded-lg'" [additional_class]=""></app-loader>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="grid grid-cols-12 gap-5 px-5 py-4 bg-white">
+                                    <div class="col-span-4">
+                                        <div class="w-200-px h-15-px">
+                                            <app-loader [border_radius_class]="'rounded-lg'" [additional_class]=""></app-loader>
+                                        </div>
+                                    </div>
+                                    <div class="col-span-8">
+                                        <div class="w-250-px h-15-px">
+                                            <app-loader [border_radius_class]="'rounded-lg'" [additional_class]=""></app-loader>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="grid grid-cols-12 gap-5 px-5 py-4 bg-alternate">
+                                    <div class="col-span-4">
+                                        <div class="w-200-px h-15-px">
+                                            <app-loader [border_radius_class]="'rounded-lg'" [additional_class]=""></app-loader>
+                                        </div>
+                                    </div>
+                                    <div class="flex items-center col-span-8">
+                                        <div class="w-100-px h-15-px">
+                                            <app-loader [border_radius_class]="'rounded-lg'" [additional_class]=""></app-loader>
+                                        </div>
+                                    
+                                        <div class="w-100-px h-15-px ml-2">
+                                            <app-loader [border_radius_class]="'rounded-lg'" [additional_class]=""></app-loader>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="grid grid-cols-12 gap-5 px-5 py-4 bg-white">
+                                    <div class="col-span-4">
+                                        <div class="w-200-px h-15-px">
+                                            <app-loader [border_radius_class]="'rounded-lg'" [additional_class]=""></app-loader>
+                                        </div>
+                                    </div>
+                                    <div class="flex items-center col-span-8">
+                                        <div class="w-100-px h-15-px">
+                                            <app-loader [border_radius_class]="'rounded-lg'" [additional_class]=""></app-loader>
+                                        </div>
+                                    
+                                        <div class="w-100-px h-15-px ml-2">
+                                            <app-loader [border_radius_class]="'rounded-lg'" [additional_class]=""></app-loader>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="grid grid-cols-12 gap-5 px-5 py-4 bg-alternate">
+                                    <div class="col-span-4">
+                                        <div class="w-200-px h-15-px">
+                                            <app-loader [border_radius_class]="'rounded-lg'" [additional_class]=""></app-loader>
+                                        </div>
+                                    </div>
+                                    <div class="flex items-center col-span-8">
+                                        <div class="w-100-px h-15-px">
+                                            <app-loader [border_radius_class]="'rounded-lg'" [additional_class]=""></app-loader>
+                                        </div>
+                                    
+                                        <div class="w-100-px h-15-px ml-2">
+                                            <app-loader [border_radius_class]="'rounded-lg'" [additional_class]=""></app-loader>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="grid grid-cols-12 gap-5 px-5 py-4 bg-white">
+                                    <div class="col-span-4">
+                                        <div class="w-200-px h-15-px">
+                                            <app-loader [border_radius_class]="'rounded-lg'" [additional_class]=""></app-loader>
+                                        </div>
+                                    </div>
+                                    <div class="col-span-8">
+                                        <div class="w-442-px h-242-px">
+                                            <app-loader [border_radius_class]="'rounded-lg'" [additional_class]=""></app-loader>
+                                        </div>
+                                    </div>
+                                </div>
+                            </ng-container>
+                        </ng-container>
+                    </mat-tab>
+
+                    <mat-tab label="Schedule" >
+                        <ng-container *ngIf="delegate_schedule_isLoaded">
+                            <div class="px-5 py-3 bg-white custom-scroll overflow-auto">
+                                <div class="w-200-px h-15-px">
+                                    <app-loader [border_radius_class]="'rounded-lg'" [additional_class]=""></app-loader>
+                                </div>
+                                <div class="flex justify-between mt-5">
+                                    <div class="flex items-start justify-start">
+                                        <div class="border border-gray-300 w-240-px minh-450-px">
+                                            <ng-container *ngFor="let item of [1,2,3,4,5,6]">
+                                                <div class="w-full px-5 mt-5 h-15-px">
+                                                    <app-loader [border_radius_class]="'rounded-lg'" [additional_class]=""></app-loader>
+                                                </div>
+                                                <div class="px-5 py-2 mb-2 flex items-center">
+                                                    <div class="w-100-px h-15-px">
+                                                        <app-loader [border_radius_class]="'rounded-lg'" [additional_class]=""></app-loader>
+                                                    </div>
+                                                    <div class="w-100-px h-15-px ml-2">
+                                                        <app-loader [border_radius_class]="'rounded-lg'" [additional_class]=""></app-loader>
+                                                    </div>
+                                                </div>    
+                                                <hr class="w-full">
+                                            </ng-container>
+                                        </div>
+                                        <div class="border border-gray-300 w-240-px minh-450-px">
+                                            <ng-container *ngFor="let item of [1,2,3,4,5,6]">
+                                                <div class="w-full px-5 mt-5 h-15-px">
+                                                    <app-loader [border_radius_class]="'rounded-lg'" [additional_class]=""></app-loader>
+                                                </div>
+                                                <div class="px-5 py-2 mb-2 flex items-center">
+                                                    <div class="w-100-px h-15-px">
+                                                        <app-loader [border_radius_class]="'rounded-lg'" [additional_class]=""></app-loader>
+                                                    </div>
+                                                    <div class="w-100-px h-15-px ml-2">
+                                                        <app-loader [border_radius_class]="'rounded-lg'" [additional_class]=""></app-loader>
+                                                    </div>
+                                                </div>    
+                                                <hr class="w-full">
+                                            </ng-container>
+                                        </div>
+                                        <div class="border border-gray-300 w-240-px minh-450-px">
+                                            <ng-container *ngFor="let item of [1,2,3,4,5,6]">
+                                                <div class="w-full px-5 mt-5 h-15-px">
+                                                    <app-loader [border_radius_class]="'rounded-lg'" [additional_class]=""></app-loader>
+                                                </div>
+                                                <div class="px-5 py-2 mb-2 flex items-center">
+                                                    <div class="w-100-px h-15-px">
+                                                        <app-loader [border_radius_class]="'rounded-lg'" [additional_class]=""></app-loader>
+                                                    </div>
+                                                    <div class="w-100-px h-15-px ml-2">
+                                                        <app-loader [border_radius_class]="'rounded-lg'" [additional_class]=""></app-loader>
+                                                    </div>
+                                                </div>    
+                                                <hr class="w-full">
+                                            </ng-container>
+                                        </div>
+                                        <div class="border border-gray-300 w-240-px minh-450-px">
+                                            <ng-container *ngFor="let item of [1,2,3,4,5,6]">
+                                                <div class="w-full px-5 mt-5 h-15-px">
+                                                    <app-loader [border_radius_class]="'rounded-lg'" [additional_class]=""></app-loader>
+                                                </div>
+                                                <div class="px-5 py-2 mb-2 flex items-center">
+                                                    <div class="w-100-px h-15-px">
+                                                        <app-loader [border_radius_class]="'rounded-lg'" [additional_class]=""></app-loader>
+                                                    </div>
+                                                    <div class="w-100-px h-15-px ml-2">
+                                                        <app-loader [border_radius_class]="'rounded-lg'" [additional_class]=""></app-loader>
+                                                    </div>
+                                                </div>    
+                                                <hr class="w-full">
+                                            </ng-container>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </ng-container>
+                    </mat-tab>
+
+                    <mat-tab label="Company">
+
+                    </mat-tab>
+                </mat-tab-group>   
+                
+                <div *ngIf="delegate && delegate.user_privacy != 'yes'" class="container mx-auto my-10 pg-50">   
+                    <div class="flex items-center justify-center mt-10">
+                        <img src="assets/empty_states/private_profile.svg" class="">
+                    </div>
+                    <div class="text-darkblue rubik not-italic fs-16-px font-medium text-center mt-8">
+                        <p class="text-2xl text-main-gray"> This account is private </p> 
+                        <p class="text-base text-main-gray"> This user has set account to private. </p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+<!-- addNoteModal -->
+<ngx-smart-modal #addNoteModal identifier="addNoteModal" customClass="nsm-centered" [dismissable]="false" [closable]="false" (onOpen)="getData()" (onAnyCloseEvent)="reset()">
+    <div class="bg-white w-450-px rounded-lg py-5">
+        <div class="text-black rubik font-semibold not-italic fs-16-px flex justify-between px-5">Add new note
+            <svg (click)="closeAddNote()" class="cursor-pointer" width="14" height="14" viewBox="0 0 14 14" fill="none" xmlns="http://www.w3.org/2000/svg">
+                <path d="M14 1.41L12.59 0L7 5.59L1.41 0L0 1.41L5.59 7L0 12.59L1.41 14L7 8.41L12.59 14L14 12.59L8.41 7L14 1.41Z" fill="#6E6E6E"/>
+            </svg>
+        </div>
+        <div class="px-5 py-3" >
+
+            <form [formGroup]="noteForm">
+                <mat-form-field class="w-full">
+                    <mat-select formControlName="fullname">
+                        <mat-option *ngIf="note_data" value="{{note_data.fullname}}">
+                           {{note_data.fullname}}
+                        </mat-option>
+                    </mat-select>
+                </mat-form-field>
+                <div class="mt-5">
+                    <!-- <span class=" text-main-gray rubik font-medium fs-14-px">Type here ...</span> -->
+                    <textarea id="myTextarea" type="text" formControlName="note" class="w-full h-120-px focus:outline-none mt-3" placeholder="Type here ..." autocomplete="off">
+                    </textarea>
+                </div>
+                <div class="bg-save mt-2">
+                    <button (click)="saveNote()" [disabled]="!noteForm.controls.note.value" [ngClass]="{'btn-gray' : !noteForm.controls.note.value, 'btn-blue' : noteForm.controls.note.value}" class="custom-btn rubik font-medium not-italic sfs-14-px px-5 py-2 ml-auto focus:outline-none">Save note</button>
+                </div>
+            </form>
+        </div>
+    </div>
+</ngx-smart-modal>
+
+<!-- viewNoteModal -->
+<ngx-smart-modal #viewNoteModal identifier="viewNoteModal" customClass="nsm-centered" [dismissable]="false" [closable]="false" (onOpen)="getDataViewNote()">
+    <div *ngIf="notes" class="bg-white w-450-px rounded-lg py-5">
+        <div class="text-black rubik font-semibold not-italic fs-16-px flex justify-between px-5">View new note
+            <svg (click)="closeViewNoteModal()" class="cursor-pointer" width="14" height="14" viewBox="0 0 14 14" fill="none" xmlns="http://www.w3.org/2000/svg">
+                <path d="M14 1.41L12.59 0L7 5.59L1.41 0L0 1.41L5.59 7L0 12.59L1.41 14L7 8.41L12.59 14L14 12.59L8.41 7L14 1.41Z" fill="#6E6E6E"/>
+            </svg>
+        </div>
+        <hr class="w-full mt-2">
+        <div class="px-5 py-3" >
+            <ng-container *ngIf="!showEditNote">
+                <div [innerHTML]="notes.note" class="text-darkblue rubik font-normal not-italic fs-14-px text-justify break-words">
+                </div>
+            </ng-container>
+
+            <div *ngIf="showEditNote">
+                <textarea 
+                    class="focus:outline-none border border-gray-400 rounded-md px-3 py-2 h-150-px w-full" 
+                    [(ngModel)]="note_content" 
+                    [ngModelOptions]="{standalone: true}">
+                </textarea>
+            </div>
+        </div>
+        <div class="px-5 flex justify-end">
+            <button (click)="editNote('note', 'edit')" *ngIf="!showEditNote" class="focus:outline-none custom-btn btn-delete rubik font-medium not-italic fs-14-px px-5 py-2">
+                <svg width="20" height="20" viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg">
+                    <path fill-rule="evenodd" clip-rule="evenodd" d="M12.0827 2.5H7.91602L7.08268 3.33333H4.16602V5H15.8327V3.33333H12.916L12.0827 2.5ZM13.3327 7.5V15.8333H6.66602V7.5H13.3327ZM4.99935 5.83333H14.9993V15.8333C14.9993 16.75 14.2493 17.5 13.3327 17.5H6.66602C5.74935 17.5 4.99935 16.75 4.99935 15.8333V5.83333Z" fill="#6E6E6E"/>
+                </svg>
+                <span class="ml-2 text-main-gray">Edit Note</span>
+            </button>
+            <button (click)="editNote('note', 'save')" *ngIf="showEditNote" class="focus:outline-none custom-btn btn-send-to-email rubik font-medium not-italic fs-14-px px-5 py-2">
+                <svg width="20" height="20" viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg">
+                    <path fill-rule="evenodd" clip-rule="evenodd" d="M12.0827 2.5H7.91602L7.08268 3.33333H4.16602V5H15.8327V3.33333H12.916L12.0827 2.5ZM13.3327 7.5V15.8333H6.66602V7.5H13.3327ZM4.99935 5.83333H14.9993V15.8333C14.9993 16.75 14.2493 17.5 13.3327 17.5H6.66602C5.74935 17.5 4.99935 16.75 4.99935 15.8333V5.83333Z" fill="#6E6E6E"/>
+                </svg>
+                <span class="ml-2 text-main-gray">Save Note</span>
+            </button>
+        </div>
+    </div>
+</ngx-smart-modal>

@@ -1,0 +1,25 @@
+<ngx-smart-modal #photoModal identifier="photoModal" [closable]="false" customClass="width nsm-centered" (onAnyCloseEvent)="reset()">
+    <div class="select-none">
+        <div class="flex justify-center items-center w-full relative">
+            <span class="material-icons text-white absolute -top-5 right-10 cursor-pointer hover:text-gray-300" (click)="reset()">
+                close
+            </span>
+            <svg class="pointer-events-auto cursor-pointer absolute left-0" width="20" height="34" viewBox="0 0 20 34" fill="none" xmlns="http://www.w3.org/2000/svg">
+                <path  class="svg-path" d="M19.7254 3.45L16.7587 0.5L0.275391 17L16.7754 33.5L19.7254 30.55L6.17539 17L19.7254 3.45Z" fill="white" />
+            </svg>
+            <div class="photo h-500-px" [ngStyle]="{'background-image': 'url(' + img_path + ')'}">
+                <div class="barlow bg-black w-600 opacity-80 text-white p-4 flex items-center justify-start" style="
+                transform: translateY(444px);">
+                    Detail
+                </div>
+            </div>
+            <svg class="pointer-events-auto cursor-pointer absolute right-0" width="20" height="34" viewBox="0 0 20 34" fill="none" xmlns="http://www.w3.org/2000/svg">
+                <path class="svg-path" d="M0.275391 30.55L3.22539 33.5L19.7254 17L3.22539 0.5L0.275391 3.45L13.8254 17L0.275391 30.55H0.275391Z"
+                    fill="white" />
+            </svg>
+        </div>
+        <div class="flex items-center justify-center">
+            <img src="assets/images/romel.jpg" class="w-75-px h-75-px" alt="">
+        </div>
+    </div>
+</ngx-smart-modal>

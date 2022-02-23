@@ -1,0 +1,116 @@
+::ng-deep {
+    .data-table {
+        background-color: #F9FAFB;
+    }
+    .filter.nsm-dialog {
+        max-width: 35px !important;
+    }
+    .mat-checkbox-indeterminate.mat-accent .mat-checkbox-background, .mat-checkbox-checked.mat-accent .mat-checkbox-background {
+        background: linear-gradient(353.62deg, #678B05 4.89%, #87AF1B 86.86%) !important;
+    }
+    .overlay {
+        position: fixed;
+        top: 0;
+        bottom: 0;
+        left: 0;
+        right: 0;
+        overflow-x: hidden;
+        overflow-y: auto;
+        transition: background-color 500ms;
+        background-color: transparent;
+        z-index: 999 !important;
+    }
+    // .mat-form-field {
+    //     width: 350px;
+    //     background-color: #ffffff;
+    //     font-size: 13px;
+    //   }
+    //    .mat-form-field-underline {
+    //     width: 0% !important;
+    //     pointer-events: none;
+    //     transform: scaleY(1.0001);
+    //   }
+    //    .mat-form-field-wrapper {
+    //     position: relative;
+    //     border: 1px solid darkgray;
+    //     height: 48px;
+    //     border-radius: 5px;
+    //   }
+    //   .cdk-overlay-container {
+    //     width: 10px;
+    //     margin-left: 85px;
+    //     z-index: 10000;
+    //   }
+    //   .mat-form-field-appearance-fill .mat-form-field-flex {
+    //     background-color: rgb(255 246 246 / 4%) !important;
+    //   }
+    //   .mat-select {
+    //     display: inline-block;
+    //     width: 100%;
+    //     outline: none;
+    //     padding-left: 10px !important;
+    //     padding-right: 10px !important;
+    // }
+}
+
+.bg-lightgreen {
+    background-color: #EEF2E3;
+}
+
+.bg-lightblue {
+    background-color: #ECF1F9;
+}
+.bg-green {
+    background-color: #F0F7DE;
+}
+.bg-lightred {
+    background-color: #F9D2D7;
+}
+.bg-dot{
+    transform: translate(15px, -26px);
+}
+.bg-drop{
+    transform: translate(32px, 0px);
+}
+.pl-search{
+    padding-left: 36px;
+}
+.bg-location-max{
+    max-height: 300px;
+    overflow-y: scroll;
+    overflow-x: hidden;
+}
+.bg-search-input{
+    background-color: #EEEEEE;
+}
+
+.pagination {
+    display: inline-block;
+    border: 1px solid gray;
+    border-radius: 3px;
+  }
+  
+  .pagination button {
+    color: black;
+    float: left;
+    padding: 8px 16px;
+    text-decoration: none;
+
+    &.active{
+        background-color: white;
+        color: #3B67B2;
+        border-bottom: 2px solid #3B67B2;
+    }
+  }
+
+.bg-table{
+    background-color: #F9FAFB;
+    height: 50px;
+}
+
+.search-p{
+    top: 292px;
+    left: 120px;
+}
+
+

@@ -1,0 +1,20 @@
+.event-address-map{
+    width: 100%;
+    height: 320px;
+    background-color: #ccc;
+}
+agm-map{
+    height: 320px;
+}
+
+.leave-feedback-container{
+    border-radius: 8px;
+    background-repeat: no-repeat;
+    background-position: center;
+    background-size: cover;
+    background-image: url('/assets/images/leave-feedback-bg.png')
+}
+
+.bg-close{
+    cursor: pointer;
+}

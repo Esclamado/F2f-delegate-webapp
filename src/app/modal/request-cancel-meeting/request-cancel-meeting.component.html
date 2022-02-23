@@ -1,0 +1,52 @@
+<ngx-smart-modal #cancelMeetingModal identifier="cancelMeetingModal" [closable]="false" customClass="nsm-centered" (onOpen)="onInitianRequest()" (onAnyCloseEvent)="reset()">
+    <div class="bg-white py-3 rounded-lg w-539-px rubik">
+        <div class="flex justify-between items-center px-6 font-semibold">
+            <div class="text-base defaulte-text-color flex items-center">
+                Cancel Meeting
+            </div>
+            <svg (click)="reset()" class="cursor-pointer" width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                <path d="M19 6.41L17.59 5L12 10.59L6.41 5L5 6.41L10.59 12L5 17.59L6.41 19L12 13.41L17.59 19L19 17.59L13.41 12L19 6.41Z" fill="#ADADAD" />
+            </svg>
+        </div>
+        <hr class="w-full my-3">
+        <div class="px-6 mt-2 grid grid-cols-12 gap-2">
+            <div class="col-span-12 text-sm">
+                <div class="basic-text-color mb-3 w-full">
+                    You’ll need to provide the reason for cancelation, we need this before we approve your request.
+                </div>
+                <div class="text-gray-500 mb-3 w-full fs-14-px">
+                    Cancelling is prohibited 30 minutes before the scheduled meeting
+                </div>
+            </div>
+            <!-- *ngIf="event && event.cancellation_request == '2'" -->
+            <!-- [(ngModel)]="calcellation_reason"  -->
+            <div  class="col-span-12 text-sm">
+                <form [formGroup]="cancelRequestForm">
+                    <label class="default-text-color w-full">Reason for cancelation</label>
+                    <textarea 
+                        placeholder="Type here ..."
+                        formControlName="reason_message"
+                        class="custom-input w-full h-127-px mt-1"
+                    >
+                </textarea>
+            </form>
+            </div>
+            <div class="col-span-12">
+                <div class="flex items-center justify-end">
+                    <div (click)="gotoMeetingDetails()"
+                        class="cursor-pointer fs-14-px text-gray-500 hover:text-gray-700 focus:outline-none" 
+                    >
+                        Back to meeting details
+                    </div>
+                    <!-- <button (click)="cancelMeetingSchedule()" 
+                        class="custom-btn fs-14-px px-6 py-3 ml-3 
+                        {{ event && event.cancellation_request == '2' && calcellation_reason == '' ? 'btn-disabled' : 'btn-blue' }} focus:outline-none"
+                        [disabled]="event && event.cancellation_request == '2' && calcellation_reason == ''">
+                        Cancel meeting
+                    </button> -->
+                    <button [disabled]="!cancelRequestForm.controls.reason_message.value" [ngClass]="{'btn-gray' : !cancelRequestForm.controls.reason_message.value, 'btn-blue' : cancelRequestForm.controls.reason_message.value}" class="custom-btn rubik font-medium not-italic fs-14-px px-6 py-3 ml-auto focus:outline-none" (click)="cancelMeetingSchedule()">Cancel meeting</button>
+                </div>
+            </div>
+        </div>
+    </div>
+</ngx-smart-modal>

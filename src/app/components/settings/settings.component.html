@@ -1,0 +1,87 @@
+<div class="h-full p-10">
+    <div class="fs-28-px barlow-condensed-bold default-text-color mb-5 normal-case font-semibold ">Settings</div>
+    <div class="bg-white rounded-lg p-5 l">
+        <h2 class="font-medium text-lg">Web Notifications</h2>
+        <div class="flex lg:flex-row md:flex-row flex-col justify-between">
+            <div class="flex items-center">
+                <p class="text-sm w-4/6 text-justify">{{notif_body}}</p>
+            </div>
+
+            <div class="flex items-center space-y-3">
+                <mat-slide-toggle color="accent" class="cursor-pointer">
+
+                </mat-slide-toggle>
+            </div>
+        </div>
+        <hr class="mt-5 mb-5">
+        <h2 class="font-medium text-lg">Email Notifications</h2>
+        <div class="flex lg:flex-row md:flex-row flex-col justify-between">
+            <div class="flex items-center">
+                <p class="text-sm w-4/6 text-justify">{{notif_body}}</p>
+            </div>
+            <div class="flex items-center space-y-3">
+                <mat-slide-toggle color="accent" class="cursor-pointer">
+
+                </mat-slide-toggle>
+            </div>
+        </div>
+        <hr class="mt-5 mb-5">
+        <div class="font-medium text-gray-400">
+            <span class="text-lg">Others</span>
+            <div class="text-black text-md mt-5">
+                <i class="fas fa-info-circle"></i>
+                <span (click)="aboutF2F()" class="ml-2 cursor-pointer">About Face 2 Face</span>
+            </div>
+        </div>
+        <hr class="mt-5 mb-5">
+        <div class="font-medium text-black text-md mt-5">
+            <i class="fas fa-info-circle"></i>
+            <span (click)="privacyF2F()" class="ml-2 cursor-pointer">Privacy Policy</span>
+        </div>
+        <hr class="mt-5 mb-5">
+        <div class="font-medium text-black text-md mt-5">
+            <i class="fas fa-clipboard"></i>
+            <span (click)="termsF2F()" class="ml-2 cursor-pointer">Terms of Service</span>
+        </div>
+    </div>
+</div>
+
+
+<!-- aboutF2F -->
+<ngx-smart-modal #f2fModal identifier="f2fModal" customClass="view" [dismissable]="false" [closable]="false">
+    <div class="text-black text-lg mt-5">
+        <i class="fas fa-info-circle"></i>
+        <span class="ml-2">About Face 2 Face</span>
+    </div>
+    <div class="flex flex-col items-center justify-center text-justify w-full mt-5 mb-10">
+        {{f2f}}
+    </div>
+    <button (click)="f2fClose()" class="custom-btn btn-red ml-auto px-3 py-2">Close</button>
+</ngx-smart-modal>
+
+<!-- privacyF2F -->
+<ngx-smart-modal #privacyF2FModal identifier="privacyF2FModal" customClass="view" [dismissable]="false" [closable]="false">
+    <div class="text-black text-lg mt-5">
+        <i class="fas fa-info-circle"></i>
+        <span class="ml-2">Privacy Policy</span>
+    </div>
+    <div class="flex flex-col items-center justify-center text-justify w-full mt-5 mb-10">
+        {{Privacy}}
+    </div>
+    <button (click)="f2fPrivacyClose()" class="custom-btn btn-red ml-auto px-3 py-2">Close</button>
+</ngx-smart-modal>
+
+<ngx-smart-modal #termsF2FModal identifier="termsF2FModal" customClass="view" [dismissable]="false" [closable]="false">
+    <div class="text-black text-lg mt-5">
+        <i class="fas fa-clipboard"></i>
+        <span class="ml-2">Terms of Service</span>
+    </div>
+    <div class="flex flex-col items-center justify-center text-justify w-full mt-5 mb-10">
+        {{terms}}
+    </div>
+    <button (click)="f2fTermsClose()" class="custom-btn btn-red ml-auto px-3 py-2">Close</button>
+</ngx-smart-modal>
+
+
+<ngx-spinner bdColor="rgba(51, 51, 51, 0.8)" size="large" color="#934d4d" type="square-jelly-box">
+</ngx-spinner>

@@ -1,0 +1,297 @@
+<div class="flex flex-col overflow-y-hidden">
+    <div class="absolute top-0 z-30 w-full shadow-lg">
+        <app-header ></app-header>
+        <app-header-dashboard ></app-header-dashboard>
+        <div *ngIf="event && event.archive_in" style=" z-index: 50;">
+            <app-archive-header></app-archive-header>
+        </div>
+    </div>
+ 
+    <div class="flex flex-row justify-start overflow-y-hidden overflow-x-hidden w-full content-container" [ngClass]="{'mar-top': event && event.hasOwnProperty('archive_in')}">
+        <!-- left panel -->
+        <div class="left-pane-width">
+            <!-- <app-message-left-panel></app-message-left-panel> -->
+            <div class="left-pane-width h-full flex flex-col space-y-4 bg-white pb-1 pt-8 border-r border-gray-300 z-20 relative custom-right-shadow">
+                <div class="flex w-full px-8 justify-between items-center">
+                    <span class="text-3xl font-semibold default-text-color">INBOX</span>
+                    <!-- <button class="settings-fab focus:outline-none opacity-50 mr-10 z-20 hover:opacity-75">
+                        <mat-icon>settings</mat-icon>
+                    </button> -->
+                </div>
+                <div class="flex px-8 items-center justify-start w-full relative" [formGroup]="searchForm">
+                    <svg (click)="storage.clearMessageDelegate()" class="ml-4 absolute cursor-pointer" width="20" height="20" viewBox="0 0 18 18" fill="none" xmlns="http://www.w3.org/2000/svg">
+                        <path fill-rule="evenodd" clip-rule="evenodd"
+                            d="M11.9639 11H12.7539L17.7439 16L16.2539 17.49L11.2539 12.5V11.71L10.9839 11.43C9.84391 12.41 8.36391 13 6.75391 13C3.16391 13 0.253906 10.09 0.253906 6.5C0.253906 2.91 3.16391 0 6.75391 0C10.3439 0 13.2539 2.91 13.2539 6.5C13.2539 8.11 12.6639 9.59 11.6839 10.73L11.9639 11ZM2.25391 6.5C2.25391 8.99 4.26391 11 6.75391 11C9.24391 11 11.2539 8.99 11.2539 6.5C11.2539 4.01 9.24391 2 6.75391 2C4.26391 2 2.25391 4.01 2.25391 6.5Z"
+                            fill="#7E868F" />
+                    </svg>
+                    <input  placeholder="Search" formControlName="search" (keyup)="searchKey($event)" (focus)="openSearch(true)" (blur)="openSearch(false)" type="text" class="placeholder-gray-600 custom-input text-lg pl-8 w-full" style="padding-left:3rem;background: #E0E1E1;border:none">
+                    <div class="absolute top-14" style="z-index: 300">
+                        <div class="bg-white w-334-px minh-200-px maxh-300-px border-gray-300 border shadow-md custom-scroll overflow-y-auto" *ngIf="search_is_open">
+                            
+                            <!-----------------content state-------------------->
+                            <ng-container *ngIf="delegate && !delegate_is_empty && !delegate_is_loading">
+                                <ng-container *ngFor="let item of delegate; let i = index">
+                                    <div class="grid grid-cols-12 gap-2 px-2 py-2 cursor-pointer hover:bg-indigo-50" (click)="selectSearch(item)">
+                                        <div class="col-span-2">
+                                            <img [src]="item.profile_photo_url ? item.profile_photo_url : 'assets/empty_states/profile_avatar'+ item.profile_photo +'.png'" class="rounded-full h-40-px w-40-px">
+                                        </div>
+                                        <div class="col-span-10">
+                                            <p class="text-gray-900 rubik not-italic fs-14-px font-semibold">{{ item.company.name }}</p>
+                                            <p class="text-gray-900 rubik not-italic fs-14-px font-medium">{{ item.fullname }}</p>
+                                        </div>
+                                    </div>
+                                    <hr class="w-full" *ngIf="i < delegate.length - 1">
+                                </ng-container>
+                            </ng-container>
+                            <!-----------------loading state-------------------->
+                            <ng-container *ngIf="delegate_is_loading">
+                                <ng-container *ngFor="let item of [1,2,3,4]">
+                                    <div class="grid grid-cols-12 gap-2 px-2 py-2">
+                                        <div class="col-span-2">
+                                            <div class="rounded-full h-40-px w-40-px">
+                                                <app-loader [border_radius_class]="'rounded-full'" [additional_class]=""></app-loader>
+                                            </div>
+                                        </div>
+                                        <div class="col-span-10">
+                                            <div class="rounded-lg h-15-px w-full mb-1">
+                                                <app-loader [border_radius_class]="'rounded-full'" [additional_class]=""></app-loader>
+                                            </div>
+                                            <div class="rounded-lg h-15-px w-1/2">
+                                                <app-loader [border_radius_class]="'rounded-full'" [additional_class]=""></app-loader>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </ng-container>
+                                <hr class="w-full" *ngIf="delegate && i < delegate.length - 1">
+                            </ng-container>
+                            <!-----------------empty state-------------------->
+                            <ng-container *ngIf="delegate_is_empty || (delegate && delegate.length <= 0) && !delegate_is_loading">
+                                <div class="flex w-full h-full justify-center items-center flex-col">
+                                    <div class="flex justify-center pt-5 pb-3">
+                                        <img src="assets/empty_states/no_delegate.svg" class="">
+                                    </div>
+                                    <div class="text-center">
+                                        <p class="text-main-gray rubik font-semibold fs-18-px">
+                                           No available delegate
+                                        </p>
+                                        <!-- <p class="text-main-gray rubik font-semibold fs-16-px">
+                                            Please search another delegate
+                                        </p>
+                                        <p class="text-main-gray rubik font-semibold fs-16-px" *ngIf="searchForm.controls.search.value">
+                                            No result found
+                                        </p> -->
+                                    </div>
+                                </div>
+                            </ng-container>
+                        </div>
+                    </div>
+                </div>
+                <div class="block flex-grow overflow-hidden">
+                    <div class="h-full overflow-auto hide-scroll">
+                        <ng-container *ngIf="!inbox_loading">
+                            <ng-container *ngIf="env.chatSocket.convos && env.chatSocket.convos.datas.length >= 1; else conversationEmpty">
+                                <ng-container *ngFor="let convo of env.chatSocket.convos.datas">
+                                    <div class="w-full cursor-pointer focus:outline-none flex justify-start items-stretch">
+                                        <div class="flex-grow px-8 space-y-4 py-4 flex flex-col overflow-x-hidden {{ selected_delegate && selected_delegate.userid == convo.userid ? 'selected-chat' : ''}}" (click)="selectConvo(convo)">
+                                            <div class="flex items-center  max-w-full space-x-6">
+                                                <div class="flex-grow-0 flex-shrink-0 w-50-px h-50-px relative">
+                                                    <img *ngIf="!convo.up2_profile_pic || convo.profile_photo" [src]="!convo.up2_profile_pic && convo.profile_photo && (convo.profile_photo == '1' || convo.profile_photo == '2' || convo.profile_photo == '3' || convo.profile_photo == '4' || convo.profile_photo == '5' || convo.profile_photo == '6') ? '/assets/empty_states/profile_avatar'+convo.profile_photo+'.png' : convo.profile_photo" class="object-cover w-full rounded-full "  alt="">
+                                                    <!-- <img *ngIf="convo.up2_profile_pic" [src]="convo.up2_profile_pic ? convo.profile_pic : ''" class="object-cover w-full rounded-full "  alt=""> -->
+                                                    <!-- <img *ngIf="convo.delegate_profile_photo && convo.hasOwnProperty('isUnshift')" [src]="convo.d2_profile_photo" class="object-cover w-full rounded-full "  alt=""> -->
+                                                    <div class="user-pp online"[ngClass]="{'online': env.chatSocket.active_users['user_id_'+convo.user2] }"></div>
+                                                </div>
+                                                <div class="w-full grid grid-cols-4 grid-flow-row">
+                                                    <div class="font-semibold default-text-color col-span-4 text-base flex overflow-hidden justify-between items-center mb-1">
+                                                      {{ convo.company }}<!-- {{ env.chatSocket.active_users['user_id_'+convo.user2] }} -->
+                                                    </div>
+                                                    <div class="col-span-4 gray-text capitalize">
+                                                        {{ convo.fullname }}
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="{{ convo.unread ? 'unread' : 'read' }} truncate" style="word-break: break-all;" [innerHTML]="convo.last_message">
+                                                <!-- {{ convo.last_message }} -->
+                                            </div>
+                                        </div>
+                                    </div>
+                                
+                                </ng-container>
+                            </ng-container>
+                        </ng-container>
+                        <ng-container *ngIf="inbox_loading">
+                            <div *ngFor="let item of [1,2,3,4]" class="mb-3">
+                                <div class="px-6">
+                                    <div class="flex items-center  max-w-full space-x-6">
+                                        <div class="flex-grow-0 flex-shrink-0 w-50-px h-50-px">
+                                        <app-loader [border_radius_class]="'rounded-full'" [additional_class]="">
+                                        </app-loader>
+                                        </div>
+                                        <div class="w-full grid grid-cols-4 grid-flow-row">
+                                            <div class="font-semibold default-text-color col-span-4 text-base flex overflow-hidden justify-between items-center mb-1">
+                                                <div class="w-full h-18-px">
+                                                    <app-loader [border_radius_class]="'rounded-lg'" [additional_class]="">
+                                                    </app-loader>
+                                                </div>
+                                            </div>
+                                            <div class="col-span-4 gray-text">
+                                                <div class="w-full h-15-px">
+                                                    <app-loader [border_radius_class]="'rounded-lg'" [additional_class]="">
+                                                    </app-loader>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="w-full h-15-px mt-2">
+                                        <app-loader [border_radius_class]="'rounded-lg'" [additional_class]="">
+                                        </app-loader>
+                                    </div>
+                                </div>
+                            </div>
+                        </ng-container>
+                    </div>
+                    <ng-template #conversationEmpty>
+                        <!-- <div class="w-full hide-scroll h-full overflow-y-auto flex">
+                            fasdfasdfasdf
+                        </div> -->
+                        
+                        <div class="flex space-y-6 flex-col items-center mt-12 text-center barlow default-text-color">
+                            <svg width="80" height="80" viewBox="0 0 80 80" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                <path
+                                    d="M40 79.9999H74.4828C77.5298 79.9999 80 77.5298 80 74.4827V61.2027C80.0003 59.9759 79.5911 58.7842 78.8372 57.8165L62.3448 36.6123C61.2999 35.2691 59.6936 34.4832 57.9917 34.4827H22.0083C20.3064 34.4832 18.7001 35.2691 17.6552 36.6123L1.16276 57.8165C0.408876 58.7842 -0.000342433 59.9759 2.15005e-07 61.2027V74.4827C2.15005e-07 77.5298 2.47015 79.9999 5.51724 79.9999H40Z"
+                                    fill="#7E868F" />
+                                <path
+                                    d="M74.4826 62.069L57.9309 40H22.0688L5.51709 62.069H23.1226C24.1677 62.069 25.123 62.6596 25.5902 63.5945L28.2026 68.8193C28.6698 69.7542 29.6251 70.3448 30.6702 70.3448H49.3295C50.3746 70.3448 51.3299 69.7542 51.7971 68.8193L54.4095 63.5945C54.8767 62.6596 55.832 62.069 56.8771 62.069H74.4826Z"
+                                    fill="#525A65" />
+                                <path
+                                    d="M60.676 1.04828C59.9214 0.372604 58.944 -0.000690847 57.9311 9.59845e-07H22.0691C19.7866 0.00681779 17.938 1.85545 17.9312 4.13793V23.4483C17.9312 25.7336 19.7838 27.5862 22.0691 27.5862H57.9311C60.2165 27.5862 62.0691 25.7336 62.0691 23.4483V4.13793C62.0725 2.95523 61.5646 1.82878 60.676 1.04828Z"
+                                    fill="#E0E1E1" />
+                                <path
+                                    d="M60.8552 26.3725C60.0806 27.1497 59.0284 27.5864 57.9311 27.5863H22.069C20.9787 27.5854 19.9328 27.1541 19.1587 26.3863L19.3242 26.207L33.5587 13.6277L37.2552 16.8967C38.8252 18.276 41.1749 18.276 42.7449 16.8967L46.4414 13.6277L60.6759 26.207L60.8552 26.3725Z"
+                                    fill="#7E868F" />
+                                <path
+                                    d="M60.6759 1.04828L46.4415 13.6276L42.7449 16.8966C41.175 18.2759 38.8252 18.2759 37.2553 16.8966L33.5587 13.6276L19.3242 1.04828C20.0788 0.372604 21.0562 -0.000690847 22.069 9.59844e-07H57.9311C58.944 -0.000690847 59.9214 0.372604 60.6759 1.04828Z"
+                                    fill="#ECECEC" />
+                            </svg>
+                            <p class="fs-17-px leading-7 text-center">You haven’t message anyone yet.</p>
+                            <!-- <p *ngIf="filtered ||  checkSearch()"  class="fs-17-px leading-7">No Results found.</p> -->
+                        </div>
+                    </ng-template>
+                </div>
+            </div>
+        </div>
+        <!-- left panel -->
+        
+        <!-- right panel -->
+        <div class="hidden lg:block w-full" style="background: #eee;">
+            <!-- <app-message-right-panel></app-message-right-panel> -->
+            <ng-container >
+                <div class="w-full h-full flex flex-col justify-between relative">
+                    <!-- header -->
+                    <div class="w-full p-8 bg-white flex items-center h-80-px shadow-lg relative z-20">
+                        <ng-container *ngIf="other_profile">
+                            <img [src]="other_profile.profile_photo_url"  class="h-50-px w-50-px rounded-full object-cover object-center" alt="">
+                
+                            <!-- <img [src]="env.chatSocket.messages ? convo_with.profile_photo : delegate_convo.profile_photo_url"  class="h-50-px w-50-px rounded-full object-cover object-center" alt="" *ngIf="env.chatSocket.messages && !delegate_convo && convo_with ">
+    
+                            <img [src]="delegate_convo.profile_photo_url ? delegate_convo.profile_photo_url : '/assets/empty_states/profile_avatar'+delegate_convo.profile_photo+'.png'"  class="h-50-px w-50-px rounded-full object-cover object-center" alt="" *ngIf="(env.chatSocket.messages && env.chatSocket.messages.datas.length == 0) && delegate_convo "> -->
+                            <!-- <img [src]="env.chatSocket.messages ? convo_with.env.chatSocket.messages : ''"  class="h-50-px w-50-px rounded-full object-cover object-center" alt="" *ngIf="env.chatSocket.messages && !delegate_convo && convo_with && convo_with.env.chatSocket.messages"> -->
+    
+                            <div class=" ml-4 flex flex-col">
+                                <!-- new -->
+                                <div class="font-semibold default-text-color text-base flex overflow-hidden justify-between items-center mb-1" >{{  other_profile.company.name }}</div> 
+                                <span class="gray-text" >{{ other_profile.fullname }}, {{ other_profile.job_title }}</span>
+                                <!-- old -->
+                                <!-- <div class="font-semibold default-text-color text-base flex overflow-hidden justify-between items-center mb-1" *ngIf="env.chatSocket.messages && !delegate_convo">{{  convo_with.company }}</div> 
+                                <div class="font-semibold default-text-color text-base flex overflow-hidden justify-between items-center mb-1" *ngIf="(env.chatSocket.messages && env.chatSocket.messages.datas.length == 0) && delegate_convo">{{ delegate_convo && delegate_convo.hasOwnProperty('company') && delegate_convo.company.name ? delegate_convo.company.name : delegate_convo.delegate_company_name }}</div>
+                                <span class="gray-text" *ngIf="env.chatSocket.messages && !delegate_convo">{{ convo_with.fullname }}, {{ other_profile && other_profile.job_title ? other_profile.job_title : '' }}</span>
+                                <span class="gray-text" *ngIf="(env.chatSocket.messages && env.chatSocket.messages.datas.length == 0) && delegate_convo">{{ delegate_convo.fullname ? delegate_convo.fullname : '' }}</span> -->
+                            </div>
+                            
+                        </ng-container>
+                    </div>
+                    <!-- message body -->
+                    <div id="message_container" #message_container class="flex-grow w-full p-8 flex flex-col messages-container hide-scroll overflow-y-auto overflow-x-hidden">
+                        <!-- <div class="essage-card-shadow mr-auto py-3 w-70-px bg-white flex justify-center items-center gap-1 rounded-l-full rounded-r-full">
+                            <div class="bounce1 w-5-px h-5-px rounded-full bg-gray-700"></div>
+                            <div class="bounce2 w-5-px h-5-px rounded-full bg-gray-700"></div>
+                            <div class="bounce3 w-5-px h-5-px rounded-full bg-gray-700"></div>
+                        </div> -->
+                        <ng-container *ngIf="env.chatSocket.messages && env.chatSocket.messages.datas.length >= 1; else newMessasge">
+                            <ng-container *ngFor="let message of env.chatSocket.messages.datas">
+                                <div class="flex items-center justify-center" *ngIf="message.date_divider">
+                                    <div class="w-full border-gray-400 border-b-2"></div>
+                                    <div class="text-base text-gray-400 minw-100-px mx-1 text-center capitalize">{{ message.date_divider }}</div>
+                                    <div class="w-full border-gray-400 border-b-2"></div>
+                                </div>
+                                <div class="flex items-start space-x-3 mt-8 thread-container">
+                                    <div class="h-30-px w-30-px flex-grow-0 flex-shrink-0" *ngIf="message.user_id != user.id">
+                                        <img [src]="message.profile_pic_image" class="object-cover w-full rounded-full" alt="">
+                                    </div>
+                                    <div class="flex flex-col overflow-wrap: break-words w-full">
+                                        <p class="maxw-520-px px-5 py-3 barlow  message-card-shadow bg-white text-lg leading-6  {{ message.user_id == user.id ? 'self-end ml-auto mine' : 'others self-start'}}" [innerHTML]="message.message">
+                                            <!-- [innerHTML]="data.content" {{ user.id == data.sender_id ? 'self self-end ml-auto text-white' : 'text-gray-600 others self-start'}}-->
+                                            <!-- {{ message.message }} -->
+                                        </p>
+                                        <div class="{{ message.user_id == user.id ? 'self-end ml-auto' : 'self-start'}} text-sm text-gray-400 mt-2">
+                                            {{ message.update_at | transformDate:'': 'HH:mm a' }}
+                                        </div>
+                                    </div>
+                                </div>
+                            </ng-container>
+                        </ng-container>
+                        <ng-template #newMessasge>
+                            <div class="w-full h-full flex items-center justify-center">
+                                <div class="w-full h-full flex items-center justify-center flex-col">
+                                    <img src="assets/empty_states/no_message.png" class="w-200-px">
+                                    <div class="flex flex-col">
+                                        <div class="text-center font-semibold basic-text-color text-xl">
+                                            No conversation yet.
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </ng-template>
+                        <div class="flex justify-center space-x-2 items-center minh-50-px  mt-4 ">
+                            <!-- <div class="flex gap-2 items-center justify-center" *ngIf="chatWidthIsTyping">
+                                <div class="bounce1 w-5-px h-5-px rounded-full bg-gray-700"></div>
+                                <div class="bounce2 w-5-px h-5-px rounded-full bg-gray-700"></div>
+                                <div class="bounce3 w-5-px h-5-px rounded-full bg-gray-700"></div>
+                            </div> -->
+                            <!-- <i *ngIf="message.firstScrollDone && messageLists.data && messageLists.data.length > 0  && !messageLists.next_page"  class="text-gray-700 barlow">No more messages to show.</i> -->
+                            <!-- <i class="text-gray-700 barlow">You don't have conversation with this user yet.</i> -->
+                
+                        </div>
+                    </div>
+                    <form class="w-full" [formGroup]="messageForm">
+                        <div class="w-full gap-4 p-8 custom-top-shadow bg-white h-130-px flex items-end  z-20 relative">
+                            <textarea formControlName="message_content" placeholder="Send a message..." name="" id="" class="placeholder-gray-400 custom-scroll focus:outline-none barlow default-text-color text-lg h-86-px flex-grow" (keyup)="isTyping()" (keyup.enter)="initSend()" [readonly]="!selected_delegate">
+                            </textarea>
+                            <button class="message-btn focus:outline-none text-white text-lg px-4 py-3 rounded barlow flex items-center gap-2 {{ selected_delegate && noSpace() ? 'send-btn': 'btn-disabled' }}" (click)="initSend()" *ngIf="!sending" [disabled]="!selected_delegate">
+                                <svg width="18" height="16" viewBox="0 0 18 16" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                    <path fill-rule="evenodd" clip-rule="evenodd"
+                                        d="M0.25 6.33333L0.258333 0.5L17.75 8L0.258333 15.5L0.25 9.66667L12.75 8L0.25 6.33333ZM1.925 3.025L8.18333 5.70833L1.91667 4.875L1.925 3.025ZM8.175 10.2917L1.91667 12.975V11.125L8.175 10.2917Z"
+                                        fill="white" />
+                                </svg>
+        
+                                <span class="fw-300">Send</span>
+                            </button>
+                            <button class="message-btn send-btn w-101-px h-52-px flex items-center justify-center rounded" *ngIf="sending">
+                                <mat-spinner class="white-loader" diameter="20" color="accent" mode="indeterminate"></mat-spinner>
+                            </button>
+                        </div>
+                    </form>
+                </div>
+            </ng-container>
+            <ng-template #emptyConvo>
+                <div class="w-full h-full flex items-center justify-center flex-col">
+                    <img src="assets/empty_states/no_message.png" class="w-300-px">
+                    <div class="flex flex-col">
+                        <div class="text-center font-semibold basic-text-color text-xl">
+                            No conversation yet.
+                        </div>
+                    </div>
+                </div>
+            </ng-template>
+        </div>
+    </div>
+</div>

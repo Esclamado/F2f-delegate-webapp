@@ -1,0 +1,106 @@
+
+<!-- MESSAGING SEARCH MODAL -->
+<ngx-smart-modal #searchMessaging identifier="searchMessaging" customClass="nsm-centered" [dismissable]="false" [closable]="false" (onOpen)="getDelegateData()">
+    <div class="bg-white rounded-md w-450-px rubik ">
+        <div class="px-5 py-5">
+            <div class="flex items-center default-text-color">
+                <span class="flex items-center text-navy rubik font-semibold fs-16-px"> Select a delegate </span>
+                <svg (click)="closeSearchMessagingModal()" class="cursor-pointer ml-auto" width="14" height="14" viewBox="0 0 14 14" fill="none" xmlns="http://www.w3.org/2000/svg">
+                  <path d="M14 1.41L12.59 0L7 5.59L1.41 0L0 1.41L5.59 7L0 12.59L1.41 14L7 8.41L12.59 14L14 12.59L8.41 7L14 1.41Z" fill="#6E6E6E"/>
+                </svg>
+            </div>
+        </div>
+        <hr class="w-full">
+        <div class="relative px-8 pt-3 pb-8">
+            <img src="assets/images/bg-meeting-details.png" class="absolute top-0 right-0">
+            
+            <div class="mt-3 mb-5 w-full" >
+                <div class="flex items-center justify-start w-full" [formGroup]="searchForm">
+                    <svg class="ml-4 absolute" (click)="searchList()" width="20" height="20" viewBox="0 0 18 18" fill="none" xmlns="http://www.w3.org/2000/svg">
+                        <path fill-rule="evenodd" clip-rule="evenodd"
+                            d="M11.9639 11H12.7539L17.7439 16L16.2539 17.49L11.2539 12.5V11.71L10.9839 11.43C9.84391 12.41 8.36391 13 6.75391 13C3.16391 13 0.253906 10.09 0.253906 6.5C0.253906 2.91 3.16391 0 6.75391 0C10.3439 0 13.2539 2.91 13.2539 6.5C13.2539 8.11 12.6639 9.59 11.6839 10.73L11.9639 11ZM2.25391 6.5C2.25391 8.99 4.26391 11 6.75391 11C9.24391 11 11.2539 8.99 11.2539 6.5C11.2539 4.01 9.24391 2 6.75391 2C4.26391 2 2.25391 4.01 2.25391 6.5Z"
+                            fill="#7E868F" />
+                    </svg>
+                    <input placeholder="Search" formControlName="search" (keyup)="searchKey($event)" type="text" class="placeholder-gray-600 custom-input text-lg barlow pl-8 w-full" style="padding-left:3rem;background: #E0E1E1;border:none">
+                    <!-- [(ngModel)]="search"  -->
+                </div>
+            </div>
+            <!------------------------------------- Loaded states ---------------------------------------------------------->
+            <div class="relative" *ngIf="delegates && !isEmpty && !isLoading">
+                <div class="maxh-320-px minh-319-px overflow-y-auto hide-scroll ">
+                    <ng-container *ngFor="let delegate of delegates">
+                        <div class="border-2  bg-white rounded mt-2 cursor-pointer" [ngClass]="{'border-blue-800': selected_deletage &&selected_deletage.id == delegate.id}" (click)="selectDelegate(delegate)">
+                            <div class="px-4 py-2">
+                                <div class="flex items-start">
+                                    <img [src]="delegate.profile_photo_url ? delegate.profile_photo_url : 'assets/empty_states/profile_avatar'+ delegate.profile_photo +'.png'" class="rounded-full h-12 w-12">
+                                    <div class="ml-5">
+                                        <p class="text-gray-900 rubik not-italic fs-14-px font-semibold">{{ delegate.company.name }}</p>
+                                        <p class="text-gray-900 rubik not-italic fs-14-px font-medium">{{ delegate.fullname }}</p>
+                                        <p class="text-gray-500 rubik not-italic fs-14-px font-normal">{{ delegate.job_title }}</p>
+                                        <p class="text-gray-500 rubik not-italic fs-14-px font-normal flex items-center">
+                                            <span><img [src]="'assets/flags/'+ delegate.company_country.iso +'.png'" class="rounded-full h-5 w-5"></span> 
+                                            <span class="ml-2">{{ delegate.company_country.name }}</span>
+                                        </p>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </ng-container>
+                </div>
+                <div class="white-gradient"></div>
+            </div>
+
+            <!------------------------------------- Loading states ---------------------------------------------------------->
+            <ng-container *ngIf="!isEmpty && isLoading">
+                <ng-container *ngFor="let item of [1,2,3]">
+                    <div class="border-2 border-gray-100 bg-white rounded my-4">
+                        <div class="px-4 py-2">
+                            <div class="grid grid-cols-12 gap-2 items-start">
+                                <div class="col-span-2">
+                                    <div class="rounded-full h-12 w-12">
+                                        <app-loader [border_radius_class]="'rounded-full'" [additional_class]=""></app-loader>
+                                    </div>
+                                </div>
+        
+                                <div class="col-span-10 space-y-1">
+                                    <div class="w-full h-10-px">
+                                        <app-loader [border_radius_class]="'rounded-lg'" [additional_class]=""></app-loader>
+                                    </div>
+                                    <div class="w-1/2 h-10-px">
+                                        <app-loader [border_radius_class]="'rounded-lg'" [additional_class]=""></app-loader>
+                                    </div>
+                                    <div class="w-135-px h-10-px">
+                                        <app-loader [border_radius_class]="'rounded-lg'" [additional_class]=""></app-loader>
+                                    </div>
+                                    <div class="w-120-px h-10-px">
+                                        <app-loader [border_radius_class]="'rounded-lg'" [additional_class]=""></app-loader>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </ng-container>
+            </ng-container>
+
+            <!------------------------------------- empty states ---------------------------------------------------------->
+            <ng-container *ngIf="isEmpty && !isLoading">
+                <div class="flex w-full h-full justify-center items-center flex-col">
+                    <div class="flex justify-center pt-10 pb-3">
+                        <img src="assets/empty_states/no_delegate.svg" class="">
+                    </div>
+                    <div class="text-center">
+                        <p class="text-main-gray rubik font-semibold fs-20-px">
+                            Search a delegate
+                        </p>
+                    </div>
+                </div>
+            </ng-container>
+            <button class="py-3 w-full flex items-center justify-center custom-btn btn-blue mt-5" (click)="messageDelegate()">
+                <img src="assets/icon/chat-icon.png" class="mr-3">
+                <div>
+                    Message
+                </div>
+            </button>
+        </div>
+    </div>
+</ngx-smart-modal>

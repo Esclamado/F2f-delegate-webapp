@@ -1,0 +1,12 @@
+<ngx-smart-modal #companyModal identifier="companyModal" [dismissable]="false" [closable]="false">
+    <div class="flex flex-col items-center justify-center w-full mt-10 mb-10">
+        <svg xmlns="http://www.w3.org/2000/svg" class="h-14 w-14" fill="none" viewBox="0 0 24 24" stroke="green">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z" />
+        </svg>
+        <p class="text-xl text-gray mt-5">New company successfully save.</p>
+    </div>
+    <button (click)="close()" class="focus:outline-none flex ml-auto rounded text-white py-1 px-5 bg-pink-500 hover:bg-pink-700 ...">Close</button>
+</ngx-smart-modal>
+
+<ngx-spinner bdColor="rgba(51, 51, 51, 0.8)" size="large" color="#934d4d" type="square-jelly-box">
+</ngx-spinner>

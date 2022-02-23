@@ -1,0 +1,56 @@
+.hide-text {
+    display: none;
+    width: 0px;
+    opacity: 0;
+    overflow: hidden;
+    transition: .3s ease-in-out;
+    &.show-text {
+        opacity: 100%;
+        transition: .3s ease-in-out;
+        width: auto;
+    }
+}
+
+.custom-margin-y {
+    margin-top: 3px;
+    margin-bottom: 3px;
+}
+
+.custom-bg {
+    background: linear-gradient(73.19deg, rgb(190, 30, 45, 0.15), rgb(238, 42, 123, 0.15));
+}
+
+.custom-left-border {
+    background: linear-gradient(0.4deg, #EF4136, #FAB423);
+    border-radius: 0px 2px 2px 0px;
+    margin-right: -4px;
+}
+
+.flip-horizontally {
+    -webkit-transform: scaleX(-1);
+    transform: scaleX(-1);
+}
+
+a.routes {
+    &:hover {
+        background: rgba(219, 234, 254);
+    }
+}
+
+.show {
+    visibility: visible !important;
+}
+
+.side-nav-container {
+    max-height: calc(100vw - 65px) !important;
+    overflow-y: auto;
+}
+
+::ng-deep {
+    .hide-scrollbar {
+        &::-webkit-scrollbar {
+            width: 0px !important;
+        }
+        scrollbar-width: none !important;
+    }
+}
